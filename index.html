@@ -986,9 +986,9 @@
         <div class="card-progress-col">
           <div class="card-status-row">
             <span id="live-page-label">Portada • Para ti 💓</span>
-            <span class="card-time-label" id="audio-time-label">0:00 / 1:30</span>
+            <span class="card-time-label" id="audio-time-label">0:00 / 1:27</span>
           </div>
-          <input type="range" class="timeline-range" id="audio-scrubber" min="0" max="89.8" step="0.1" value="0" aria-label="Línea de tiempo de la canción" />
+          <input type="range" class="timeline-range" id="audio-scrubber" min="0" max="86.8" step="0.05" value="0" aria-label="Línea de tiempo de la canción" />
         </div>
       </div>
     </footer>
@@ -996,7 +996,7 @@
   </div>
 
   <!-- Synchronized Audio Track -->
-  <audio id="bgMusic" src="te-amo-y-mas.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="te-amo-scrapbook.mp3?v=3" preload="auto"></audio>
 
   <script>
     // ============================================================================
@@ -1509,40 +1509,41 @@
     ];
 
     // ============================================================================
-    // 3. EXACT FRAME-ACCURATE SYNCHRONIZATION TIMESTAMPS (`syncTimestamps`)
+    // 3. EXACT VOCAL-ONSET SYNCHRONIZATION TIMESTAMPS (`syncTimestamps`)
+    //    Calibrated syllable-by-syllable to `te-amo-scrapbook.mp3`
     // ============================================================================
     const syncTimestamps = [
-      { page: 0,  time: 0.0 },   // Portada
-      { page: 1,  time: 3.2 },   // TE AMO Y MÁS
-      { page: 2,  time: 11.6 },  // DE LO QUE PUEDES
-      { page: 3,  time: 13.8 },  // IMAGINAR
-      { page: 4,  time: 15.8 },  // TE AMO ADEMÁS
-      { page: 5,  time: 18.8 },  // COMO NUNCA
-      { page: 6,  time: 20.6 },  // NADIE JAMÁS
-      { page: 7,  time: 22.0 },  // LO HARÁ
-      { page: 8,  time: 23.8 },  // EN ESTA CANCIÓN
-      { page: 9,  time: 25.8 },  // VA MI CORAZÓN
-      { page: 10, time: 28.8 },  // AMOR MÁS QUE AMOR
-      { page: 11, time: 30.8 },  // ES EL NUESTRO
-      { page: 12, time: 32.8 },  // Y TE LO VENGO A DAR
-      { page: 13, time: 36.2 },  // TE MIRO Y MÁS
-      { page: 14, time: 39.8 },  // Y MÁS Y MÁS
-      { page: 15, time: 41.8 },  // TE QUIERO MIRAR
-      { page: 16, time: 43.8 },  // TE AMO Y SABRÁS
-      { page: 17, time: 46.8 },  // PURO SENTIMIENTO
-      { page: 18, time: 48.8 },  // Y NO HAY NADA MÁS
-      { page: 19, time: 50.8 },  // Y MI SUEÑO LLEGAR
-      { page: 20, time: 53.8 },  // A TU ALMA TOCAR
-      { page: 21, time: 56.8 },  // AMOR MÁS QUE AMOR
-      { page: 22, time: 58.8 },  // ES EL NUESTRO
-      { page: 23, time: 60.8 },  // Y TE LO VENGO A DAR
-      { page: 24, time: 63.8 },  // RUEGO A DIOS
-      { page: 25, time: 66.8 },  // TENERTE A MI LADO
-      { page: 26, time: 70.8 },  // Y ENTONCES PODERTE ABRAZAR
-      { page: 27, time: 77.8 },  // Y SI NO ESTÁS AQUÍ
-      { page: 28, time: 81.8 },  // ALGO FALTA
-      { page: 29, time: 84.6 },  // YO POR TI
-      { page: 30, time: 86.0 }   // PELEARÉ HASTA EL FINAL
+      { page: 0,  time: 0.0 },   // Portada (Preludio de guitarra)
+      { page: 1,  time: 3.3 },   // "Te amo y más"
+      { page: 2,  time: 6.5 },   // "de lo que puedes"
+      { page: 3,  time: 8.8 },   // "imaginar"
+      { page: 4,  time: 10.7 },  // "Te amo además"
+      { page: 5,  time: 13.9 },  // "como nunca"
+      { page: 6,  time: 15.6 },  // "nadie jamás"
+      { page: 7,  time: 17.1 },  // "lo hará"
+      { page: 8,  time: 18.6 },  // "En esta canción"
+      { page: 9,  time: 21.2 },  // "va mi corazón"
+      { page: 10, time: 24.1 },  // "amor más que amor"
+      { page: 11, time: 25.8 },  // "es el nuestro"
+      { page: 12, time: 27.1 },  // "y te lo vengo a dar"
+      { page: 13, time: 31.8 },  // "Te miro y más"
+      { page: 14, time: 34.9 },  // "y más y más"
+      { page: 15, time: 36.6 },  // "te quiero mirar"
+      { page: 16, time: 38.7 },  // "Te amo y sabrás"
+      { page: 17, time: 41.8 },  // "puro sentimiento"
+      { page: 18, time: 43.7 },  // "y no hay nada más"
+      { page: 19, time: 45.5 },  // "Y mi sueño llegar"
+      { page: 20, time: 48.8 },  // "a tu alma tocar"
+      { page: 21, time: 52.0 },  // "amor más que amor"
+      { page: 22, time: 53.8 },  // "es el nuestro"
+      { page: 23, time: 55.1 },  // "y te lo vengo a dar"
+      { page: 24, time: 60.0 },  // "Ruego a Dios"
+      { page: 25, time: 62.3 },  // "tenerte a mi lado"
+      { page: 26, time: 66.1 },  // "y entonces poderte abrazar"
+      { page: 27, time: 73.3 },  // "Y si no estás aquí"
+      { page: 28, time: 77.2 },  // "algo falta"
+      { page: 29, time: 79.6 },  // "yo por ti"
+      { page: 30, time: 81.1 }   // "pelearé hasta el final"
     ];
 
     // ============================================================================
@@ -1722,9 +1723,9 @@
       playIcon.textContent = playing ? '⏸' : '▶';
     }
 
-    bgMusic.addEventListener('timeupdate', () => {
+    function syncBookWithAudioTime() {
       const t = bgMusic.currentTime;
-      const dur = bgMusic.duration || 89.8;
+      const dur = bgMusic.duration || 86.8;
       audioScrubber.max = dur;
       audioScrubber.value = t;
       audioTimeLabel.textContent = `${formatTime(t)} / ${formatTime(dur)}`;
@@ -1741,7 +1742,17 @@
           renderPage(matchedPage, dir);
         }
       }
-    });
+    }
+
+    bgMusic.addEventListener('timeupdate', syncBookWithAudioTime);
+
+    function highPrecisionSyncLoop() {
+      if (!bgMusic.paused) {
+        syncBookWithAudioTime();
+      }
+      requestAnimationFrame(highPrecisionSyncLoop);
+    }
+    requestAnimationFrame(highPrecisionSyncLoop);
 
     bgMusic.addEventListener('ended', () => {
       updatePlayUI(false);
