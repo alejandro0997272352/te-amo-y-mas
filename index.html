@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Te Amo y Más ✨ — Una Serenata Para Ti ❤️</title>
-  <meta name="description" content="Te amo y más de lo que puedes imaginar. Una serenata interactiva con letra animada y el significado profundo de cada verso para ti." />
-  <meta name="theme-color" content="#09030f" />
+  <title>Bloc — Para Ti 💓 (30 Páginas • Te Amo y Más)</title>
+  <meta name="description" content="No me fui a dormir, fui a hacerte tu librito 💓 Scrapbook 3D interactivo sincronizado con Te Amo y Más (El Libro de la Vida)." />
+  <meta name="theme-color" content="#464a6b" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bungee&family=Caveat:wght@700&family=Fredoka:wght@600;700&family=Permanent+Marker&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rubik+Mono+One&family=Special+Elite&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-night: #07030d;
-      --bg-velvet: #150720;
-      --rose-crimson: #fb7185;
-      --rose-deep: #e11d48;
-      --rose-soft: #fecdd3;
-      --gold-marigold: #fbbf24;
-      --gold-bright: #fde047;
-      --gold-soft: #fef3c7;
-      --lilac-magic: #e879f9;
-      --violet-glow: #c084fc;
-      --glass-card: rgba(24, 9, 36, 0.68);
-      --glass-border: rgba(251, 191, 36, 0.25);
-      --glass-border-rose: rgba(251, 113, 133, 0.32);
+      --bg-slate-top: #5e6287;
+      --bg-slate-mid: #474b6d;
+      --bg-slate-bot: #323652;
+      --cover-mustard: #d2ba73;
+      --cover-mustard-dark: #bca258;
+      --spine-orange: #e08e35;
+      --spine-orange-dark: #ba6d1b;
+      --paper-cream: #fbfaf6;
+      --paper-edge: #e4e0d5;
+      --ink-dark: #1d1b22;
+      --accent-pink: #ff6b9d;
+      --accent-gold: #fbbf24;
     }
 
     * {
@@ -31,1636 +30,1831 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     html, body {
       width: 100%;
-      min-height: 100vh;
-      background:
-        radial-gradient(ellipse at 50% 0%, #320d3e 0%, #160621 48%, #06020b 100%);
-      color: #fff9fb;
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--bg-slate-top) 0%, var(--bg-slate-mid) 46%, var(--bg-slate-bot) 100%);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
+      color: #ffffff;
     }
 
-    /* Magical Starlight, Fireflies & Cempasúchil/Rose Petals Canvas */
-    #serenata-canvas {
+    /* Ambient floating particles canvas */
+    #ambient-canvas {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
+      pointer-events: none;
       z-index: 1;
-      pointer-events: none;
     }
 
-    /* Ambient Candle & Twilight Auroras */
-    .aurora {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(95px);
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.45;
-      animation: driftAurora 15s ease-in-out infinite alternate;
-    }
-    .aurora-1 {
-      width: 420px;
-      height: 420px;
-      background: radial-gradient(circle, rgba(251, 113, 133, 0.42), transparent 70%);
-      top: -90px;
-      left: -90px;
-    }
-    .aurora-2 {
-      width: 440px;
-      height: 440px;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.34), transparent 70%);
-      bottom: -110px;
-      right: -90px;
-      animation-delay: -6s;
-    }
-    .aurora-3 {
-      width: 360px;
-      height: 360px;
-      background: radial-gradient(circle, rgba(232, 121, 249, 0.28), transparent 70%);
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation-delay: -10s;
-    }
-
-    @keyframes driftAurora {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(28px, -30px) scale(1.14); }
-    }
-
-    /* ================= OPENING SERENATA PORTAL OVERLAY ================= */
-    #welcome-overlay {
+    /* ================= WELCOME OVERLAY (Audio Unlock) ================= */
+    #welcome-modal {
       position: fixed;
       inset: 0;
-      z-index: 200;
-      background:
-        radial-gradient(circle at 50% 42%, #310e3b 0%, #12051c 65%, #06020a 100%);
+      z-index: 300;
+      background: radial-gradient(circle at 50% 42%, rgba(94, 98, 135, 0.96) 0%, rgba(40, 43, 68, 0.99) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem 1.5rem;
+      padding: 1.8rem;
       text-align: center;
-      transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.1s;
+      transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.75s;
     }
-    #welcome-overlay.hidden {
+    #welcome-modal.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
 
-    .portal-emblem-wrap {
+    .mini-book-preview {
+      width: 132px;
+      height: 176px;
+      border-radius: 6px 16px 16px 6px;
+      background: linear-gradient(135deg, #dcc57f 0%, #c6ae64 100%);
+      box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.45),
+        inset -4px 0 0 #f4f1e8,
+        inset -7px 0 0 #dcd7c8;
       position: relative;
-      width: 185px;
-      height: 185px;
-      margin-bottom: 1.8rem;
-      cursor: pointer;
+      margin-bottom: 1.5rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-    .portal-ring-outer {
-      position: absolute;
-      inset: -16px;
-      border-radius: 50%;
-      border: 1.5px dashed rgba(251, 191, 36, 0.55);
-      animation: spinSlow 22s linear infinite;
-    }
-    .portal-ring-inner {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 1px solid rgba(251, 113, 133, 0.45);
-      animation: spinSlow 15s linear infinite reverse;
-    }
-    .portal-candle-glow {
-      position: absolute;
-      inset: 8px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.55), rgba(251, 113, 133, 0.35) 58%, transparent 78%);
-      filter: blur(18px);
-      animation: pulseGlow 3.2s ease-in-out infinite;
-    }
-
-    @keyframes spinSlow {
-      to { transform: rotate(360deg); }
-    }
-    @keyframes pulseGlow {
-      0%, 100% { transform: scale(0.95); opacity: 0.75; }
-      50% { transform: scale(1.14); opacity: 1; }
-    }
-
-    .welcome-eyebrow {
-      font-size: 0.8rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--gold-bright);
-      margin-bottom: 0.7rem;
-      font-weight: 600;
-    }
-    .welcome-title {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(3.1rem, 10vw, 4.7rem);
-      font-weight: 400;
-      line-height: 1.1;
-      margin-bottom: 0.65rem;
-      background: linear-gradient(135deg, #fff 0%, #fde047 45%, #fb7185 95%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 20px rgba(251, 113, 133, 0.4));
-    }
-    .welcome-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: clamp(1.2rem, 4vw, 1.5rem);
-      color: var(--rose-soft);
-      max-width: 420px;
-      line-height: 1.45;
-      margin-bottom: 0.9rem;
-    }
-    .welcome-hint {
-      font-size: 0.9rem;
-      color: rgba(255, 240, 245, 0.72);
-      max-width: 350px;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-
-    .open-serenata-btn {
-      position: relative;
-      background: linear-gradient(135deg, #e11d48 0%, #db2777 48%, #d97706 100%);
-      color: #fff;
-      border: 1.5px solid rgba(254, 240, 138, 0.6);
-      padding: 1.05rem 2.4rem;
-      font-size: 1.02rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 0 35px rgba(251, 113, 133, 0.65), 0 0 18px rgba(251, 191, 36, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.45);
-      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      animation: floatBookPreview 3.4s ease-in-out infinite;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+    .mini-book-preview::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 18px;
+      border-radius: 6px 0 0 6px;
+      background: linear-gradient(90deg, #c7741c, #e5963e, #cf7d24);
+      box-shadow: inset -1px 0 2px rgba(0,0,0,0.25);
+    }
+    .mini-book-sticker {
+      margin-left: 10px;
+      background: #fffdf9;
+      color: #1f1b24;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      border: 2px solid #1f1b24;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.95rem;
+      transform: rotate(-4deg);
+      box-shadow: 3px 4px 0 rgba(0,0,0,0.22);
+    }
+
+    @keyframes floatBookPreview {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    .welcome-caption {
+      font-size: 0.95rem;
+      color: #ffdbe8;
+      margin-bottom: 0.45rem;
+      font-weight: 600;
+    }
+    .welcome-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.85rem, 5.5vw, 2.6rem);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.6rem;
+      line-height: 1.15;
+    }
+    .welcome-sub {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 340px;
+      line-height: 1.55;
+      margin-bottom: 1.65rem;
+    }
+    .start-book-btn {
+      background: linear-gradient(135deg, #ff5d8f 0%, #ff85a1 50%, #f59e0b 100%);
+      color: #fff;
+      border: 2px solid #fff;
+      padding: 0.95rem 2.1rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(255, 93, 143, 0.5);
       display: inline-flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 0.6rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .open-serenata-btn:hover, .open-serenata-btn:active {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 0 48px rgba(251, 113, 133, 0.9), 0 0 26px rgba(251, 191, 36, 0.7);
+    .start-book-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 14px 34px rgba(255, 93, 143, 0.7);
     }
 
-    /* ================= MAIN PAGE LAYOUT ================= */
-    .main-container {
+    /* ================= MAIN APP SHELL ("BLOC" UI) ================= */
+    .app-shell {
       position: relative;
       z-index: 5;
-      max-width: 760px;
+      width: 100%;
+      height: 100%;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 2rem 1.25rem 8.8rem;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      padding: 0.85rem 1rem 1rem;
+    }
+
+    /* Top Bar (Faithful to Paper/Bloc app in video) */
+    .bloc-topbar {
+      display: flex;
       align-items: center;
-    }
-
-    .top-pill-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 1.1rem;
-      border-radius: 999px;
-      background: rgba(251, 191, 36, 0.12);
-      border: 1px solid rgba(251, 191, 36, 0.4);
-      font-size: 0.76rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--gold-bright);
-      margin-bottom: 0.85rem;
-      box-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
-    }
-
-    .hero-title {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(3.3rem, 11vw, 5.2rem);
-      font-weight: 400;
-      text-align: center;
-      color: #fff;
-      text-shadow: 0 0 28px rgba(251, 113, 133, 0.75), 0 0 55px rgba(251, 191, 36, 0.45);
-      line-height: 1.06;
-      margin-bottom: 0.45rem;
-    }
-
-    .hero-subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: clamp(1.18rem, 3.6vw, 1.44rem);
-      color: rgba(254, 205, 211, 0.92);
-      text-align: center;
-      max-width: 540px;
-      line-height: 1.5;
-      margin-bottom: 1.2rem;
-    }
-
-    /* ================= ANIMATED SERENATA GUITAR & ROSES STAGE ================= */
-    .guitar-stage {
+      justify-content: space-between;
+      padding: 0.25rem 0.2rem;
       position: relative;
-      width: 280px;
-      height: 270px;
-      margin: 0.2rem auto 1.3rem;
+      z-index: 30;
+    }
+    .topbar-group {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .icon-circle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      user-select: none;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
     }
-    .guitar-aura {
-      position: absolute;
-      inset: 14px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.42) 0%, rgba(251, 113, 133, 0.35) 52%, transparent 76%);
-      filter: blur(22px);
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      animation: pulseGlow 3.2s ease-in-out infinite;
-    }
-    .guitar-stage.playing .guitar-aura {
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.68) 0%, rgba(251, 113, 133, 0.55) 55%, transparent 78%);
+    .icon-circle-btn:hover, .icon-circle-btn.active {
+      background: rgba(255, 255, 255, 0.26);
+      border-color: #fff;
+      transform: scale(1.06);
     }
 
-    /* Soundwave Ripples when music plays */
-    .sound-ring {
+    .bloc-title-center {
+      text-align: center;
+    }
+    .bloc-title-center h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .bloc-subtitle {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      margin-top: 2px;
+    }
+
+    /* Dedication Caption Above the Notebook (Just like the video!) */
+    .dedication-banner {
+      text-align: center;
+      margin: 0.15rem 0 0.35rem;
+      z-index: 20;
+    }
+    .dedication-caption {
+      display: inline-block;
+      font-size: clamp(0.92rem, 2.8vw, 1.08rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+      line-height: 1.35;
+      background: rgba(25, 27, 44, 0.38);
+      padding: 0.35rem 0.95rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 192, 213, 0.28);
+    }
+
+    /* ================= 3D SCRAPBOOK STAGE ================= */
+    .stage-viewport {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      perspective: 2000px;
+      min-height: 0;
+    }
+
+    /* The 3D Notebook Wrapper */
+    .notebook-3d {
+      position: relative;
+      width: min(92vw, 490px);
+      height: min(47vh, 360px);
+      min-height: 265px;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), width 0.45s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Closed Cover State (Page 0) */
+    .notebook-3d.is-cover {
+      width: min(68vw, 275px);
+      height: min(52vh, 385px);
+    }
+
+    /* Peeking Adjacent Pages on Left & Right (Exactly like the "Bloc" video!) */
+    .peek-page {
       position: absolute;
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(251, 191, 36, 0.45);
+      top: 3%;
+      bottom: 3%;
+      width: 48px;
+      background: var(--paper-cream);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      z-index: 2;
+      cursor: pointer;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .peek-page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.03) 0px,
+        rgba(0,0,0,0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+    }
+    .peek-left {
+      left: -34px;
+      border-radius: 10px 0 0 10px;
+      transform: translateZ(-12px) rotateY(8deg);
+      box-shadow: -6px 12px 24px rgba(0, 0, 0, 0.38), inset -8px 0 14px rgba(0,0,0,0.12);
+    }
+    .peek-right {
+      right: -34px;
+      border-radius: 0 10px 10px 0;
+      transform: translateZ(-12px) rotateY(-8deg);
+      box-shadow: 6px 12px 24px rgba(0, 0, 0, 0.38), inset 8px 0 14px rgba(0,0,0,0.12);
+    }
+    .peek-page.hidden {
       opacity: 0;
       pointer-events: none;
+      transform: scale(0.9);
     }
-    .guitar-stage.playing .sound-ring-1 {
-      animation: rippleWave 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-    }
-    .guitar-stage.playing .sound-ring-2 {
-      animation: rippleWave 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite 1.4s;
-      border-color: rgba(251, 113, 133, 0.5);
-    }
-
-    @keyframes rippleWave {
-      0% { transform: scale(0.75); opacity: 0.8; }
-      100% { transform: scale(1.48); opacity: 0; }
-    }
-
-    .guitar-svg {
-      position: relative;
+    .peek-hint-arrow {
+      font-size: 1.1rem;
+      color: rgba(30, 27, 34, 0.38);
+      font-weight: 800;
       z-index: 2;
-      width: 255px;
-      height: 255px;
-      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 18px rgba(251, 191, 36, 0.32));
-      animation: floatGuitar 4.5s ease-in-out infinite;
-      transition: transform 0.3s ease;
-    }
-    .guitar-stage:hover .guitar-svg {
-      transform: scale(1.05) rotate(-2deg);
     }
 
-    @keyframes floatGuitar {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-9px) rotate(1.5deg); }
-    }
-
-    /* Vibrating Strings when playing */
-    .guitar-stage.playing .guitar-string {
-      animation: vibrateString 0.18s ease-in-out infinite alternate;
-    }
-    @keyframes vibrateString {
-      0% { transform: translateX(-0.7px); }
-      100% { transform: translateX(0.7px); }
-    }
-
-    .guitar-touch-badge {
-      position: absolute;
-      bottom: -4px;
-      z-index: 4;
-      background: linear-gradient(135deg, #270b33, #4a1036);
-      border: 1.5px solid var(--gold-marigold);
-      color: var(--gold-soft);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.3rem 0.95rem;
-      border-radius: 999px;
-      box-shadow: 0 4px 16px rgba(251, 191, 36, 0.35);
-      letter-spacing: 0.05em;
-    }
-
-    /* ================= LIVE SYNCHRONIZED CINEMA LYRIC STAGE ================= */
-    .cinema-lyric-stage {
-      width: 100%;
-      background:
-        linear-gradient(145deg, rgba(42, 12, 54, 0.85) 0%, rgba(21, 7, 32, 0.92) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1.5px solid rgba(251, 191, 36, 0.45);
-      border-radius: 28px;
-      padding: 1.75rem 1.5rem 1.6rem;
-      margin: 0.4rem 0 2rem;
-      text-align: center;
+    /* Main Active Scrapbook Sheet */
+    .active-sheet {
       position: relative;
-      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: var(--paper-cream);
       box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.55),
-        0 0 35px rgba(251, 113, 133, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        0 22px 50px rgba(0, 0, 0, 0.48),
+        0 4px 0 #e6e1d6,
+        0 8px 0 #d5cfc2;
+      overflow: hidden;
+      z-index: 5;
+      transform-style: preserve-3d;
+      transition: border-radius 0.4s ease, box-shadow 0.4s ease;
     }
-    .cinema-lyric-stage::before {
+
+    /* Subtle handcrafted paper grain & central notebook fold crease */
+    .active-sheet::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 10%;
-      right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold-bright), var(--rose-crimson), transparent);
+      inset: 0;
+      background-image:
+        radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0),
+        linear-gradient(90deg, rgba(0,0,0,0.07) 0%, transparent 6%, transparent 94%, rgba(0,0,0,0.05) 100%);
+      background-size: 18px 18px, 100% 100%;
+      pointer-events: none;
+      z-index: 20;
     }
 
-    .stage-top-row {
+    /* ================= HARDCOVER MUSTARD DESIGN (Page 0) ================= */
+    .hardcover-view {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #d8c27a 0%, #c8b064 60%, #bda355 100%);
+      border-radius: 6px 18px 18px 6px;
+      position: relative;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.9rem;
-    }
-
-    .chapter-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.73rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--gold-bright);
-      background: rgba(251, 191, 36, 0.14);
-      border: 1px solid rgba(251, 191, 36, 0.35);
-      padding: 0.28rem 0.8rem;
-      border-radius: 999px;
-    }
-
-    /* Animated Equalizer Bars */
-    .eq-wrap {
-      display: inline-flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 15px;
-      padding: 0 4px;
-    }
-    .eq-bar {
-      width: 3px;
-      height: 4px;
-      background: linear-gradient(to top, var(--rose-crimson), var(--gold-bright));
-      border-radius: 2px;
-      transition: height 0.15s ease;
-    }
-    .eq-wrap.active .eq-bar:nth-child(1) { animation: eqBounce 0.55s ease-in-out infinite alternate; }
-    .eq-wrap.active .eq-bar:nth-child(2) { animation: eqBounce 0.42s ease-in-out infinite alternate 0.12s; }
-    .eq-wrap.active .eq-bar:nth-child(3) { animation: eqBounce 0.65s ease-in-out infinite alternate 0.22s; }
-    .eq-wrap.active .eq-bar:nth-child(4) { animation: eqBounce 0.48s ease-in-out infinite alternate 0.07s; }
-
-    @keyframes eqBounce {
-      0% { height: 4px; }
-      100% { height: 15px; }
-    }
-
-    .auto-follow-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(254, 205, 211, 0.3);
-      color: var(--rose-soft);
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 0.28rem 0.75rem;
-      border-radius: 999px;
+      justify-content: center;
+      padding: 1.8rem 1.4rem 1.8rem 2.4rem;
+      box-shadow:
+        inset -5px 0 0 #fbf9f2,
+        inset -9px 0 0 #ded8c8,
+        inset 0 0 30px rgba(120, 88, 20, 0.22);
       cursor: pointer;
-      transition: all 0.2s;
     }
-    .auto-follow-btn.active {
-      background: rgba(251, 113, 133, 0.24);
-      border-color: var(--rose-crimson);
-      color: #fff;
+    .hardcover-spine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 28px;
+      background: linear-gradient(90deg, #b86614 0%, #e49237 45%, #d68125 85%, #9e540c 100%);
+      border-radius: 6px 0 0 6px;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.22);
+    }
+    .hardcover-label {
+      background: #fffdf7;
+      border: 2.5px solid #1e1b22;
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      text-align: center;
+      transform: rotate(-2.5deg);
+      box-shadow: 5px 6px 0 rgba(30, 27, 34, 0.25);
+      max-width: 90%;
+    }
+    .hardcover-label-top {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: #6b5b3e;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .hardcover-label-main {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.55rem;
+      color: #d9385a;
+      line-height: 1.15;
+    }
+    .hardcover-tap-hint {
+      margin-top: 1.4rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #4a3b1c;
+      background: rgba(255, 253, 245, 0.65);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      animation: pulseBadge 2s ease-in-out infinite;
+    }
+    @keyframes pulseBadge {
+      0%, 100% { transform: scale(0.97); opacity: 0.8; }
+      50% { transform: scale(1.04); opacity: 1; }
     }
 
-    .live-lyric-main {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 600;
-      font-size: clamp(1.5rem, 4.8vw, 2.15rem);
-      line-height: 1.38;
-      color: #ffffff;
-      text-shadow: 0 0 24px rgba(251, 113, 133, 0.7), 0 0 42px rgba(251, 191, 36, 0.35);
-      min-height: 3.8rem;
+    /* ================= 3D PAGE-FLIP OVERLAY ANIMATION LAYER ================= */
+    .turning-leaf {
+      position: absolute;
+      inset: 0;
+      background: var(--paper-cream);
+      border-radius: 12px;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      z-index: 35;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .turning-leaf.flip-next {
+      animation: flipPageForward 0.56s cubic-bezier(0.32, 0.08, 0.24, 1) forwards;
+    }
+    .turning-leaf.flip-prev {
+      animation: flipPageBackward 0.56s cubic-bezier(0.32, 0.08, 0.24, 1) forwards;
+    }
+
+    @keyframes flipPageForward {
+      0% {
+        opacity: 1;
+        transform: perspective(1800px) rotateY(0deg);
+        box-shadow: -4px 0 18px rgba(0, 0, 0, 0.15);
+      }
+      50% {
+        opacity: 1;
+        box-shadow: -28px 10px 45px rgba(0, 0, 0, 0.42);
+      }
+      100% {
+        opacity: 0;
+        transform: perspective(1800px) rotateY(-155deg);
+        box-shadow: -10px 0 25px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    @keyframes flipPageBackward {
+      0% {
+        opacity: 1;
+        transform: perspective(1800px) rotateY(-150deg);
+      }
+      50% {
+        opacity: 1;
+        box-shadow: 24px 10px 40px rgba(0, 0, 0, 0.38);
+      }
+      100% {
+        opacity: 0;
+        transform: perspective(1800px) rotateY(0deg);
+      }
+    }
+
+    /* ================= SCRAPBOOK COLLAGE PAGE CANVAS ================= */
+    .scrapbook-page-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Subtle page number watermark */
+    .page-num-watermark {
+      position: absolute;
+      bottom: 8px;
+      right: 14px;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.72rem;
+      color: rgba(30, 27, 34, 0.35);
+      z-index: 15;
+    }
+
+    /* ================= RANSOM NOTE / MAGAZINE CUTOUT WORDS ================= */
+    .ransom-lines-wrap {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      max-width: 96%;
+    }
+
+    .ransom-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.42rem;
+    }
+
+    .ransom-word {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      margin: 0 2px;
+    }
+
+    .cutout-char {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.35em;
+      padding: 0.12em 0.24em;
+      line-height: 1.05;
+      font-size: clamp(1.38rem, 4.9vw, 2.05rem);
+      border-radius: 4px;
+      box-shadow: 2px 3px 0 rgba(20, 18, 26, 0.28), 0 4px 8px rgba(0,0,0,0.12);
+      transform: rotate(var(--rot, 0deg)) translateY(var(--dy, 0px));
+      animation: popCutout 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+      animation-delay: var(--delay, 0s);
+      position: relative;
+    }
+
+    /* Whole-word magazine strip style for variety */
+    .cutout-strip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.16em 0.42em;
+      font-size: clamp(1.35rem, 4.8vw, 1.98rem);
+      line-height: 1.08;
+      border-radius: 5px;
+      box-shadow: 3px 4px 0 rgba(20, 18, 26, 0.3);
+      transform: rotate(var(--rot, -1.5deg));
+      animation: popCutout 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+      animation-delay: var(--delay, 0.05s);
+    }
+
+    @keyframes popCutout {
+      0% {
+        opacity: 0;
+        transform: scale(0.45) rotate(calc(var(--rot, 0deg) * 2.5)) translateY(14px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--rot, 0deg)) translateY(var(--dy, 0px));
+      }
+    }
+
+    /* Magazine Font & Color Presets */
+    .f-alfa { font-family: 'Alfa Slab One', serif; letter-spacing: 0.02em; }
+    .f-marker { font-family: 'Permanent Marker', cursive; }
+    .f-abril { font-family: 'Abril Fatface', serif; }
+    .f-elite { font-family: 'Special Elite', monospace; font-weight: 700; }
+    .f-fredoka { font-family: 'Fredoka', sans-serif; font-weight: 700; }
+    .f-bungee { font-family: 'Bungee', sans-serif; }
+    .f-playfair { font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; }
+    .f-rubik { font-family: 'Rubik Mono One', sans-serif; }
+
+    /* Cutout Color Swatches */
+    .c-pink { background: #ff7eb6; color: #fff; border: 2px solid #19171c; text-shadow: 1px 1px 0 #19171c; }
+    .c-yellow { background: #fde047; color: #19171c; border: 2px solid #19171c; }
+    .c-sky { background: #38bdf8; color: #fff; border: 2px solid #19171c; text-shadow: 1px 1px 0 #0c4a6e; }
+    .c-orange { background: #fb923c; color: #fff; border: 2px solid #19171c; text-shadow: 1px 1px 0 #19171c; }
+    .c-lime { background: #a3e635; color: #19171c; border: 2px solid #19171c; }
+    .c-purple { background: #c084fc; color: #fff; border: 2px solid #19171c; text-shadow: 1px 1px 0 #3b0764; }
+    .c-red { background: #f43f5e; color: #fff; border: 2px solid #19171c; text-shadow: 1px 1px 0 #19171c; }
+    .c-ink { background: #1e1b24; color: #fef08a; border: 2px solid #fff; outline: 1.5px solid #1e1b24; }
+    .c-paper { background: #fff4d6; color: #be123c; border: 2px dashed #1e1b24; }
+    .c-mint { background: #5eead4; color: #134e4a; border: 2px solid #19171c; }
+
+    /* ================= DIE-CUT STICKERS ON PAGES ================= */
+    .sticker-item {
+      position: absolute;
+      z-index: 8;
+      width: var(--size, 74px);
+      height: var(--size, 74px);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.9rem;
-      transition: opacity 0.28s ease, transform 0.28s ease;
+      transform: rotate(var(--srot, 0deg));
+      filter:
+        drop-shadow(0 2px 0 #ffffff)
+        drop-shadow(0 -2px 0 #ffffff)
+        drop-shadow(2px 0 0 #ffffff)
+        drop-shadow(-2px 0 0 #ffffff)
+        drop-shadow(2px 5px 8px rgba(0, 0, 0, 0.25));
+      animation: stickerPop 0.52s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+      animation-delay: var(--sdelay, 0.14s);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: transform 0.25s ease;
     }
-    .live-lyric-main.fade-step {
-      opacity: 0.35;
-      transform: translateY(4px) scale(0.98);
+    .sticker-item:hover {
+      transform: scale(1.14) rotate(calc(var(--srot, 0deg) + 6deg));
+      z-index: 25;
     }
-
-    .live-meaning-box {
-      background: rgba(12, 4, 20, 0.58);
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      border-radius: 18px;
-      padding: 0.9rem 1.15rem;
-      text-align: center;
-    }
-    .live-meaning-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--gold-bright);
-      margin-bottom: 0.3rem;
-      font-weight: 700;
-    }
-    .live-meaning-text {
-      font-size: 0.92rem;
-      line-height: 1.55;
-      color: rgba(255, 242, 246, 0.92);
-    }
-
-    /* ================= SECTION HEADERS ================= */
-    .section-header {
-      text-align: center;
-      margin: 1rem 0 1.4rem;
-    }
-    .section-eyebrow {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      color: var(--gold-bright);
-      margin-bottom: 0.35rem;
-      font-weight: 600;
-    }
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 5.5vw, 2.45rem);
-      font-weight: 700;
-      font-style: italic;
-      color: #fff;
-      margin-bottom: 0.35rem;
-    }
-    .section-desc {
-      font-size: 0.88rem;
-      color: rgba(254, 205, 211, 0.8);
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    /* ================= INTERACTIVE LYRIC & MEANING CARDS ================= */
-    .lyrics-timeline {
+    .sticker-item svg {
       width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    @keyframes stickerPop {
+      0% { opacity: 0; transform: scale(0.2) rotate(-25deg); }
+      100% { opacity: 1; transform: scale(1) rotate(var(--srot, 0deg)); }
+    }
+
+    /* ================= MEANING RIBBON BELOW THE BOOK ================= */
+    .meaning-ribbon {
+      margin-top: 0.65rem;
+      width: min(92vw, 500px);
+      background: rgba(24, 26, 44, 0.58);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 0.55rem 0.95rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+    .meaning-ribbon-tag {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .meaning-ribbon-text {
+      font-size: 0.82rem;
+      color: rgba(255, 248, 252, 0.94);
+      line-height: 1.38;
+    }
+
+    /* ================= BOTTOM CONTROLS DOCK (Video Style + Audio Scrubber) ================= */
+    .bottom-dock-wrap {
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      margin-bottom: 2.2rem;
+      align-items: center;
+      gap: 0.55rem;
+      z-index: 30;
     }
 
-    .verse-card {
-      width: 100%;
-      background: var(--glass-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(254, 205, 211, 0.2);
-      border-radius: 24px;
-      padding: 1.55rem 1.45rem;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                  border-color 0.35s ease,
-                  box-shadow 0.35s ease,
-                  background 0.35s ease;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
-    }
-    .verse-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(251, 191, 36, 0.45);
-    }
-
-    /* Active Verse Card when currently singing */
-    .verse-card.active-verse {
-      background: linear-gradient(145deg, rgba(58, 14, 56, 0.88) 0%, rgba(28, 9, 42, 0.94) 100%);
-      border: 1.5px solid var(--gold-bright);
-      box-shadow:
-        0 16px 42px rgba(0, 0, 0, 0.6),
-        0 0 32px rgba(251, 113, 133, 0.38),
-        0 0 18px rgba(251, 191, 36, 0.3);
-      transform: scale(1.015);
-    }
-    .verse-card.active-verse::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(to bottom, var(--gold-bright), var(--rose-crimson), var(--lilac-magic));
-    }
-
-    .verse-card-header {
+    /* 4 White Circular Buttons Row (Just like the video!) */
+    .video-action-circles {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.6rem;
-      margin-bottom: 0.8rem;
-      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
     }
-
-    .verse-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.73rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--rose-soft);
-    }
-    .verse-card.active-verse .verse-tag {
-      color: var(--gold-bright);
-    }
-
-    .verse-time-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.74rem;
-      font-weight: 600;
-      padding: 0.24rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: rgba(255, 255, 255, 0.82);
-      transition: all 0.25s;
-    }
-    .verse-card.active-verse .verse-time-pill {
-      background: linear-gradient(135deg, var(--rose-deep), #d97706);
-      border-color: var(--gold-bright);
-      color: #fff;
-      box-shadow: 0 0 14px rgba(251, 113, 133, 0.6);
-    }
-
-    .verse-lines {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.32rem, 4.2vw, 1.62rem);
-      line-height: 1.55;
-      color: #fff9fb;
-      font-style: italic;
-      margin-bottom: 1rem;
-    }
-    .verse-lines strong {
-      font-weight: 700;
-      background: linear-gradient(90deg, #fde047, #fb7185, #f472b6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .verse-meaning {
-      background: rgba(10, 4, 18, 0.52);
-      border-left: 3px solid var(--rose-crimson);
-      border-radius: 0 14px 14px 0;
-      padding: 0.85rem 1rem;
-    }
-    .verse-card.active-verse .verse-meaning {
-      border-left-color: var(--gold-bright);
-      background: rgba(15, 5, 26, 0.72);
-    }
-    .meaning-title {
-      font-size: 0.74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gold-marigold);
-      margin-bottom: 0.3rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .meaning-body {
-      font-size: 0.91rem;
-      line-height: 1.6;
-      color: rgba(255, 240, 246, 0.88);
-    }
-
-    /* ================= 4 PILLARS OF LOVE GRID ================= */
-    .pillars-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2.2rem;
-    }
-    .pillar-card {
-      background: rgba(26, 10, 38, 0.65);
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      border-radius: 22px;
-      padding: 1.35rem 1.2rem;
-      text-align: center;
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      cursor: pointer;
-    }
-    .pillar-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--rose-crimson);
-    }
-    .pillar-icon {
-      font-size: 1.9rem;
-      margin-bottom: 0.5rem;
-      display: inline-block;
-      filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
-    }
-    .pillar-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--gold-bright);
-      margin-bottom: 0.35rem;
-    }
-    .pillar-text {
-      font-size: 0.86rem;
-      line-height: 1.55;
-      color: rgba(255, 240, 245, 0.85);
-    }
-
-    /* ================= FINAL DEDICATION CARTA REVEAL ================= */
-    .dedication-section {
-      width: 100%;
-      text-align: center;
-      margin-top: 0.5rem;
-    }
-    .reveal-carta-btn {
-      background: linear-gradient(135deg, rgba(225, 29, 72, 0.28), rgba(217, 119, 6, 0.28));
-      border: 1.5px solid var(--gold-marigold);
-      color: #fff;
-      padding: 1rem 2rem;
-      border-radius: 999px;
-      font-size: 0.98rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      box-shadow: 0 0 28px rgba(251, 113, 133, 0.35);
-      transition: all 0.3s ease;
-      margin-bottom: 1.2rem;
-    }
-    .reveal-carta-btn:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 38px rgba(251, 191, 36, 0.55);
-    }
-
-    .carta-modal-card {
-      width: 100%;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(251, 113, 133, 0.26), rgba(20, 7, 32, 0.95) 75%);
-      border: 1.5px solid rgba(251, 191, 36, 0.55);
-      border-radius: 28px;
-      padding: 0 1.6rem;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      border-width: 0;
-      transform: translateY(16px) scale(0.97);
-      transition: all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 0 50px rgba(251, 113, 133, 0.32);
-    }
-    .carta-modal-card.visible {
-      max-height: 750px;
-      opacity: 1;
-      padding: 2.3rem 1.65rem;
-      border-width: 1.5px;
-      transform: translateY(0) scale(1);
-      margin-top: 0.4rem;
-    }
-
-    .carta-title {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(2.4rem, 7vw, 3.4rem);
-      color: var(--gold-bright);
-      margin-bottom: 0.8rem;
-      text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
-    }
-    .carta-body {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.22rem, 3.8vw, 1.45rem);
-      line-height: 1.7;
-      color: #fff9fb;
-      max-width: 560px;
-      margin: 0 auto 1.2rem;
-    }
-    .carta-signature {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #fde047, #fb7185);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* ================= FLOATING BOTTOM MUSIC PLAYER BAR ================= */
-    .music-player-bar {
-      position: fixed;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 90;
-      width: min(94vw, 520px);
-      background: rgba(16, 6, 26, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(251, 191, 36, 0.38);
-      border-radius: 999px;
-      padding: 0.6rem 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.75), 0 0 25px rgba(251, 113, 133, 0.28);
-    }
-
-    .rosette-disc {
+    .white-circle-btn {
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, #270b33, #fb7185, #270b33, #fbbf24, #270b33);
-      border: 2px solid var(--gold-marigold);
+      background: #ffffff;
+      color: #232538;
+      border: none;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      animation: spinSlow 5.5s linear infinite;
-      animation-play-state: paused;
-      box-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
     }
-    .rosette-disc.playing {
-      animation-play-state: running;
+    .white-circle-btn:hover, .white-circle-btn:active {
+      transform: scale(1.1);
+      background: #fff5f8;
     }
-    .rosette-hole {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: #12051c;
-      border: 2px solid #fde047;
+    .white-circle-btn.play-primary {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #ff5d8f, #f59e0b);
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 1.15rem;
     }
 
-    .player-info {
+    /* Bottom White Pill Card (Audio Timeline & Page Sync Status) */
+    .bottom-white-card {
+      width: 100%;
+      background: #ffffff;
+      color: #1f2233;
+      border-radius: 18px;
+      padding: 0.65rem 1rem;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .card-orange-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #fef3c7;
+      color: #d97706;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+    .card-progress-col {
       flex: 1;
       min-width: 0;
     }
-    .player-top-line {
+    .card-status-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.5rem;
-    }
-    .player-song-title {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: #2e324a;
+      margin-bottom: 4px;
     }
-    .player-time {
-      font-size: 0.7rem;
-      color: var(--gold-bright);
+    .card-time-label {
       font-variant-numeric: tabular-nums;
-      flex-shrink: 0;
+      color: #e11d48;
     }
-    .player-lyric-mini {
-      font-size: 0.73rem;
-      color: var(--rose-soft);
-      font-style: italic;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 1px;
-    }
-
-    .seek-slider {
+    .timeline-range {
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.16);
+      height: 5px;
       border-radius: 99px;
+      background: #e2e8f0;
       outline: none;
-      margin-top: 5px;
       cursor: pointer;
     }
-    .seek-slider::-webkit-slider-thumb {
+    .timeline-range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 11px;
-      height: 11px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
-      background: var(--gold-bright);
-      box-shadow: 0 0 8px rgba(251, 191, 36, 0.9);
+      background: #e11d48;
+      box-shadow: 0 0 6px rgba(225, 29, 72, 0.6);
       cursor: pointer;
     }
 
-    .play-toggle-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(251, 191, 36, 0.55);
-      background: linear-gradient(135deg, #e11d48, #d97706);
-      color: #fff;
+    /* ================= 30-PAGE GRID DRAWER MODAL ================= */
+    #pages-grid-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(26, 28, 44, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    #pages-grid-modal.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .grid-modal-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      font-size: 0.95rem;
-      box-shadow: 0 0 15px rgba(251, 113, 133, 0.5);
-      transition: transform 0.2s ease;
+      justify-content: space-between;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto 1rem;
     }
-    .play-toggle-btn:hover {
-      transform: scale(1.08);
+    .grid-modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .pages-grid-scroll {
+      flex: 1;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      gap: 0.75rem;
+      padding-bottom: 2rem;
+    }
+    .grid-thumb-card {
+      background: var(--paper-cream);
+      color: #1f1b24;
+      border-radius: 10px;
+      padding: 0.7rem 0.55rem;
+      text-align: center;
+      cursor: pointer;
+      border: 2.5px solid transparent;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.28);
+      transition: transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 92px;
+    }
+    .grid-thumb-card:hover {
+      transform: translateY(-3px);
+      border-color: #fbbf24;
+    }
+    .grid-thumb-card.active {
+      border-color: #e11d48;
+      background: #fff5f7;
+    }
+    .grid-thumb-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+    .grid-thumb-lyric {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.85rem;
+      color: #1e1b24;
+      line-height: 1.2;
+      margin: 0.3rem 0;
+    }
+    .grid-thumb-time {
+      font-size: 0.66rem;
+      color: #e11d48;
+      font-weight: 700;
+    }
+
+    @media (min-width: 768px) {
+      .notebook-3d {
+        width: 550px;
+        height: 390px;
+      }
+      .notebook-3d.is-cover {
+        width: 300px;
+        height: 410px;
+      }
+      .peek-left { left: -46px; width: 58px; }
+      .peek-right { right: -46px; width: 58px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Candlelight & Rose Auroras -->
-  <div class="aurora aurora-1"></div>
-  <div class="aurora aurora-2"></div>
-  <div class="aurora aurora-3"></div>
+  <!-- Floating Ambient Bokeh & Hearts Canvas -->
+  <canvas id="ambient-canvas"></canvas>
 
-  <!-- Interactive Starlight, Golden Lantern Sparks & Rose Petals Canvas -->
-  <canvas id="serenata-canvas"></canvas>
-
-  <!-- ================= OPENING SERENATA PORTAL ================= -->
-  <div id="welcome-overlay">
-    <div class="portal-emblem-wrap" id="portal-emblem">
-      <div class="portal-ring-outer"></div>
-      <div class="portal-ring-inner"></div>
-      <div class="portal-candle-glow"></div>
-      <!-- Romantic Acoustic Guitar & Blooming Heart Emblem -->
-      <svg width="120" height="120" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="portalGold" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#fef08a"/>
-            <stop offset="50%" stop-color="#f59e0b"/>
-            <stop offset="100%" stop-color="#b45309"/>
-          </linearGradient>
-          <radialGradient id="portalRose" cx="50%" cy="45%" r="55%">
-            <stop offset="0%" stop-color="#ffe4e6"/>
-            <stop offset="50%" stop-color="#fb7185"/>
-            <stop offset="100%" stop-color="#9f1239"/>
-          </radialGradient>
-        </defs>
-        <!-- Glowing Heart Backdrop -->
-        <path d="M100 168 C100 168, 36 126, 36 78 C36 52, 58 36, 80 48 C91 54, 97 64, 100 72 C103 64, 109 54, 120 48 C142 36, 164 52, 164 78 C164 126, 100 168, 100 168 Z" fill="url(#portalRose)" stroke="url(#portalGold)" stroke-width="3"/>
-        <!-- Guitar Silhouette Across Heart -->
-        <g transform="rotate(-32 100 100)">
-          <rect x="95" y="22" width="10" height="72" rx="3" fill="#270b33" stroke="#fde047" stroke-width="1.8"/>
-          <path d="M80 95 C72 105, 76 118, 84 124 C72 134, 70 156, 100 158 C130 156, 128 134, 116 124 C124 118, 128 105, 120 95 C112 87, 88 87, 80 95 Z" fill="#451a03" stroke="url(#portalGold)" stroke-width="3"/>
-          <circle cx="100" cy="116" r="10" fill="#180620" stroke="#fde047" stroke-width="2"/>
-          <rect x="90" y="138" width="20" height="4" rx="2" fill="#fde047"/>
-          <line x1="98" y1="26" x2="98" y2="138" stroke="#fef08a" stroke-width="0.9"/>
-          <line x1="100" y1="26" x2="100" y2="138" stroke="#fef08a" stroke-width="0.9"/>
-          <line x1="102" y1="26" x2="102" y2="138" stroke="#fef08a" stroke-width="0.9"/>
-        </g>
-      </svg>
+  <!-- ================= WELCOME MODAL ================= -->
+  <div id="welcome-modal">
+    <div class="mini-book-preview" id="welcome-book-icon">
+      <div class="mini-book-sticker">Para ti 💓</div>
     </div>
-
-    <p class="welcome-eyebrow">✨ Una Serenata Desde el Alma ✨</p>
-    <h1 class="welcome-title">Te Amo y Más</h1>
-    <p class="welcome-quote">
-      "Amor, más que amor es el nuestro y te lo vengo a dar..."
+    <p class="welcome-caption">« No me fui a dormir... Fui a hacerte tu librito 💓💓 »</p>
+    <h2 class="welcome-headline">Te Amo y Más</h2>
+    <p class="welcome-sub">
+      30 páginas hechas con recortes, stickers y todo mi corazón al ritmo de nuestra canción. Sube el volumen y toca para abrirlo.
     </p>
-    <p class="welcome-hint">
-      Sube el volumen. Cada verso se ilumina al ritmo de la guitarra junto con lo que significa para mí dedicártelo.
-    </p>
-
-    <button class="open-serenata-btn" id="start-serenata-btn">
-      <span>🎸 Escuchar Serenata & Significados ❤️</span>
+    <button class="start-book-btn" id="start-book-btn">
+      <span>📖 Abrir Librito & Reproducir Música ♫</span>
     </button>
   </div>
 
-  <!-- ================= MAIN CONTENT ================= -->
-  <main class="main-container">
-    <div class="top-pill-badge">
-      <span>🎸</span>
-      <span>El Libro de la Vida • Acústico & Significados</span>
-      <span>✨</span>
+  <!-- ================= 30-PAGE THUMBNAIL GRID MODAL ================= -->
+  <div id="pages-grid-modal">
+    <div class="grid-modal-header">
+      <span class="grid-modal-title">📖 Las 30 Páginas de "Te Amo y Más"</span>
+      <button class="icon-circle-btn" id="close-grid-btn" aria-label="Cerrar cuadrícula">✕</button>
+    </div>
+    <div class="pages-grid-scroll" id="pages-grid-container"></div>
+  </div>
+
+  <!-- ================= MAIN APPLICATION SHELL ================= -->
+  <div class="app-shell">
+
+    <!-- Top App Bar ("Bloc / 30 páginas") -->
+    <header class="bloc-topbar">
+      <div class="topbar-group">
+        <button class="icon-circle-btn" id="restart-book-btn" title="Volver a la portada">📖</button>
+        <button class="icon-circle-btn" id="open-grid-btn" title="Ver las 30 páginas">⊞</button>
+      </div>
+
+      <div class="bloc-title-center">
+        <h1>Bloc</h1>
+        <div class="bloc-subtitle">
+          <span>✎ 30 páginas</span>
+          <span>•</span>
+          <span id="top-page-counter">Portada</span>
+        </div>
+      </div>
+
+      <div class="topbar-group">
+        <button class="icon-circle-btn active" id="autosync-toggle-btn" title="Activar/Desactivar paso automático con la música">♫</button>
+        <button class="icon-circle-btn" id="burst-hearts-top-btn" title="Lanzar lluvia de corazones">💓</button>
+      </div>
+    </header>
+
+    <!-- Dedication Caption (Just like the video) -->
+    <div class="dedication-banner">
+      <div class="dedication-caption">
+        No me fui a dormir, fui a hacerte tu librito 💓💓
+      </div>
     </div>
 
-    <h2 class="hero-title">Te Amo y Más</h2>
-    <p class="hero-subtitle">
-      "Porque hay sentimientos que no caben en una sola palabra, hoy te dedico cada acorde y cada verso de esta canción."
-    </p>
+    <!-- ================= 3D INTERACTIVE BOOK STAGE ================= -->
+    <main class="stage-viewport">
+      <div class="notebook-3d is-cover" id="notebook-3d">
 
-    <!-- Interactive Serenata Guitar & Blooming Roses Artwork -->
-    <div class="guitar-stage" id="guitar-stage" title="¡Toca la guitarra para lanzar pétalos dorados y rosas!">
-      <div class="guitar-aura"></div>
-      <div class="sound-ring sound-ring-1"></div>
-      <div class="sound-ring sound-ring-2"></div>
-
-      <svg class="guitar-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="bodyWood" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#9a3412"/>
-            <stop offset="55%" stop-color="#5c1916"/>
-            <stop offset="100%" stop-color="#2a0815"/>
-          </radialGradient>
-          <linearGradient id="goldFiligree" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#fef08a"/>
-            <stop offset="50%" stop-color="#f59e0b"/>
-            <stop offset="100%" stop-color="#d97706"/>
-          </linearGradient>
-          <radialGradient id="roseBloom" cx="50%" cy="45%" r="55%">
-            <stop offset="0%" stop-color="#fff1f2"/>
-            <stop offset="45%" stop-color="#fb7185"/>
-            <stop offset="85%" stop-color="#e11d48"/>
-            <stop offset="100%" stop-color="#881337"/>
-          </radialGradient>
-          <radialGradient id="marigoldBloom" cx="50%" cy="45%" r="55%">
-            <stop offset="0%" stop-color="#fef9c3"/>
-            <stop offset="55%" stop-color="#fbbf24"/>
-            <stop offset="100%" stop-color="#b45309"/>
-          </radialGradient>
-        </defs>
-
-        <!-- Glowing Musical Notes Around Guitar -->
-        <text x="48" y="88" fill="#fde047" font-size="22" opacity="0.85">♪</text>
-        <text x="236" y="78" fill="#fb7185" font-size="24" opacity="0.85">♫</text>
-        <text x="52" y="218" fill="#fb7185" font-size="18" opacity="0.8">♥</text>
-        <text x="238" y="212" fill="#fde047" font-size="20" opacity="0.8">✨</text>
-
-        <!-- Tilted Romantic Classical Guitar -->
-        <g transform="rotate(-26 150 155)">
-          <!-- Headstock -->
-          <rect x="139" y="18" width="22" height="30" rx="5" fill="#2a0815" stroke="url(#goldFiligree)" stroke-width="2"/>
-          <circle cx="135" cy="25" r="3" fill="#fde047"/>
-          <circle cx="135" cy="34" r="3" fill="#fde047"/>
-          <circle cx="135" cy="43" r="3" fill="#fde047"/>
-          <circle cx="165" cy="25" r="3" fill="#fde047"/>
-          <circle cx="165" cy="34" r="3" fill="#fde047"/>
-          <circle cx="165" cy="43" r="3" fill="#fde047"/>
-
-          <!-- Guitar Neck -->
-          <rect x="142" y="46" width="16" height="90" fill="#1f0918" stroke="url(#goldFiligree)" stroke-width="1.8"/>
-
-          <!-- Guitar Body (El Libro de la Vida Ornate Style) -->
-          <path d="M112 132
-                   C96 146, 102 168, 118 180
-                   C94 196, 88 242, 150 248
-                   C212 242, 206 196, 182 180
-                   C198 168, 204 146, 188 132
-                   C174 120, 126 120, 112 132 Z"
-                fill="url(#bodyWood)" stroke="url(#goldFiligree)" stroke-width="3.5"/>
-
-          <!-- Golden Rosette Soundhole -->
-          <circle cx="150" cy="166" r="22" fill="none" stroke="url(#goldFiligree)" stroke-width="2.2" stroke-dasharray="4 3"/>
-          <circle cx="150" cy="166" r="17" fill="#0d0311" stroke="#fb7185" stroke-width="2"/>
-
-          <!-- Ornate Golden Scrolls on Lower Bout -->
-          <path d="M118 218 Q132 232 150 232 Q168 232 182 218" stroke="url(#goldFiligree)" stroke-width="2" fill="none" opacity="0.8"/>
-          <circle cx="150" cy="232" r="3.5" fill="#fde047"/>
-
-          <!-- Bridge -->
-          <rect x="130" y="205" width="40" height="7" rx="3" fill="#1f0918" stroke="url(#goldFiligree)" stroke-width="1.8"/>
-
-          <!-- 6 Vibrating Golden Strings -->
-          <g class="guitar-string">
-            <line x1="145" y1="46" x2="143" y2="205" stroke="#fef08a" stroke-width="1"/>
-            <line x1="148" y1="46" x2="147" y2="205" stroke="#fef08a" stroke-width="1"/>
-            <line x1="150" y1="46" x2="150" y2="205" stroke="#fff" stroke-width="1.1"/>
-            <line x1="152" y1="46" x2="153" y2="205" stroke="#fef08a" stroke-width="1"/>
-            <line x1="155" y1="46" x2="157" y2="205" stroke="#fef08a" stroke-width="1"/>
-          </g>
-        </g>
-
-        <!-- Blooming Crimson Rose & Golden Marigold at Base of Guitar -->
-        <g transform="translate(102, 212)">
-          <circle cx="0" cy="0" r="18" fill="url(#roseBloom)"/>
-          <circle cx="-6" cy="-5" r="10" fill="#fda4af" opacity="0.55"/>
-          <circle cx="0" cy="0" r="5" fill="#fde047"/>
-        </g>
-        <g transform="translate(198, 206)">
-          <circle cx="0" cy="0" r="16" fill="url(#marigoldBloom)"/>
-          <circle cx="0" cy="0" r="6" fill="#fff"/>
-        </g>
-      </svg>
-
-      <span class="guitar-touch-badge">🎸 Toca las cuerdas para lanzar magia ✨</span>
-    </div>
-
-    <!-- ================= LIVE SYNCHRONIZED CINEMA LYRIC STAGE ================= -->
-    <section class="cinema-lyric-stage" aria-live="polite">
-      <div class="stage-top-row">
-        <div class="chapter-badge">
-          <div class="eq-wrap" id="stage-eq">
-            <span class="eq-bar"></span>
-            <span class="eq-bar"></span>
-            <span class="eq-bar"></span>
-            <span class="eq-bar"></span>
-          </div>
-          <span id="live-chapter-name">Preludio de Guitarra</span>
+        <!-- Left Peeking Page Stack -->
+        <div class="peek-page peek-left hidden" id="peek-left" title="Página anterior">
+          <span class="peek-hint-arrow">‹</span>
         </div>
 
-        <button class="auto-follow-btn active" id="auto-follow-btn" title="Seguir automáticamente la letra mientras avanza la canción">
-          ✨ Seguir letra: Activo
+        <!-- Active Center Sheet -->
+        <div class="active-sheet" id="active-sheet">
+          <!-- Animated 3D Flipping Leaf Overlay -->
+          <div class="turning-leaf" id="turning-leaf"></div>
+
+          <!-- Dynamic Page Content Injected Here -->
+          <div id="sheet-content" style="width:100%; height:100%;"></div>
+        </div>
+
+        <!-- Right Peeking Page Stack -->
+        <div class="peek-page peek-right hidden" id="peek-right" title="Página siguiente">
+          <span class="peek-hint-arrow">›</span>
+        </div>
+
+      </div>
+
+      <!-- Meaning Ribbon for Current Page -->
+      <div class="meaning-ribbon">
+        <div class="meaning-ribbon-tag" id="meaning-tag">✨ Significado de esta página</div>
+        <div class="meaning-ribbon-text" id="meaning-text">
+          Un cuaderno artesanal hecho hoja por hoja para decirte cuánto te amo.
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= BOTTOM CONTROLS DOCK ================= -->
+    <footer class="bottom-dock-wrap">
+      <div class="video-action-circles">
+        <button class="white-circle-btn" id="prev-page-btn" title="Página anterior">‹</button>
+        <button class="white-circle-btn play-primary" id="play-pause-btn" title="Reproducir / Pausar música">
+          <span id="play-icon">▶</span>
         </button>
+        <button class="white-circle-btn" id="next-page-btn" title="Página siguiente">›</button>
+        <button class="white-circle-btn" id="love-spark-btn" title="Lanzar stickers y corazones">＋</button>
       </div>
 
-      <p class="live-lyric-main" id="live-lyric-main">
-        "Te amo y más de lo que puedes imaginar..."
-      </p>
-
-      <div class="live-meaning-box">
-        <p class="live-meaning-label">💛 Lo que este verso significa para ti</p>
-        <p class="live-meaning-text" id="live-meaning-text">
-          Cada cuerda de esta guitarra guarda un latido mío. Toca cualquier estrofa abajo o deja que la música te lleve verso a verso.
-        </p>
+      <div class="bottom-white-card">
+        <div class="card-orange-badge">🎸</div>
+        <div class="card-progress-col">
+          <div class="card-status-row">
+            <span id="live-page-label">Portada • Para ti 💓</span>
+            <span class="card-time-label" id="audio-time-label">0:00 / 1:30</span>
+          </div>
+          <input type="range" class="timeline-range" id="audio-scrubber" min="0" max="89.8" step="0.1" value="0" aria-label="Línea de tiempo de la canción" />
+        </div>
       </div>
-    </section>
+    </footer>
 
-    <!-- ================= INTERACTIVE LYRICS & DEEP MEANINGS TIMELINE ================= -->
-    <div class="section-header">
-      <p class="section-eyebrow">♫ Letra Sincronizada & Significados ♫</p>
-      <h3 class="section-title">El Alma Detrás de Cada Verso</h3>
-      <p class="section-desc">
-        Cada tarjeta se ilumina cuando suena en la canción. También puedes tocar cualquier estrofa para escuchar ese momento exacto.
-      </p>
-    </div>
-
-    <div class="lyrics-timeline" id="lyrics-timeline">
-
-      <!-- Verse 0: Intro -->
-      <article class="verse-card active-verse" data-start="0" data-end="8.6" data-chapter="🎸 Preludio Acústico">
-        <div class="verse-card-header">
-          <span class="verse-tag">✨ Preludio • El Despertar del Corazón</span>
-          <span class="verse-time-pill">▶ 0:00 — 0:08</span>
-        </div>
-        <p class="verse-lines">
-          🎸 <strong>Arpegio suave de guitarra...</strong> el silencio se detiene antes de confesarte todo lo que siento.
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            Antes de que empiece la primera palabra, estas primeras notas representan la paz y la emoción que siento cada vez que pienso en ti. Es abrirte las puertas de mi corazón sin reservas.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 1: Te amo y más -->
-      <article class="verse-card" data-start="8.6" data-end="22.2" data-chapter="🌹 Estrofa I • Más Allá de la Imaginación">
-        <div class="verse-card-header">
-          <span class="verse-tag">🌹 Estrofa I • El Amor Inimaginable</span>
-          <span class="verse-time-pill">▶ 0:08 — 0:22</span>
-        </div>
-        <p class="verse-lines">
-          "<strong>Te amo y más</strong> de lo que puedes imaginar,<br/>
-          <strong>te amo además</strong> como nunca nadie jamás lo hará."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            A veces un simple "te amo" se queda pequeño para lo que provocas en mi vida. Decirte <em>"te amo y más"</em> significa que incluso cuando crees saber cuánto te quiero, mi corazón guarda todavía un universo entero por darte, con una ternura única que nadie más podría igualar.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 2: En esta canción va mi corazón -->
-      <article class="verse-card" data-start="22.2" data-end="37.2" data-chapter="❤️ Estrofa I • Entrega Total">
-        <div class="verse-card-header">
-          <span class="verse-tag">❤️ Estrofa I • Mi Corazón en tus Manos</span>
-          <span class="verse-time-pill">▶ 0:22 — 0:37</span>
-        </div>
-        <p class="verse-lines">
-          "En esta canción <strong>va mi corazón</strong>,<br/>
-          <strong>amor más que amor</strong> es el nuestro y te lo vengo a dar."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            No te entrego solo palabras bonitas: aquí va mi corazón entero. Lo nuestro es <em>"amor más que amor"</em> porque mezcla complicidad, admiración, ternura y hogar en un mismo sentimiento.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 3: Te miro y más -->
-      <article class="verse-card" data-start="37.2" data-end="52.8" data-chapter="✨ Estrofa II • La Magia de tu Mirada">
-        <div class="verse-card-header">
-          <span class="verse-tag">✨ Estrofa II • Mirarte Sin Cansancio</span>
-          <span class="verse-time-pill">▶ 0:37 — 0:52</span>
-        </div>
-        <p class="verse-lines">
-          "<strong>Te miro y más</strong>, y más y más te quiero mirar,<br/>
-          te amo y sabrás: <strong>puro sentimiento</strong> y no hay nada más."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            Podría mirarte mil veces y en cada una encontraría una razón nueva para enamorarme de ti. Lo que siento no tiene máscaras ni intereses: es sentimiento puro, transparente y real.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 4: Y sueño llegar a tu alma tocar -->
-      <article class="verse-card" data-start="52.8" data-end="63.8" data-chapter="🌙 Pre-Coro • Conexión de Almas">
-        <div class="verse-card-header">
-          <span class="verse-tag">🌙 Pre-Coro • Tocar tu Alma</span>
-          <span class="verse-time-pill">▶ 0:52 — 1:03</span>
-        </div>
-        <p class="verse-lines">
-          "Y <strong>sueño llegar a tu alma tocar</strong>,<br/>
-          amor más que amor es el nuestro y te lo vengo a dar."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            Cualquiera puede mirar por fuera, pero mi mayor sueño es abrazar tu esencia: cuidar tus sueños, calmar tus días difíciles y tocar tu alma con la delicadeza de quien protege su tesoro más valioso.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 5: Ruego a Dios tenerte a mi lado -->
-      <article class="verse-card" data-start="63.8" data-end="77.0" data-chapter="🙏 Coro • Mi Oración al Cielo">
-        <div class="verse-card-header">
-          <span class="verse-tag">🙏 Coro • Mi Gratitud y Mi Refugio</span>
-          <span class="verse-time-pill">▶ 1:03 — 1:17</span>
-        </div>
-        <p class="verse-lines">
-          "<strong>Ruego a Dios tenerte a mi lado</strong>,<br/>
-          y entonces <strong>poderte abrazar</strong>..."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            Cuando alguien importa tanto, hasta en tus oraciones aparece su nombre. Tenerte cerca y poder abrazarte es ese refugio donde todo el ruido del mundo desaparece.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 6: Si no estás aquí algo falta / Pelearé hasta el final -->
-      <article class="verse-card" data-start="77.0" data-end="90.8" data-chapter="🔥 Coro • Promesa Inquebrantable">
-        <div class="verse-card-header">
-          <span class="verse-tag">🔥 Coro • Luchar Por Ti Hasta el Final</span>
-          <span class="verse-time-pill">▶ 1:17 — 1:30</span>
-        </div>
-        <p class="verse-lines">
-          "Si no estás aquí algo falta,<br/>
-          <strong>yo por ti pelearé hasta el final</strong>."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            El amor verdadero no se rinde a la primera tormenta. Este verso es mi promesa firme de lealtad: elegirte cada día, cuidarte y pelear por nuestra felicidad hasta el final.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 7: Guitar Solo -->
-      <article class="verse-card" data-start="90.8" data-end="108.0" data-chapter="🎸 Solo de Guitarra • Suspiros del Corazón">
-        <div class="verse-card-header">
-          <span class="verse-tag">🎸 Interludio • Solo de Guitarra</span>
-          <span class="verse-time-pill">▶ 1:30 — 1:48</span>
-        </div>
-        <p class="verse-lines">
-          🎶 <strong>Solo de guitarra acústica...</strong> cuando las cuerdas dicen todo aquello que las palabras no alcanzan a pronunciar.
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            Cierra los ojos unos segundos en esta parte. Cada nota aguda y cada acorde cálido representan los momentos hermosos que hemos vivido y todos los que aún nos esperan juntos.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 8: Puente -->
-      <article class="verse-card" data-start="108.0" data-end="123.2" data-chapter="💫 Puente • El Eco del Alma">
-        <div class="verse-card-header">
-          <span class="verse-tag">💫 Puente • Volver a Tu Esencia</span>
-          <span class="verse-time-pill">▶ 1:48 — 2:03</span>
-        </div>
-        <p class="verse-lines">
-          "Y sueño llegar a tu alma tocar,<br/>
-          <strong>amor más que amor es el nuestro</strong> y te lo vengo a dar..."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            La calma antes del gran grito de amor: reafirmar con serenidad que mi lugar favorito siempre será donde estés tú.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 9: Climax - Te amo y más! En esta canción yo veo quién soy -->
-      <article class="verse-card" data-start="123.2" data-end="145.0" data-chapter="🌟 Clímax • Mi Mejor Versión Contigo">
-        <div class="verse-card-header">
-          <span class="verse-tag">🌟 Clímax • Descubrir Quién Soy</span>
-          <span class="verse-time-pill">▶ 2:03 — 2:25</span>
-        </div>
-        <p class="verse-lines">
-          "<strong>¡Te amo y más!</strong> Te amo y sabrás que nadie como yo te amará.<br/>
-          En esta canción <strong>yo veo quién soy</strong>..."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            <em>"En esta canción yo veo quién soy"</em> es una de las frases más profundas: al amarte descubrí la versión más noble, sincera y valiente de mí mismo. Tú me haces brillar.
-          </p>
-        </div>
-      </article>
-
-      <!-- Verse 10: Final - El mío, el tuyo y el nuestro -->
-      <article class="verse-card" data-start="145.0" data-end="162.0" data-chapter="♾️ Final • Nuestro Destino Eterno">
-        <div class="verse-card-header">
-          <span class="verse-tag">♾️ Cierre Eterno • El Mío, El Tuyo y El Nuestro</span>
-          <span class="verse-time-pill">▶ 2:25 — 2:41</span>
-        </div>
-        <p class="verse-lines">
-          "<strong>Amor más que amor es el mío</strong> y lo siento,<br/>
-          <strong>amor más que amor es el tuyo</strong> y presiento,<br/>
-          <strong>amor más que amor será el nuestro</strong>... si tú me lo das."
-        </p>
-        <div class="verse-meaning">
-          <p class="meaning-title">💛 Significado para ti</p>
-          <p class="meaning-body">
-            La unión perfecta de tres tiempos: lo que hoy late en mi pecho (<em>el mío</em>), la luz tan bonita que emana de ti (<em>el tuyo</em>), y la historia inolvidable que construimos juntos cada día (<em>el nuestro</em>).
-          </p>
-        </div>
-      </article>
-
-    </div>
-
-    <!-- ================= 4 PILLARS OF THIS SONG ================= -->
-    <div class="section-header">
-      <p class="section-eyebrow">🌹 Los 4 Secretos de Esta Serenata 🌹</p>
-      <h3 class="section-title">Por Qué Esta Canción Eres Tú</h3>
-    </div>
-
-    <div class="pillars-grid">
-      <div class="pillar-card">
-        <span class="pillar-icon">👀✨</span>
-        <h4 class="pillar-name">Mirada Infinita</h4>
-        <p class="pillar-text">"Te miro y más te quiero mirar" — porque tus ojos tienen esa magia donde el tiempo se detiene y todo cobra sentido.</p>
-      </div>
-      <div class="pillar-card">
-        <span class="pillar-icon">🕊️💛</span>
-        <h4 class="pillar-name">Puro Sentimiento</h4>
-        <p class="pillar-text">Un cariño limpio, honesto y valiente que nace del alma sin pedir nada más que verte sonreír.</p>
-      </div>
-      <div class="pillar-card">
-        <span class="pillar-icon">🛡️🔥</span>
-        <h4 class="pillar-name">Promesa Firme</h4>
-        <p class="pillar-text">"Por ti pelearé hasta el final" — estar en los días de sol y también sostener tu mano cuando haga frío.</p>
-      </div>
-      <div class="pillar-card">
-        <span class="pillar-icon">🎸♾️</span>
-        <h4 class="pillar-name">Amor Más Que Amor</h4>
-        <p class="pillar-text">Cuando dos corazones coinciden así, ya no es un simple querer: se convierte en hogar, destino y canción.</p>
-      </div>
-    </div>
-
-    <!-- ================= FINAL SECRET DEDICATION REVEAL ================= -->
-    <section class="dedication-section">
-      <button class="reveal-carta-btn" id="reveal-carta-btn">
-        <span>💌</span>
-        <span>Toca aquí para abrir mi promesa final para ti</span>
-        <span>✨</span>
-      </button>
-
-      <div class="carta-modal-card" id="carta-modal-card">
-        <h4 class="carta-title">Para Ti, Con Todo Mi Corazón</h4>
-        <p class="carta-body">
-          En <em>El Libro de la Vida</em> dicen que las canciones más hermosas son aquellas que se cantan con el corazón en la mano.<br/><br/>
-          Hoy quería regalarte este pequeño rincón bajo las estrellas para que cada vez que escuches <strong>"Te Amo y Más"</strong> recuerdes lo especial, única e importante que eres para mí. Gracias por existir, por tu luz y por hacer que mi corazón tenga una canción favorita que dedicarte.
-        </p>
-        <p class="carta-signature">✨ Te amo hoy, mañana y más de lo que puedes imaginar ❤️🎸</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= FLOATING BOTTOM MUSIC PLAYER BAR ================= -->
-  <div class="music-player-bar">
-    <div class="rosette-disc" id="rosette-disc">
-      <div class="rosette-hole"></div>
-    </div>
-
-    <div class="player-info">
-      <div class="player-top-line">
-        <span class="player-song-title">Te Amo y Más — Serenata Acústica</span>
-        <span class="player-time" id="player-time">0:00 / 2:41</span>
-      </div>
-      <div class="player-lyric-mini" id="player-lyric-mini">
-        Toca play o cualquier verso para escuchar ♫
-      </div>
-      <input type="range" class="seek-slider" id="seek-slider" min="0" max="161.6" step="0.1" value="0" aria-label="Progreso de la canción" />
-    </div>
-
-    <button class="play-toggle-btn" id="play-toggle-btn" aria-label="Reproducir o pausar">
-      <span id="play-icon">▶</span>
-    </button>
   </div>
 
-  <!-- Complete High-Quality Acoustic Cover Audio -->
-  <audio id="serenata-audio" src="te-amo-y-mas.mp3" preload="auto" loop></audio>
+  <!-- Synchronized Audio Track -->
+  <audio id="bgMusic" src="te-amo-y-mas.mp3" preload="auto"></audio>
 
   <script>
-    const audio = document.getElementById('serenata-audio');
-    const welcomeOverlay = document.getElementById('welcome-overlay');
-    const startBtn = document.getElementById('start-serenata-btn');
-    const portalEmblem = document.getElementById('portal-emblem');
-    const playToggleBtn = document.getElementById('play-toggle-btn');
-    const playIcon = document.getElementById('play-icon');
-    const rosetteDisc = document.getElementById('rosette-disc');
-    const guitarStage = document.getElementById('guitar-stage');
-    const stageEq = document.getElementById('stage-eq');
-    const seekSlider = document.getElementById('seek-slider');
-    const playerTime = document.getElementById('player-time');
-    const playerLyricMini = document.getElementById('player-lyric-mini');
-    const liveChapterName = document.getElementById('live-chapter-name');
-    const liveLyricMain = document.getElementById('live-lyric-main');
-    const liveMeaningText = document.getElementById('live-meaning-text');
-    const autoFollowBtn = document.getElementById('auto-follow-btn');
-    const verseCards = Array.from(document.querySelectorAll('.verse-card'));
+    // ============================================================================
+    // 1. CUSTOM DIE-CUT SVG STICKER LIBRARY (Handcrafted Scrapbook Illustrations)
+    // ============================================================================
+    const STICKERS = {
+      // Cute Piggy (Pua / Waddles style from the video!)
+      piggy: `<svg viewBox="0 0 100 100">
+        <ellipse cx="50" cy="58" rx="34" ry="30" fill="#ffc2d1" stroke="#231924" stroke-width="3.5"/>
+        <path d="M22 38 C14 20, 32 16, 38 32 Z" fill="#ff8fab" stroke="#231924" stroke-width="3.2"/>
+        <path d="M78 38 C86 20, 68 16, 62 32 Z" fill="#ff8fab" stroke="#231924" stroke-width="3.2"/>
+        <ellipse cx="50" cy="62" rx="14" ry="10" fill="#ff8fab" stroke="#231924" stroke-width="3"/>
+        <circle cx="45" cy="62" r="2.8" fill="#231924"/>
+        <circle cx="55" cy="62" r="2.8" fill="#231924"/>
+        <circle cx="35" cy="48" r="4.5" fill="#231924"/>
+        <circle cx="33.5" cy="46.5" r="1.5" fill="#fff"/>
+        <circle cx="65" cy="48" r="4.5" fill="#231924"/>
+        <circle cx="63.5" cy="46.5" r="1.5" fill="#fff"/>
+        <ellipse cx="26" cy="58" rx="5.5" ry="3.2" fill="#fb6f92" opacity="0.75"/>
+        <ellipse cx="74" cy="58" rx="5.5" ry="3.2" fill="#fb6f92" opacity="0.75"/>
+        <path d="M44 75 Q50 81 56 75" stroke="#231924" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>`,
 
-    let autoFollow = true;
-    let activeCardIndex = -1;
+      // Red & Pink Hearts Cluster
+      hearts: `<svg viewBox="0 0 100 100">
+        <path d="M52 84 C52 84 16 60 16 36 C16 20 30 14 42 24 C48 29 52 36 52 36 C52 36 56 29 62 24 C74 14 88 20 88 36 C88 60 52 84 52 84 Z" fill="#e11d48" stroke="#1e1b24" stroke-width="3.5"/>
+        <path d="M32 34 C32 28 38 25 43 29" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M24 26 C24 26 12 18 12 10 C12 5 17 3 21 7 C24 9 24 12 24 12 C24 12 25 9 27 7 C31 3 36 5 36 10 C36 18 24 26 24 26 Z" fill="#ff7eb6" stroke="#1e1b24" stroke-width="2.5"/>
+      </svg>`,
 
-    // Fine-grained synchronized phrases & deep meanings across the full 2:41 track
-    const syncedPhrases = [
+      // Retro Polaroid Frame with Heart
+      retroFrame: `<svg viewBox="0 0 100 100">
+        <rect x="16" y="12" width="68" height="78" rx="5" fill="#fffdf7" stroke="#1e1b24" stroke-width="3.5"/>
+        <rect x="24" y="20" width="52" height="48" fill="#38bdf8" stroke="#1e1b24" stroke-width="2.8"/>
+        <path d="M50 58 C50 58 32 45 32 33 C32 25 40 22 46 28 C50 32 50 35 50 35 C50 35 51 32 54 28 C60 22 68 25 68 33 C68 45 50 58 50 58 Z" fill="#fde047" stroke="#1e1b24" stroke-width="2.5"/>
+      </svg>`,
+
+      // Sparkling Golden Stars
+      stars: `<svg viewBox="0 0 100 100">
+        <polygon points="50,10 61,35 88,38 67,56 73,83 50,69 27,83 33,56 12,38 39,35" fill="#fde047" stroke="#1e1b24" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="50" cy="50" r="4" fill="#1e1b24"/>
+      </svg>`,
+
+      // Glowing Lightbulb (Imaginar)
+      lightbulb: `<svg viewBox="0 0 100 100">
+        <line x1="50" y1="4" x2="50" y2="14" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="16" y1="22" x2="24" y2="28" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="84" y1="22" x2="76" y2="28" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+        <path d="M30 46 C30 28 70 28 70 46 C70 58 60 64 60 74 L40 74 C40 64 30 58 30 46 Z" fill="#fef08a" stroke="#1e1b24" stroke-width="3.5"/>
+        <rect x="40" y="74" width="20" height="10" rx="3" fill="#94a3b8" stroke="#1e1b24" stroke-width="3"/>
+        <path d="M44 54 Q50 40 56 54" stroke="#ea580c" stroke-width="3" fill="none"/>
+      </svg>`,
+
+      // Sacred Mexican Heart with Flame (El Libro de la Vida style)
+      sacredHeart: `<svg viewBox="0 0 100 100">
+        <path d="M50 8 C44 18 38 24 44 32 C40 28 50 18 50 18 C50 18 60 28 56 32 C62 24 56 18 50 8 Z" fill="#fbbf24" stroke="#1e1b24" stroke-width="2.5"/>
+        <path d="M50 88 C50 88 18 66 18 44 C18 28 32 24 42 32 C47 36 50 42 50 42 C50 42 53 36 58 32 C68 24 82 28 82 44 C82 66 50 88 50 88 Z" fill="#e11d48" stroke="#1e1b24" stroke-width="3.5"/>
+        <path d="M24 52 Q50 64 76 52" stroke="#fde047" stroke-width="4" fill="none"/>
+      </svg>`,
+
+      // Cute Bear Holding Heart Balloon
+      bearBalloon: `<svg viewBox="0 0 100 100">
+        <line x1="68" y1="42" x2="58" y2="72" stroke="#1e1b24" stroke-width="2.5"/>
+        <path d="M72 42 C72 42 54 30 54 18 C54 10 62 7 68 13 C72 17 72 20 72 20 C72 20 73 17 76 13 C82 7 90 10 90 18 C90 30 72 42 72 42 Z" fill="#ff4d79" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="26" cy="44" r="9" fill="#c08552" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="52" cy="44" r="9" fill="#c08552" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="39" cy="60" r="22" fill="#d4a373" stroke="#1e1b24" stroke-width="3.2"/>
+        <ellipse cx="39" cy="65" rx="9" ry="7" fill="#faedcd"/>
+        <circle cx="39" cy="63" r="3" fill="#1e1b24"/>
+        <circle cx="32" cy="55" r="3" fill="#1e1b24"/>
+        <circle cx="46" cy="55" r="3" fill="#1e1b24"/>
+      </svg>`,
+
+      // Acoustic Guitar (El Libro de la Vida style)
+      guitar: `<svg viewBox="0 0 100 100">
+        <g transform="rotate(-30 50 50)">
+          <rect x="46" y="8" width="8" height="38" fill="#291711" stroke="#1e1b24" stroke-width="2.8"/>
+          <path d="M32 45 C24 54 30 64 36 68 C24 76 24 92 50 93 C76 92 76 76 64 68 C70 64 76 54 68 45 C60 39 40 39 32 45 Z" fill="#d97706" stroke="#1e1b24" stroke-width="3.2"/>
+          <circle cx="50" cy="60" r="8" fill="#291711" stroke="#fde047" stroke-width="2.5"/>
+          <rect x="41" y="77" width="18" height="4" fill="#291711"/>
+        </g>
+      </svg>`,
+
+      // Meme Flork Smiling with Rosy Cheeks
+      florkSmile: `<svg viewBox="0 0 100 100">
+        <path d="M26 90 C24 52 28 24 52 24 C74 24 78 52 76 90 Z" fill="#ffffff" stroke="#1e1b24" stroke-width="3.5"/>
+        <circle cx="44" cy="44" r="3.2" fill="#1e1b24"/>
+        <circle cx="62" cy="44" r="3.2" fill="#1e1b24"/>
+        <ellipse cx="36" cy="50" rx="5" ry="2.8" fill="#ff8fab"/>
+        <ellipse cx="68" cy="50" rx="5" ry="2.8" fill="#ff8fab"/>
+        <path d="M40 54 Q53 65 64 52" stroke="#1e1b24" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <path d="M18 68 Q28 58 34 66" stroke="#1e1b24" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <path d="M84 64 Q74 56 68 66" stroke="#1e1b24" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      </svg>`,
+
+      // Patched Heart with Band-Aid
+      patchHeart: `<svg viewBox="0 0 100 100">
+        <path d="M50 86 C50 86 14 62 14 36 C14 20 28 14 40 24 C46 29 50 36 50 36 C50 36 54 29 60 24 C72 14 86 20 86 36 C86 62 50 86 50 86 Z" fill="#fb7185" stroke="#1e1b24" stroke-width="3.5"/>
+        <rect x="46" y="34" width="28" height="12" rx="4" transform="rotate(-25 60 40)" fill="#fde68a" stroke="#1e1b24" stroke-width="2.5"/>
+        <line x1="28" y1="48" x2="38" y2="58" stroke="#1e1b24" stroke-width="2.5"/>
+        <line x1="36" y1="46" x2="28" y2="54" stroke="#1e1b24" stroke-width="2.5"/>
+      </svg>`,
+
+      // Pink Tulips Bouquet
+      tulips: `<svg viewBox="0 0 100 100">
+        <path d="M50 88 L50 48 M36 86 L44 52 M64 86 L56 52" stroke="#15803d" stroke-width="4" stroke-linecap="round"/>
+        <path d="M38 48 C38 30 62 30 62 48 C62 54 38 54 38 48 Z" fill="#ff4d79" stroke="#1e1b24" stroke-width="3"/>
+        <path d="M22 54 C22 38 44 38 44 54 Z" fill="#ff85a1" stroke="#1e1b24" stroke-width="2.8"/>
+        <path d="M56 54 C56 38 78 38 78 54 Z" fill="#ff85a1" stroke="#1e1b24" stroke-width="2.8"/>
+        <path d="M42 74 L58 74" stroke="#e11d48" stroke-width="5" stroke-linecap="round"/>
+      </svg>`,
+
+      // Retro Vinyl Record with Heart Center
+      vinyl: `<svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="38" fill="#18181b" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="50" cy="50" r="28" fill="none" stroke="#3f3f46" stroke-width="1.5" stroke-dasharray="8 6"/>
+        <circle cx="50" cy="50" r="14" fill="#fb7185" stroke="#1e1b24" stroke-width="2.5"/>
+        <circle cx="50" cy="50" r="4" fill="#fff"/>
+      </svg>`,
+
+      // Wooden Mariachi Character (Manolo from El Libro de la Vida!)
+      mariachi: `<svg viewBox="0 0 100 100">
+        <ellipse cx="50" cy="26" rx="36" ry="10" fill="#1e1b24" stroke="#fbbf24" stroke-width="2.5"/>
+        <path d="M34 26 Q50 8 66 26 Z" fill="#1e1b24" stroke="#fbbf24" stroke-width="2.5"/>
+        <circle cx="50" cy="44" r="14" fill="#e6b88a" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="45" cy="43" r="2.2" fill="#1e1b24"/>
+        <circle cx="55" cy="43" r="2.2" fill="#1e1b24"/>
+        <path d="M45 50 Q50 54 55 50" stroke="#1e1b24" stroke-width="2.2" fill="none"/>
+        <path d="M34 86 L40 58 L60 58 L66 86 Z" fill="#be123c" stroke="#1e1b24" stroke-width="3"/>
+        <path d="M44 58 L50 68 L56 58" fill="#fde047"/>
+      </svg>`,
+
+      // Planet Earth with Orbiting Heart
+      earth: `<svg viewBox="0 0 100 100">
+        <circle cx="50" cy="52" r="34" fill="#38bdf8" stroke="#1e1b24" stroke-width="3.5"/>
+        <path d="M32 36 Q46 32 48 46 Q42 58 30 54 Z" fill="#4ade80" stroke="#1e1b24" stroke-width="2"/>
+        <path d="M58 44 Q72 48 68 68 Q56 72 54 58 Z" fill="#4ade80" stroke="#1e1b24" stroke-width="2"/>
+        <path d="M74 26 C74 26 64 18 64 12 C64 8 68 6 72 10 C74 12 74 14 74 14 C74 14 75 12 77 10 C81 6 85 8 85 12 C85 18 74 26 74 26 Z" fill="#f43f5e" stroke="#1e1b24" stroke-width="2.2"/>
+      </svg>`,
+
+      // Cute White Kitty with Flower
+      cuteCat: `<svg viewBox="0 0 100 100">
+        <path d="M26 42 L22 18 L42 32 Z" fill="#ffffff" stroke="#1e1b24" stroke-width="3.2"/>
+        <path d="M74 42 L78 18 L58 32 Z" fill="#ffffff" stroke="#1e1b24" stroke-width="3.2"/>
+        <ellipse cx="50" cy="56" rx="30" ry="26" fill="#ffffff" stroke="#1e1b24" stroke-width="3.5"/>
+        <circle cx="39" cy="54" r="3.5" fill="#1e1b24"/>
+        <circle cx="61" cy="54" r="3.5" fill="#1e1b24"/>
+        <polygon points="47,60 53,60 50,64" fill="#ff8fab"/>
+        <line x1="14" y1="54" x2="26" y2="56" stroke="#1e1b24" stroke-width="2.5"/>
+        <line x1="14" y1="62" x2="26" y2="61" stroke="#1e1b24" stroke-width="2.5"/>
+        <line x1="86" y1="54" x2="74" y2="56" stroke="#1e1b24" stroke-width="2.5"/>
+        <line x1="86" y1="62" x2="74" y2="61" stroke="#1e1b24" stroke-width="2.5"/>
+      </svg>`,
+
+      // Romantic Couple Silhouette
+      coupleSilhouette: `<svg viewBox="0 0 100 100">
+        <circle cx="50" cy="52" r="36" fill="#fed7aa" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="41" cy="44" r="9" fill="#291711"/>
+        <circle cx="59" cy="46" r="8.5" fill="#291711"/>
+        <path d="M28 78 C28 60 48 60 50 78 Z" fill="#291711"/>
+        <path d="M48 78 C50 62 72 62 72 78 Z" fill="#be123c"/>
+        <path d="M50 30 C50 30 42 24 42 19 C42 15 46 14 49 17 C50 18 50 20 50 20 C50 20 51 18 52 17 C55 14 59 15 59 19 C59 24 50 30 50 30 Z" fill="#e11d48"/>
+      </svg>`,
+
+      // Flork Thinking / Dreaming
+      florkThink: `<svg viewBox="0 0 100 100">
+        <path d="M26 90 C24 52 28 24 52 24 C74 24 78 52 76 90 Z" fill="#ffffff" stroke="#1e1b24" stroke-width="3.5"/>
+        <circle cx="44" cy="42" r="3.2" fill="#1e1b24"/>
+        <circle cx="62" cy="42" r="3.2" fill="#1e1b24"/>
+        <path d="M46 54 Q54 52 60 55" stroke="#1e1b24" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M34 76 Q46 62 52 56" stroke="#1e1b24" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      </svg>`,
+
+      // Sleeping Crescent Moon
+      sleepingMoon: `<svg viewBox="0 0 100 100">
+        <path d="M64 16 C36 18 20 44 28 68 C36 88 62 92 78 78 C56 80 44 64 46 44 C48 28 56 20 64 16 Z" fill="#fde047" stroke="#1e1b24" stroke-width="3.5" stroke-linejoin="round"/>
+        <path d="M38 48 Q42 52 46 48" stroke="#1e1b24" stroke-width="2.5" fill="none"/>
+      </svg>`,
+
+      // Praying / Grateful Stickman with Sparkles (Page 24 "RUEGO A DIOS" exact match!)
+      stickmanPray: `<svg viewBox="0 0 100 100">
+        <circle cx="50" cy="34" r="15" fill="#ffffff" stroke="#1e1b24" stroke-width="3"/>
+        <path d="M43 32 Q45 28 47 32" stroke="#1e1b24" stroke-width="2.5" fill="none"/>
+        <path d="M53 32 Q55 28 57 32" stroke="#1e1b24" stroke-width="2.5" fill="none"/>
+        <path d="M43 39 Q50 45 57 39" stroke="#1e1b24" stroke-width="2.5" fill="none"/>
+        <line x1="50" y1="49" x2="50" y2="82" stroke="#1e1b24" stroke-width="3.2"/>
+        <path d="M32 62 L50 54 L68 62" stroke="#1e1b24" stroke-width="3" fill="none"/>
+        <text x="16" y="26" font-size="18">✨</text>
+        <text x="72" y="26" font-size="18">✨</text>
+      </svg>`,
+
+      // Treble Clef & Music Note (Page 25 "TENERTE A MI LADO")
+      trebleClef: `<svg viewBox="0 0 100 100">
+        <path d="M52 84 C42 84 38 74 44 68 C52 60 66 66 64 78 C62 88 44 90 36 80 C26 68 36 48 54 36 C64 28 62 12 52 12 C44 12 42 26 48 42 L54 88" stroke="#1e1b24" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </svg>`,
+
+      // Vintage Camera
+      vintageCamera: `<svg viewBox="0 0 100 100">
+        <rect x="16" y="30" width="68" height="48" rx="8" fill="#f8fafc" stroke="#1e1b24" stroke-width="3.5"/>
+        <rect x="28" y="20" width="22" height="10" rx="3" fill="#fb7185" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="52" cy="54" r="15" fill="#38bdf8" stroke="#1e1b24" stroke-width="3.5"/>
+        <circle cx="52" cy="54" r="6" fill="#1e1b24"/>
+        <circle cx="72" cy="40" r="4" fill="#fde047"/>
+      </svg>`,
+
+      // Cute Kitty Floating with Heart Balloons (Page 27 "Y SI NO ESTÁS AQUÍ")
+      catBalloons: `<svg viewBox="0 0 100 100">
+        <line x1="36" y1="36" x2="48" y2="62" stroke="#1e1b24" stroke-width="2.2"/>
+        <line x1="64" y1="36" x2="52" y2="62" stroke="#1e1b24" stroke-width="2.2"/>
+        <circle cx="34" cy="24" r="13" fill="#ff7eb6" stroke="#1e1b24" stroke-width="2.8"/>
+        <circle cx="66" cy="24" r="13" fill="#fde047" stroke="#1e1b24" stroke-width="2.8"/>
+        <ellipse cx="50" cy="72" rx="16" ry="13" fill="#ffffff" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="45" cy="70" r="2.2" fill="#1e1b24"/>
+        <circle cx="55" cy="70" r="2.2" fill="#1e1b24"/>
+      </svg>`,
+
+      // Determined Frog / Cat Champion (Page 30 "PELEARÉ HASTA EL FINAL")
+      determinedHero: `<svg viewBox="0 0 100 100">
+        <ellipse cx="50" cy="60" rx="30" ry="24" fill="#4ade80" stroke="#1e1b24" stroke-width="3.5"/>
+        <circle cx="36" cy="38" r="10" fill="#4ade80" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="64" cy="38" r="10" fill="#4ade80" stroke="#1e1b24" stroke-width="3"/>
+        <circle cx="36" cy="38" r="4" fill="#1e1b24"/>
+        <circle cx="64" cy="38" r="4" fill="#1e1b24"/>
+        <path d="M22 48 L78 48" stroke="#e11d48" stroke-width="6" stroke-linecap="round"/>
+        <path d="M38 66 Q50 60 62 66" stroke="#1e1b24" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      </svg>`
+    };
+
+    // ============================================================================
+    // 2. COMPLETE 30-PAGE SCRAPBOOK DATASET (`pagesData`) + MEANINGS
+    // ============================================================================
+    const pagesData = [
       {
-        time: 0.0,
-        chapter: "🎸 Preludio Acústico",
-        lyric: "🎸 Arpegio suave de guitarra... cada cuerda empieza a latir por ti ✨",
-        meaning: "Antes de la primera palabra, estas notas abren las puertas de mi corazón para dedicarte todo lo que siento."
+        page: 0,
+        isCover: true,
+        title: "Portada • Para Ti",
+        meaning: "Un librito hecho a mano, recorte por recorte, para dedicarte cada segundo de 'Te Amo y Más'."
       },
       {
-        time: 8.6,
-        chapter: "🌹 Estrofa I • Amor Inimaginable",
-        lyric: "« Te amo y más de lo que puedes imaginar... »",
-        meaning: "Incluso cuando imaginas cuánto te quiero, mi corazón guarda todavía un universo entero más por entregarte."
+        page: 1,
+        lines: ["TE AMO", "Y MÁS"],
+        stickers: [
+          { type: "piggy", bottom: "6px", left: "16%", size: "78px", rot: "-6deg" },
+          { type: "hearts", top: "10px", right: "12%", size: "62px", rot: "10deg" }
+        ],
+        meaning: "Porque un 'te amo' normal se queda corto cuando se trata de lo que siento por ti."
       },
       {
-        time: 14.5,
-        chapter: "🌹 Estrofa I • Amor Único",
-        lyric: "« Te amo además, como nunca nadie jamás lo hará. »",
-        meaning: "Un amor irrepetible, con una ternura y admiración que nacen únicamente porque eres tú."
+        page: 2,
+        lines: ["DE LO", "QUE", "PUEDES"],
+        stickers: [
+          { type: "retroFrame", top: "14px", right: "10%", size: "70px", rot: "8deg" },
+          { type: "stars", bottom: "12px", left: "10%", size: "56px", rot: "-12deg" }
+        ],
+        meaning: "Incluso más allá de lo que tu mente alcance a imaginar en tus sueños más bonitos."
       },
       {
-        time: 22.2,
-        chapter: "❤️ Estrofa I • Entrega Total",
-        lyric: "« En esta canción... va mi corazón, »",
-        meaning: "En cada acorde de esta serenata te entrego mis latidos, mi verdad y mis ganas de hacerte feliz."
+        page: 3,
+        lines: ["IMAGINAR"],
+        stickers: [
+          { type: "lightbulb", bottom: "12px", left: "18%", size: "72px", rot: "-8deg" },
+          { type: "sacredHeart", bottom: "10px", right: "18%", size: "74px", rot: "7deg" }
+        ],
+        meaning: "Mi corazón guarda un universo entero de cariño que crece cada vez que te pienso."
       },
       {
-        time: 29.2,
-        chapter: "❤️ Estrofa I • Más Que Amor",
-        lyric: "« Amor, más que amor es el nuestro y te lo vengo a dar. »",
-        meaning: "Supera cualquier definición común: es complicidad, hogar, paz y destino compartidos."
+        page: 4,
+        lines: ["TE AMO", "ADEMÁS"],
+        stickers: [
+          { type: "bearBalloon", top: "10px", left: "10%", size: "76px", rot: "-5deg" },
+          { type: "hearts", bottom: "8px", right: "38%", size: "54px", rot: "6deg" }
+        ],
+        meaning: "Amarte además con ternura, con paciencia, con admiración y con alegría."
       },
       {
-        time: 37.2,
-        chapter: "✨ Estrofa II • Tu Mirada",
-        lyric: "« Te miro y más, y más y más te quiero mirar... »",
-        meaning: "Mirarte nunca cansa; cada vez que veo tus ojos encuentro mil razones nuevas para quedarme a tu lado."
+        page: 5,
+        lines: ["COMO", "NUNCA"],
+        stickers: [
+          { type: "guitar", top: "10px", right: "12%", size: "68px", rot: "14deg" },
+          { type: "florkSmile", bottom: "6px", left: "24%", size: "68px", rot: "-6deg" }
+        ],
+        meaning: "De una forma única e irrepetible que solo tú lograste despertar en mí."
       },
       {
-        time: 45.0,
-        chapter: "✨ Estrofa II • Transparencia",
-        lyric: "« Te amo y sabrás: puro sentimiento y no hay nada más. »",
-        meaning: "Sin máscaras ni condiciones: un sentimiento limpio, transparente y verdadero desde el fondo del alma."
+        page: 6,
+        lines: ["NADIE", "JAMÁS"],
+        stickers: [
+          { type: "guitar", bottom: "10px", left: "8%", size: "66px", rot: "-15deg" },
+          { type: "patchHeart", top: "10px", right: "10%", size: "64px", rot: "9deg" }
+        ],
+        meaning: "Porque nadie en este mundo te mirará ni te querrá con la devoción con que yo lo hago."
       },
       {
-        time: 52.8,
-        chapter: "🌙 Pre-Coro • Conexión de Almas",
-        lyric: "« Y sueño llegar a tu alma tocar... »",
-        meaning: "Mi mayor anhelo es abrazar tu esencia, tus sueños y tu paz con el cuidado de quien protege su mayor tesoro."
+        page: 7,
+        lines: ["LO", "HARÁ"],
+        stickers: [
+          { type: "tulips", top: "10px", right: "14%", size: "68px", rot: "8deg" },
+          { type: "piggy", bottom: "6px", left: "32%", size: "68px", rot: "-4deg" }
+        ],
+        meaning: "Un sello de exclusividad del corazón: mi amor lleva tu nombre."
       },
       {
-        time: 56.8,
-        chapter: "🌙 Pre-Coro • Nuestra Promesa",
-        lyric: "« Amor, más que amor es el nuestro y te lo vengo a dar. »",
-        meaning: "Un sentimiento que crece cada día y se entrega con las manos abiertas."
+        page: 8,
+        lines: ["EN ESTA", "CANCIÓN"],
+        stickers: [
+          { type: "vinyl", top: "12px", left: "8%", size: "64px", rot: "-12deg" },
+          { type: "mariachi", bottom: "6px", left: "38%", size: "72px", rot: "4deg" }
+        ],
+        meaning: "Cada acorde de guitarra de esta melodía es un puente directo entre mi alma y la tuya."
       },
       {
-        time: 63.8,
-        chapter: "🙏 Coro • Mi Oración al Cielo",
-        lyric: "« Ruego a Dios tenerte a mi lado, y entonces poderte abrazar... »",
-        meaning: "Eres mi gratitud diaria al cielo y ese abrazo donde todo el ruido del mundo se convierte en paz."
+        page: 9,
+        lines: ["VA MI", "CORAZÓN"],
+        stickers: [
+          { type: "sacredHeart", top: "8px", right: "12%", size: "70px", rot: "10deg" },
+          { type: "bearBalloon", bottom: "6px", left: "18%", size: "68px", rot: "-6deg" }
+        ],
+        meaning: "Aquí te entrego mi corazón sin miedos ni reservas, puesto en tus manos."
       },
       {
-        time: 77.0,
-        chapter: "🔥 Coro • Lealtad Hasta el Final",
-        lyric: "« Si no estás aquí algo falta... yo por ti pelearé hasta el final. »",
-        meaning: "Tu presencia completa mis días, y esta es mi promesa inquebrantable: por ti y por nosotros lucharé siempre."
+        page: 10,
+        lines: ["AMOR MÁS", "QUE AMOR"],
+        stickers: [
+          { type: "earth", bottom: "8px", left: "26%", size: "66px", rot: "-8deg" },
+          { type: "mariachi", top: "8px", left: "8%", size: "66px", rot: "6deg" }
+        ],
+        meaning: "Cuando el cariño supera la palabra 'amor' y se vuelve hogar, paz y destino."
       },
       {
-        time: 90.8,
-        chapter: "🎸 Solo de Guitarra • El Habla del Alma",
-        lyric: "🎶 Solo de guitarra... donde hablan los suspiros que las palabras no alcanzan a decir 💛",
-        meaning: "Cada nota de este solo de guitarra es un pensamiento bonito dedicado a ti bajo las estrellas."
+        page: 11,
+        lines: ["ES EL", "NUESTRO"],
+        stickers: [
+          { type: "cuteCat", top: "8px", right: "10%", size: "68px", rot: "8deg" },
+          { type: "guitar", bottom: "6px", left: "14%", size: "64px", rot: "-10deg" }
+        ],
+        meaning: "Algo que construimos los dos, con nuestra propia magia y complicidad."
       },
       {
-        time: 108.0,
-        chapter: "💫 Puente • Tocar tu Alma",
-        lyric: "« Y sueño llegar a tu alma tocar... »",
-        meaning: "Conectar contigo más allá de todo, ahí donde habitan tus sueños más profundos."
+        page: 12,
+        lines: ["Y TE LO", "VENGO A DAR"],
+        stickers: [
+          { type: "coupleSilhouette", bottom: "6px", left: "22%", size: "70px", rot: "-5deg" },
+          { type: "tulips", bottom: "8px", right: "16%", size: "64px", rot: "9deg" }
+        ],
+        meaning: "Venir a entregarte lo mejor de mí hoy y todos los días."
       },
       {
-        time: 115.2,
-        chapter: "💫 Puente • Entrega",
-        lyric: "« Amor, más que amor es el nuestro y te lo vengo a dar... »",
-        meaning: "La calma dulce antes de gritarle al mundo entero cuánto te amo."
+        page: 13,
+        lines: ["TE MIRO", "Y MÁS"],
+        stickers: [
+          { type: "piggy", top: "8px", left: "40%", size: "72px", rot: "4deg" },
+          { type: "hearts", bottom: "6px", left: "24%", size: "58px", rot: "-8deg" }
+        ],
+        meaning: "Mirarte es mi lugar favorito; tus ojos tienen esa luz que nunca cansa."
       },
       {
-        time: 123.2,
-        chapter: "🌟 Clímax • El Grito del Corazón",
-        lyric: "« ¡TE AMO Y MÁS! ✨❤️ »",
-        meaning: "El momento más alto de la canción: un 'te amo' cantado con toda la fuerza del pecho."
+        page: 14,
+        lines: ["Y MÁS", "Y MÁS"],
+        stickers: [
+          { type: "florkThink", bottom: "4px", left: "34%", size: "72px", rot: "-3deg" },
+          { type: "stars", top: "10px", right: "12%", size: "56px", rot: "12deg" }
+        ],
+        meaning: "Cada vez que te miro descubro un detalle nuevo que me enamora más."
       },
       {
-        time: 130.5,
-        chapter: "🌟 Clímax • Amor Inigualable",
-        lyric: "« Te amo y sabrás que nadie como yo te amará... »",
-        meaning: "Nadie te mirará ni te cuidará con la devoción y ternura con la que yo te quiero."
+        page: 15,
+        lines: ["TE QUIERO", "MIRAR"],
+        stickers: [
+          { type: "piggy", bottom: "6px", left: "12%", size: "72px", rot: "-6deg" },
+          { type: "mariachi", bottom: "6px", right: "14%", size: "72px", rot: "7deg" }
+        ],
+        meaning: "Quedarme contemplando tu sonrisa como si el reloj se detuviera."
       },
       {
-        time: 138.0,
-        chapter: "🌟 Clímax • Mi Mejor Versión",
-        lyric: "« En esta canción yo veo quién soy... »",
-        meaning: "Gracias a ti descubrí mi mejor versión; amarte ilumina lo más noble que existe en mí."
+        page: 16,
+        lines: ["TE AMO", "Y SABRÁS"],
+        stickers: [
+          { type: "stars", top: "8px", right: "14%", size: "58px", rot: "10deg" },
+          { type: "coupleSilhouette", bottom: "6px", right: "18%", size: "68px", rot: "-6deg" }
+        ],
+        meaning: "Con hechos, con detalles y con presencia sabrás siempre cuánto vales para mí."
       },
       {
-        time: 145.0,
-        chapter: "♾️ Final • El Mío, El Tuyo y El Nuestro",
-        lyric: "« Amor más que amor es el mío y lo siento, amor más que amor es el tuyo y presiento... »",
-        meaning: "Dos corazones latiendo en la misma sintonía: lo que siento yo y la luz hermosa que emana de ti."
+        page: 17,
+        lines: ["PURO", "SENTIMIENTO"],
+        stickers: [
+          { type: "coupleSilhouette", top: "8px", left: "44%", size: "66px", rot: "5deg" },
+          { type: "hearts", bottom: "8px", right: "12%", size: "58px", rot: "-9deg" }
+        ],
+        meaning: "Un sentimiento limpio, transparente y sincero desde la raíz del alma."
       },
       {
-        time: 151.3,
-        chapter: "♾️ Final • Nuestro Destino",
-        lyric: "« Amor, más que amor será el nuestro... si tú me lo das ❤️✨ »",
-        meaning: "El cierre perfecto: construir juntos una historia inolvidable tomada de tu mano."
+        page: 18,
+        lines: ["Y NO HAY", "NADA MÁS"],
+        stickers: [
+          { type: "vinyl", bottom: "8px", left: "12%", size: "62px", rot: "-12deg" },
+          { type: "sacredHeart", bottom: "6px", right: "24%", size: "68px", rot: "8deg" }
+        ],
+        meaning: "Sin dobleces ni condiciones: solo tú y las ganas inmensas de verte feliz."
+      },
+      {
+        page: 19,
+        lines: ["Y MI SUEÑO", "LLEGAR"],
+        stickers: [
+          { type: "sleepingMoon", bottom: "8px", left: "34%", size: "66px", rot: "-6deg" },
+          { type: "vinyl", bottom: "10px", left: "6%", size: "56px", rot: "10deg" }
+        ],
+        meaning: "Mi meta más bonita es caminar hacia ti y alcanzar cada sueño a tu lado."
+      },
+      {
+        page: 20,
+        lines: ["A TU ALMA", "TOCAR"],
+        stickers: [
+          { type: "piggy", bottom: "6px", left: "10%", size: "68px", rot: "-6deg" },
+          { type: "sacredHeart", bottom: "6px", left: "36%", size: "68px", rot: "4deg" }
+        ],
+        meaning: "Abrazar tu esencia, tu paz y tus pensamientos más profundos con ternura."
+      },
+      {
+        page: 21,
+        lines: ["AMOR MÁS", "QUE AMOR"],
+        stickers: [
+          { type: "earth", bottom: "6px", left: "32%", size: "64px", rot: "-6deg" },
+          { type: "hearts", bottom: "8px", right: "22%", size: "58px", rot: "9deg" }
+        ],
+        meaning: "Reafirmar que lo que nos une es más grande que cualquier distancia o dificultad."
+      },
+      {
+        page: 22,
+        lines: ["ES EL", "NUESTRO"],
+        stickers: [
+          { type: "cuteCat", top: "8px", right: "10%", size: "68px", rot: "7deg" },
+          { type: "tulips", bottom: "6px", left: "14%", size: "64px", rot: "-8deg" }
+        ],
+        meaning: "Nuestra historia, nuestro refugio y nuestra canción."
+      },
+      {
+        page: 23,
+        lines: ["Y TE LO", "VENGO A DAR"],
+        stickers: [
+          { type: "coupleSilhouette", bottom: "6px", left: "22%", size: "68px", rot: "-4deg" },
+          { type: "stars", bottom: "8px", right: "18%", size: "58px", rot: "12deg" }
+        ],
+        meaning: "Entregarte mi cariño renovado en cada amanecer."
+      },
+      {
+        page: 24,
+        lines: ["RUEGO A", "DIOS"],
+        stickers: [
+          { type: "stickmanPray", bottom: "6px", right: "10%", size: "82px", rot: "3deg" },
+          { type: "hearts", top: "8px", right: "12%", size: "58px", rot: "-8deg" }
+        ],
+        meaning: "Porque cuando alguien es tan especial, le pides al cielo que la cuide y la mantenga cerca."
+      },
+      {
+        page: 25,
+        lines: ["TENERTE", "A MI LADO"],
+        stickers: [
+          { type: "trebleClef", bottom: "6px", left: "44%", size: "68px", rot: "4deg" },
+          { type: "sacredHeart", bottom: "8px", left: "14%", size: "62px", rot: "-8deg" },
+          { type: "mariachi", bottom: "8px", right: "10%", size: "64px", rot: "8deg" }
+        ],
+        meaning: "Tenerte a mi lado convierte cualquier día normal en un día inolvidable."
+      },
+      {
+        page: 26,
+        lines: ["Y ENTONCES", "PODERTE", "ABRAZAR"],
+        stickers: [
+          { type: "vintageCamera", bottom: "10px", left: "8%", size: "64px", rot: "-10deg" },
+          { type: "stars", top: "8px", right: "8%", size: "56px", rot: "12deg" }
+        ],
+        meaning: "Ese abrazo donde todo encaja y donde el corazón siente que llegó a casa."
+      },
+      {
+        page: 27,
+        lines: ["Y SI NO", "ESTÁS", "AQUÍ"],
+        stickers: [
+          { type: "catBalloons", top: "8px", right: "8%", size: "78px", rot: "6deg" }
+        ],
+        meaning: "Cuando no estás cerca, cada rincón te extraña y cuenta los minutos para verte."
+      },
+      {
+        page: 28,
+        lines: ["ALGO", "FALTA"],
+        stickers: [
+          { type: "vinyl", top: "8px", right: "24%", size: "62px", rot: "-8deg" },
+          { type: "mariachi", bottom: "8px", left: "18%", size: "66px", rot: "-6deg" }
+        ],
+        meaning: "Porque tu risa y tu luz son la pieza que hace brillar mis días."
+      },
+      {
+        page: 29,
+        lines: ["YO POR", "TI"],
+        stickers: [
+          { type: "piggy", bottom: "6px", right: "14%", size: "72px", rot: "6deg" },
+          { type: "coupleSilhouette", bottom: "6px", left: "16%", size: "70px", rot: "-6deg" }
+        ],
+        meaning: "Por ti, por tu sonrisa y por todo lo que significas en mi vida."
+      },
+      {
+        page: 30,
+        lines: ["PELEARÉ", "HASTA EL", "FINAL"],
+        stickers: [
+          { type: "guitar", top: "8px", left: "8%", size: "68px", rot: "-14deg" },
+          { type: "determinedHero", bottom: "4px", right: "8%", size: "82px", rot: "4deg" },
+          { type: "sacredHeart", top: "8px", right: "24%", size: "60px", rot: "8deg" }
+        ],
+        meaning: "Mi promesa final e inquebrantable: elegirte, cuidarte y pelear por nosotros hasta el final. ¡Te amo y más! 💓"
       }
     ];
 
-    function formatSeconds(sec) {
-      const s = Math.max(0, Math.floor(sec));
-      const m = Math.floor(s / 60);
-      const r = s % 60;
-      return m + ':' + (r < 10 ? '0' : '') + r;
+    // ============================================================================
+    // 3. EXACT FRAME-ACCURATE SYNCHRONIZATION TIMESTAMPS (`syncTimestamps`)
+    // ============================================================================
+    const syncTimestamps = [
+      { page: 0,  time: 0.0 },   // Portada
+      { page: 1,  time: 3.2 },   // TE AMO Y MÁS
+      { page: 2,  time: 11.6 },  // DE LO QUE PUEDES
+      { page: 3,  time: 13.8 },  // IMAGINAR
+      { page: 4,  time: 15.8 },  // TE AMO ADEMÁS
+      { page: 5,  time: 18.8 },  // COMO NUNCA
+      { page: 6,  time: 20.6 },  // NADIE JAMÁS
+      { page: 7,  time: 22.0 },  // LO HARÁ
+      { page: 8,  time: 23.8 },  // EN ESTA CANCIÓN
+      { page: 9,  time: 25.8 },  // VA MI CORAZÓN
+      { page: 10, time: 28.8 },  // AMOR MÁS QUE AMOR
+      { page: 11, time: 30.8 },  // ES EL NUESTRO
+      { page: 12, time: 32.8 },  // Y TE LO VENGO A DAR
+      { page: 13, time: 36.2 },  // TE MIRO Y MÁS
+      { page: 14, time: 39.8 },  // Y MÁS Y MÁS
+      { page: 15, time: 41.8 },  // TE QUIERO MIRAR
+      { page: 16, time: 43.8 },  // TE AMO Y SABRÁS
+      { page: 17, time: 46.8 },  // PURO SENTIMIENTO
+      { page: 18, time: 48.8 },  // Y NO HAY NADA MÁS
+      { page: 19, time: 50.8 },  // Y MI SUEÑO LLEGAR
+      { page: 20, time: 53.8 },  // A TU ALMA TOCAR
+      { page: 21, time: 56.8 },  // AMOR MÁS QUE AMOR
+      { page: 22, time: 58.8 },  // ES EL NUESTRO
+      { page: 23, time: 60.8 },  // Y TE LO VENGO A DAR
+      { page: 24, time: 63.8 },  // RUEGO A DIOS
+      { page: 25, time: 66.8 },  // TENERTE A MI LADO
+      { page: 26, time: 70.8 },  // Y ENTONCES PODERTE ABRAZAR
+      { page: 27, time: 77.8 },  // Y SI NO ESTÁS AQUÍ
+      { page: 28, time: 81.8 },  // ALGO FALTA
+      { page: 29, time: 84.6 },  // YO POR TI
+      { page: 30, time: 86.0 }   // PELEARÉ HASTA EL FINAL
+    ];
+
+    // ============================================================================
+    // 4. RANSOM-NOTE CUTOUT TYPOGRAPHY GENERATOR
+    // ============================================================================
+    const FONT_CLASSES = ['f-alfa', 'f-marker', 'f-abril', 'f-elite', 'f-fredoka', 'f-bungee', 'f-playfair', 'f-rubik'];
+    const COLOR_CLASSES = ['c-pink', 'c-yellow', 'c-sky', 'c-orange', 'c-lime', 'c-purple', 'c-red', 'c-ink', 'c-paper', 'c-mint'];
+
+    function buildRansomHTML(lines, pageSeed) {
+      let charCounter = 0;
+      return `<div class="ransom-lines-wrap">` + lines.map((line, lineIdx) => {
+        const words = line.trim().split(/\s+/);
+        const wordsHTML = words.map((word, wIdx) => {
+          // Decide deterministically whether this word is rendered as individual letter cutouts or a magazine word strip
+          const useStrip = (word.length >= 6 && ((pageSeed + lineIdx + wIdx) % 3 === 0));
+          if (useStrip) {
+            const fCls = FONT_CLASSES[(pageSeed * 3 + lineIdx + wIdx) % FONT_CLASSES.length];
+            const cCls = COLOR_CLASSES[(pageSeed * 5 + lineIdx * 2 + wIdx) % COLOR_CLASSES.length];
+            const rot = (((pageSeed + wIdx * 7) % 7) - 3) * 0.9;
+            const delay = (charCounter * 0.03).toFixed(2);
+            charCounter += 2;
+            return `<span class="cutout-strip ${fCls} ${cCls}" style="--rot:${rot}deg; --delay:${delay}s;">${word}</span>`;
+          }
+
+          const charsHTML = Array.from(word).map((ch, cIdx) => {
+            const seed = pageSeed * 11 + lineIdx * 7 + wIdx * 5 + cIdx * 3;
+            const fCls = FONT_CLASSES[seed % FONT_CLASSES.length];
+            const cCls = COLOR_CLASSES[(seed * 3) % COLOR_CLASSES.length];
+            const rot = ((seed % 9) - 4) * 0.95;
+            const dy = ((seed % 5) - 2) * 1.2;
+            const delay = (charCounter * 0.028).toFixed(2);
+            charCounter++;
+            return `<span class="cutout-char ${fCls} ${cCls}" style="--rot:${rot}deg; --dy:${dy}px; --delay:${delay}s;">${ch}</span>`;
+          }).join('');
+
+          return `<span class="ransom-word">${charsHTML}</span>`;
+        }).join('');
+
+        return `<div class="ransom-row">${wordsHTML}</div>`;
+      }).join('') + `</div>`;
     }
 
-    function setPlayingUI(isPlaying) {
-      if (isPlaying) {
-        playIcon.textContent = '⏸';
-        rosetteDisc.classList.add('playing');
-        guitarStage.classList.add('playing');
-        stageEq.classList.add('active');
-      } else {
-        playIcon.textContent = '▶';
-        rosetteDisc.classList.remove('playing');
-        guitarStage.classList.remove('playing');
-        stageEq.classList.remove('active');
-      }
-    }
+    // ============================================================================
+    // 5. 3D BOOK RENDERER & PAGE FLIP CONTROLLER
+    // ============================================================================
+    const bgMusic = document.getElementById('bgMusic');
+    const notebook3D = document.getElementById('notebook-3d');
+    const sheetContent = document.getElementById('sheet-content');
+    const turningLeaf = document.getElementById('turning-leaf');
+    const peekLeft = document.getElementById('peek-left');
+    const peekRight = document.getElementById('peek-right');
+    const topPageCounter = document.getElementById('top-page-counter');
+    const livePageLabel = document.getElementById('live-page-label');
+    const meaningTag = document.getElementById('meaning-tag');
+    const meaningText = document.getElementById('meaning-text');
+    const audioScrubber = document.getElementById('audio-scrubber');
+    const audioTimeLabel = document.getElementById('audio-time-label');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const autosyncToggleBtn = document.getElementById('autosync-toggle-btn');
 
-    function startSerenata() {
-      welcomeOverlay.classList.add('hidden');
-      audio.volume = 0.98;
-      audio.play().then(() => {
-        setPlayingUI(true);
-      }).catch((err) => {
-        console.warn('Autoplay blocked:', err);
-      });
-      burstMagic(window.innerWidth / 2, window.innerHeight / 2, 42);
-    }
+    let currentPage = 0;
+    let autoSyncEnabled = true;
 
-    startBtn.addEventListener('click', startSerenata);
-    portalEmblem.addEventListener('click', startSerenata);
+    function renderPage(pageIndex, direction = 'none') {
+      const clamped = Math.max(0, Math.min(pagesData.length - 1, pageIndex));
+      const data = pagesData[clamped];
 
-    playToggleBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        setPlayingUI(true);
-      } else {
-        audio.pause();
-        setPlayingUI(false);
-      }
-    });
-
-    autoFollowBtn.addEventListener('click', () => {
-      autoFollow = !autoFollow;
-      autoFollowBtn.classList.toggle('active', autoFollow);
-      autoFollowBtn.textContent = autoFollow ? '✨ Seguir letra: Activo' : '✨ Seguir letra: Pausado';
-    });
-
-    seekSlider.addEventListener('input', () => {
-      audio.currentTime = parseFloat(seekSlider.value);
-      syncLyricsToTime(audio.currentTime);
-    });
-
-    // Clicking any verse card jumps directly to that verse!
-    verseCards.forEach((card, idx) => {
-      card.addEventListener('click', (e) => {
-        const startTime = parseFloat(card.dataset.start || '0');
-        audio.currentTime = startTime;
-        if (audio.paused) {
-          audio.play().then(() => setPlayingUI(true)).catch(() => {});
-        }
-        burstMagic(e.clientX, e.clientY, 24);
-        syncLyricsToTime(startTime, true);
-      });
-    });
-
-    let lastPhraseIndex = -1;
-
-    function syncLyricsToTime(t, manualJump = false) {
-      const dur = audio.duration || 161.6;
-      seekSlider.max = dur;
-      seekSlider.value = t;
-      playerTime.textContent = `${formatSeconds(t)} / ${formatSeconds(dur)}`;
-
-      // 1. Update live phrase & meaning banner
-      let pIdx = 0;
-      for (let i = 0; i < syncedPhrases.length; i++) {
-        if (t >= syncedPhrases[i].time) {
-          pIdx = i;
-        }
+      // Trigger 3D leaf flip animation when changing pages
+      if (direction !== 'none' && clamped !== currentPage) {
+        turningLeaf.className = 'turning-leaf';
+        void turningLeaf.offsetWidth; // Force reflow
+        turningLeaf.classList.add(direction === 'next' ? 'flip-next' : 'flip-prev');
       }
 
-      if (pIdx !== lastPhraseIndex) {
-        lastPhraseIndex = pIdx;
-        const phrase = syncedPhrases[pIdx];
-        liveLyricMain.classList.add('fade-step');
-        setTimeout(() => {
-          liveChapterName.textContent = phrase.chapter;
-          liveLyricMain.textContent = phrase.lyric;
-          liveMeaningText.textContent = phrase.meaning;
-          playerLyricMini.textContent = phrase.lyric.replace(/[«»]/g, '').trim();
-          liveLyricMain.classList.remove('fade-step');
-        }, 140);
-      }
+      currentPage = clamped;
 
-      // 2. Highlight active stanza card in timeline
-      let foundCardIdx = 0;
-      for (let i = 0; i < verseCards.length; i++) {
-        const start = parseFloat(verseCards[i].dataset.start);
-        const end = parseFloat(verseCards[i].dataset.end);
-        if (t >= start && t < end) {
-          foundCardIdx = i;
-          break;
-        }
-      }
+      // Update cover vs open-notebook proportions & peeking stacks
+      if (data.isCover) {
+        notebook3D.classList.add('is-cover');
+        peekLeft.classList.add('hidden');
+        peekRight.classList.add('hidden');
+        topPageCounter.textContent = 'Portada';
+        livePageLabel.textContent = 'Portada • Para ti 💓';
+        meaningTag.textContent = '✨ Portada del Librito';
+        meaningText.textContent = data.meaning;
 
-      if (foundCardIdx !== activeCardIndex) {
-        activeCardIndex = foundCardIdx;
-        verseCards.forEach((c, idx) => {
-          c.classList.toggle('active-verse', idx === activeCardIdx);
+        sheetContent.innerHTML = `
+          <div class="hardcover-view" id="cover-click-target">
+            <div class="hardcover-spine"></div>
+            <div class="hardcover-label">
+              <div class="hardcover-label-top">Bloc • 30 Páginas</div>
+              <div class="hardcover-label-main">Para Ti 💓</div>
+            </div>
+            <div class="hardcover-tap-hint">Toca para abrir o dale Play ▶</div>
+          </div>
+        `;
+        document.getElementById('cover-click-target').addEventListener('click', () => {
+          goToPage(1, true);
         });
+      } else {
+        notebook3D.classList.remove('is-cover');
+        peekLeft.classList.toggle('hidden', clamped <= 1);
+        peekRight.classList.toggle('hidden', clamped >= pagesData.length - 1);
 
-        if (autoFollow && !manualJump && !welcomeOverlay.classList.contains('hidden') === false) {
-          const activeCard = verseCards[activeCardIdx];
-          if (activeCard && t > 6) {
-            const rect = activeCard.getBoundingClientRect();
-            const isOutOfView = rect.top < 90 || rect.bottom > window.innerHeight - 110;
-            if (isOutOfView) {
-              activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+        const lyricFlat = data.lines.join(' ');
+        topPageCounter.textContent = `Pág. ${clamped} / 30`;
+        livePageLabel.textContent = `Pág ${clamped}: « ${lyricFlat} »`;
+        meaningTag.textContent = `💓 Página ${clamped} de 30 • Significado`;
+        meaningText.textContent = data.meaning;
+
+        const ransomHTML = buildRansomHTML(data.lines, clamped);
+        const stickersHTML = (data.stickers || []).map((st, idx) => {
+          const svg = STICKERS[st.type] || STICKERS.hearts;
+          const posStyles = [
+            st.top ? `top:${st.top};` : '',
+            st.bottom ? `bottom:${st.bottom};` : '',
+            st.left ? `left:${st.left};` : '',
+            st.right ? `right:${st.right};` : '',
+            `--size:${st.size || '70px'};`,
+            `--srot:${st.rot || '0deg'};`,
+            `--sdelay:${(0.12 + idx * 0.08).toFixed(2)}s;`
+          ].join(' ');
+          return `<div class="sticker-item" style="${posStyles}" title="¡Tócame!">${svg}</div>`;
+        }).join('');
+
+        sheetContent.innerHTML = `
+          <div class="scrapbook-page-inner">
+            ${stickersHTML}
+            ${ransomHTML}
+            <span class="page-num-watermark">${clamped} / 30</span>
+          </div>
+        `;
+
+        // Interactive sticker tap bursts hearts
+        sheetContent.querySelectorAll('.sticker-item').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            spawnHeartBurst(e.clientX, e.clientY, 18);
+          });
+        });
+      }
+
+      // Highlight active card in 30-page grid modal
+      document.querySelectorAll('.grid-thumb-card').forEach((card, idx) => {
+        card.classList.toggle('active', idx === clamped);
+      });
+    }
+
+    function goToPage(targetPage, seekAudioToo = false) {
+      const clamped = Math.max(0, Math.min(pagesData.length - 1, targetPage));
+      const dir = clamped > currentPage ? 'next' : (clamped < currentPage ? 'prev' : 'none');
+      renderPage(clamped, dir);
+
+      if (seekAudioToo) {
+        const entry = syncTimestamps.find(s => s.page === clamped);
+        if (entry) {
+          bgMusic.currentTime = entry.time + 0.05;
+          if (bgMusic.paused && clamped > 0) {
+            bgMusic.play().then(() => updatePlayUI(true)).catch(() => {});
           }
         }
       }
     }
 
-    audio.addEventListener('timeupdate', () => {
-      syncLyricsToTime(audio.currentTime);
+    // ============================================================================
+    // 6. AUDIO PLAYER & AUTOMATIC SYNC ENGINE
+    // ============================================================================
+    function formatTime(sec) {
+      const s = Math.max(0, Math.floor(sec));
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return `${m}:${r < 10 ? '0' : ''}${r}`;
+    }
+
+    function updatePlayUI(playing) {
+      playIcon.textContent = playing ? '⏸' : '▶';
+    }
+
+    bgMusic.addEventListener('timeupdate', () => {
+      const t = bgMusic.currentTime;
+      const dur = bgMusic.duration || 89.8;
+      audioScrubber.max = dur;
+      audioScrubber.value = t;
+      audioTimeLabel.textContent = `${formatTime(t)} / ${formatTime(dur)}`;
+
+      if (autoSyncEnabled) {
+        let matchedPage = 0;
+        for (let i = 0; i < syncTimestamps.length; i++) {
+          if (t >= syncTimestamps[i].time) {
+            matchedPage = syncTimestamps[i].page;
+          }
+        }
+        if (matchedPage !== currentPage) {
+          const dir = matchedPage > currentPage ? 'next' : 'prev';
+          renderPage(matchedPage, dir);
+        }
+      }
     });
 
-    // Final Carta Reveal
-    const revealCartaBtn = document.getElementById('reveal-carta-btn');
-    const cartaModalCard = document.getElementById('carta-modal-card');
-
-    revealCartaBtn.addEventListener('click', (e) => {
-      cartaModalCard.classList.add('visible');
-      revealCartaBtn.innerHTML = '<span>❤️</span><span>Mi promesa para ti está abierta</span><span>✨</span>';
-      burstMagic(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2, 45);
-      setTimeout(() => {
-        cartaModalCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 260);
+    bgMusic.addEventListener('ended', () => {
+      updatePlayUI(false);
+      spawnHeartBurst(window.innerWidth / 2, window.innerHeight / 2, 36);
     });
 
-    // ================= INTERACTIVE CANVAS: STARS, GOLDEN SPARKS & ROSE PETALS =================
-    const canvas = document.getElementById('serenata-canvas');
+    audioScrubber.addEventListener('input', () => {
+      const t = parseFloat(audioScrubber.value);
+      bgMusic.currentTime = t;
+      let matchedPage = 0;
+      for (let i = 0; i < syncTimestamps.length; i++) {
+        if (t >= syncTimestamps[i].time) {
+          matchedPage = syncTimestamps[i].page;
+        }
+      }
+      if (matchedPage !== currentPage) {
+        renderPage(matchedPage, matchedPage > currentPage ? 'next' : 'prev');
+      }
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play().then(() => updatePlayUI(true)).catch(() => {});
+      } else {
+        bgMusic.pause();
+        updatePlayUI(false);
+      }
+    });
+
+    // Welcome Modal Unlock
+    const welcomeModal = document.getElementById('welcome-modal');
+    function startExperience() {
+      welcomeModal.classList.add('hidden');
+      bgMusic.volume = 0.98;
+      bgMusic.play().then(() => {
+        updatePlayUI(true);
+      }).catch(() => {});
+      spawnHeartBurst(window.innerWidth / 2, window.innerHeight / 2, 30);
+    }
+    document.getElementById('start-book-btn').addEventListener('click', startExperience);
+    document.getElementById('welcome-book-icon').addEventListener('click', startExperience);
+
+    // Navigation Buttons & Touch Swipe Support
+    document.getElementById('prev-page-btn').addEventListener('click', () => goToPage(currentPage - 1, true));
+    document.getElementById('next-page-btn').addEventListener('click', () => goToPage(currentPage + 1, true));
+    peekLeft.addEventListener('click', () => goToPage(currentPage - 1, true));
+    peekRight.addEventListener('click', () => goToPage(currentPage + 1, true));
+    document.getElementById('restart-book-btn').addEventListener('click', () => {
+      bgMusic.currentTime = 0;
+      goToPage(0, false);
+    });
+
+    autosyncToggleBtn.addEventListener('click', () => {
+      autoSyncEnabled = !autoSyncEnabled;
+      autosyncToggleBtn.classList.toggle('active', autoSyncEnabled);
+    });
+
+    // Keyboard Left/Right Arrows
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') goToPage(currentPage + 1, true);
+      if (e.key === 'ArrowLeft') goToPage(currentPage - 1, true);
+      if (e.key === ' ') {
+        e.preventDefault();
+        playPauseBtn.click();
+      }
+    });
+
+    // Touch Swipe Gesture on Notebook
+    let touchStartX = null;
+    const activeSheet = document.getElementById('active-sheet');
+    activeSheet.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    activeSheet.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 42) {
+        if (dx < 0) goToPage(currentPage + 1, true);
+        else goToPage(currentPage - 1, true);
+      }
+      touchStartX = null;
+    }, { passive: true });
+
+    // ============================================================================
+    // 7. 30-PAGE THUMBNAIL GRID MODAL
+    // ============================================================================
+    const gridModal = document.getElementById('pages-grid-modal');
+    const gridContainer = document.getElementById('pages-grid-container');
+
+    pagesData.forEach((p, idx) => {
+      const syncObj = syncTimestamps.find(s => s.page === idx);
+      const tStr = syncObj ? formatTime(syncObj.time) : '0:00';
+      const card = document.createElement('div');
+      card.className = 'grid-thumb-card' + (idx === 0 ? ' active' : '');
+      card.innerHTML = `
+        <span class="grid-thumb-num">${idx === 0 ? 'Portada' : 'Página ' + idx}</span>
+        <div class="grid-thumb-lyric">${p.isCover ? 'Para Ti 💓' : p.lines.join(' ')}</div>
+        <span class="grid-thumb-time">♫ ${tStr}</span>
+      `;
+      card.addEventListener('click', () => {
+        gridModal.classList.remove('open');
+        goToPage(idx, true);
+      });
+      gridContainer.appendChild(card);
+    });
+
+    document.getElementById('open-grid-btn').addEventListener('click', () => gridModal.classList.add('open'));
+    document.getElementById('close-grid-btn').addEventListener('click', () => gridModal.classList.remove('open'));
+
+    // ============================================================================
+    // 8. AMBIENT FLOATING HEARTS & SPARKLES CANVAS
+    // ============================================================================
+    const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
     let W = canvas.width = window.innerWidth;
     let H = canvas.height = window.innerHeight;
@@ -1670,113 +1864,76 @@
       H = canvas.height = window.innerHeight;
     });
 
-    const stars = Array.from({ length: 80 }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.6 + 0.4,
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 0.022 + 0.006
-    }));
+    const hearts = Array.from({ length: 22 }, () => createHeartParticle());
 
-    const particles = Array.from({ length: 32 }, () => createParticle());
-
-    function createParticle(x, y, burst = false) {
-      const palette = ['#fb7185', '#fde047', '#fbbf24', '#f43f5e', '#e879f9', '#fecdd3'];
-      const isHeart = Math.random() < 0.28;
+    function createHeartParticle(x, y, burst = false) {
+      const colors = ['#ff7eb6', '#fde047', '#fb7185', '#ffffff', '#c084fc'];
       return {
         x: x !== undefined ? x : Math.random() * W,
         y: y !== undefined ? y : Math.random() * H,
-        size: Math.random() * 6.5 + 4.5,
-        vx: burst ? (Math.random() - 0.5) * 6.2 : (Math.random() - 0.5) * 0.65,
-        vy: burst ? (Math.random() - 0.85) * 6.2 : Math.random() * 0.85 + 0.4,
-        angle: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.04,
-        color: palette[Math.floor(Math.random() * palette.length)],
-        alpha: Math.random() * 0.58 + 0.35,
-        isHeart,
+        size: Math.random() * 8 + 5,
+        vx: burst ? (Math.random() - 0.5) * 6 : (Math.random() - 0.5) * 0.4,
+        vy: burst ? (Math.random() - 0.8) * 6 : -(Math.random() * 0.5 + 0.25),
+        alpha: burst ? 0.95 : Math.random() * 0.35 + 0.12,
+        color: colors[Math.floor(Math.random() * colors.length)],
         burst
       };
     }
 
-    function burstMagic(x, y, count = 26) {
+    function spawnHeartBurst(x, y, count = 22) {
       for (let i = 0; i < count; i++) {
-        particles.push(createParticle(x, y, true));
-      }
-      if (particles.length > 140) {
-        particles.splice(0, particles.length - 140);
+        hearts.push(createHeartParticle(x, y, true));
       }
     }
 
-    guitarStage.addEventListener('click', (e) => {
-      burstMagic(e.clientX, e.clientY, 34);
+    document.getElementById('love-spark-btn').addEventListener('click', () => {
+      spawnHeartBurst(window.innerWidth / 2, window.innerHeight * 0.55, 28);
+    });
+    document.getElementById('burst-hearts-top-btn').addEventListener('click', () => {
+      spawnHeartBurst(window.innerWidth / 2, window.innerHeight * 0.45, 28);
     });
 
-    function drawMiniHeart(ctx, size) {
-      const s = size * 0.65;
+    function drawHeart(ctx, x, y, size, color, alpha) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.globalAlpha = Math.max(0, alpha);
+      ctx.fillStyle = color;
+      const s = size * 0.5;
       ctx.beginPath();
-      ctx.moveTo(0, s * 0.4);
-      ctx.bezierCurveTo(0, -s * 0.3, -s, -s * 0.3, -s, s * 0.2);
-      ctx.bezierCurveTo(-s, s * 0.7, 0, s * 1.1, 0, s * 1.3);
+      ctx.moveTo(0, s * 0.3);
+      ctx.bezierCurveTo(0, -s * 0.4, -s, -s * 0.4, -s, s * 0.2);
+      ctx.bezierCurveTo(-s, s * 0.7, 0, s * 1.1, 0, s * 1.4);
       ctx.bezierCurveTo(0, s * 1.1, s, s * 0.7, s, s * 0.2);
-      ctx.bezierCurveTo(s, -s * 0.3, 0, -s * 0.3, 0, s * 0.4);
+      ctx.bezierCurveTo(s, -s * 0.4, 0, -s * 0.4, 0, s * 0.3);
       ctx.fill();
+      ctx.restore();
     }
 
-    function animateSerenataCanvas() {
+    function animateAmbient() {
       ctx.clearRect(0, 0, W, H);
-
-      // Twinkling night stars
-      for (const st of stars) {
-        st.phase += st.speed;
-        const a = (Math.sin(st.phase) + 1) * 0.38 + 0.14;
-        ctx.fillStyle = `rgba(255, 248, 235, ${a})`;
-        ctx.beginPath();
-        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Floating marigold/rose petals & glowing hearts
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.angle += p.spin;
-        if (p.burst) {
-          p.vy += 0.085;
-          p.alpha -= 0.0085;
-        }
-
-        if (p.y > H + 24 || p.alpha <= 0) {
-          if (p.burst) {
-            particles.splice(i, 1);
+      for (let i = hearts.length - 1; i >= 0; i--) {
+        const h = hearts[i];
+        h.x += h.vx;
+        h.y += h.vy;
+        if (h.burst) {
+          h.vy += 0.12;
+          h.alpha -= 0.014;
+          if (h.alpha <= 0) {
+            hearts.splice(i, 1);
             continue;
-          } else {
-            p.y = -18;
-            p.x = Math.random() * W;
           }
+        } else if (h.y < -20) {
+          h.y = H + 15;
+          h.x = Math.random() * W;
         }
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        ctx.globalAlpha = Math.max(0, p.alpha);
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 9;
-        if (p.isHeart) {
-          drawMiniHeart(ctx, p.size);
-        } else {
-          ctx.beginPath();
-          ctx.ellipse(0, 0, p.size, p.size * 0.56, 0, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.restore();
+        drawHeart(ctx, h.x, h.y, h.size, h.color, h.alpha);
       }
-
-      requestAnimationFrame(animateSerenataCanvas);
+      requestAnimationFrame(animateAmbient);
     }
 
-    animateSerenataCanvas();
+    // Initialize Cover Page & Ambient Loop
+    renderPage(0);
+    animateAmbient();
   </script>
 </body>
 </html>
