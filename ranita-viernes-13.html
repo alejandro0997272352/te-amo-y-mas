@@ -618,11 +618,14 @@
       `;
     } else if (prop === 'heart') {
       propSVG = `
-        <path class="anim-heart" d="M0 -8 C-16 -24 -40 -14 -40 8 C-40 28 -14 42 0 54 C14 42 40 28 40 8 C40 -14 16 -24 0 -8 Z" transform="translate(0, 12) scale(0.75)" fill="#d65a6b" stroke="#161714" stroke-width="5.5" stroke-linejoin="round"/>
+        <path class="anim-heart" d="M0 -8 C-16 -24 -40 -14 -40 8 C-40 28 -14 42 0 54 C14 42 40 28 40 8 C40 -14 16 -24 0 -8 Z" transform="translate(0, 14) scale(0.72)" fill="#d65a6b" stroke="#161714" stroke-width="5.5" stroke-linejoin="round"/>
       `;
     } else if (prop === 'tattoo') {
       propSVG = `
-        <path d="M-32 18 C-36 12 -44 15 -44 21 C-44 26 -36 30 -32 34 C-28 30 -20 26 -20 21 C-20 15 -28 12 -32 18 Z" fill="#d65a6b" stroke="#161714" stroke-width="3"/>
+        <g transform="translate(-30, 18)">
+          <path d="M0 -4 C-4 -10 -12 -7 -12 -1 C-12 4 -4 8 0 12 C4 8 12 4 12 -1 C12 -7 4 -10 0 -4 Z" fill="#d65a6b" stroke="#161714" stroke-width="2.8"/>
+          <text x="0" y="24" text-anchor="middle" fill="#161714" font-family="Gloria Hallelujah" font-size="10">CAMELITA</text>
+        </g>
       `;
     } else if (prop === 'guitar') {
       propSVG = `
@@ -631,6 +634,16 @@
           <ellipse cx="0" cy="10" rx="26" ry="22" fill="#d69c5e"/>
           <circle cx="0" cy="6" r="8" fill="#422d1a"/>
         </g>
+      `;
+    } else if (prop === 'sax') {
+      propSVG = `
+        <g transform="translate(42, 8) rotate(-10)" stroke="#161714" stroke-width="4" stroke-linejoin="round">
+          <path d="M-8 -30 L6 -20 L10 22 Q12 36 26 30 L32 16 L42 22 Q34 48 10 44 Q-4 40 -2 18 L-2 -18 Z" fill="#e6b84c"/>
+        </g>
+      `;
+    } else if (prop === 'question') {
+      propSVG = `
+        <text x="58" y="-44" fill="#161714" font-family="Gloria Hallelujah" font-size="36" transform="rotate(14 58 -44)">?</text>
       `;
     }
 
@@ -697,7 +710,7 @@
   const ANIMATIC_SCENES = [
     {
       time: 50.00,
-      text: "Y EL VIERNES 13",
+      text: "♪ VIERNES 13...",
       bg: "bg-paper",
       fx: "none",
       pos: "pos-top",
@@ -714,48 +727,53 @@
       `
     },
     {
-      time: 54.55,
-      text: "FUE UN VIERNES 13",
+      time: 52.30,
+      text: "YO SÉ QUE TE HE DICHO MIL VECES",
       bg: "bg-paper",
       fx: "none",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
-          <g class="anim-bob">${frogCharacter({ x: 200, y: 280, scale: 1.25, variant: 'lime', eyes: 'normal', mouth: 'smile' })}</g>
-          <text x="200" y="135" text-anchor="middle" fill="#161714" font-family="Gloria Hallelujah" font-size="24">13 ♥</text>
+          <g class="anim-bob">${frogCharacter({ x: 200, y: 285, scale: 1.24, variant: 'teal', mouth: 'open' })}</g>
+          <text x="200" y="140" text-anchor="middle" fill="#161714" font-family="Gloria Hallelujah" font-size="22">x1000 ♥</text>
         </svg>
       `
     },
     {
-      time: 59.22,
-      text: "QUE ESTOY ORGULLOSO DE TI",
+      time: 54.50,
+      text: "QUE NADIE TE VA A QUERER COMO YO LO VOY A HACER",
       bg: "bg-warm",
       fx: "hearts",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
           <g class="anim-squish">
-            ${frogCharacter({ x: 152, y: 285, scale: 1.05, variant: 'teal', eyes: 'happy', mouth: 'smile' })}
-            ${frogCharacter({ x: 248, y: 292, scale: 1.05, variant: 'lime', eyes: 'happy', mouth: 'w' })}
+            ${frogCharacter({ x: 150, y: 290, scale: 1.02, variant: 'teal', eyes: 'happy', mouth: 'smile' })}
+            ${frogCharacter({ x: 250, y: 295, scale: 1.02, variant: 'lime', eyes: 'happy', mouth: 'w' })}
           </g>
         </svg>
       `
     },
     {
-      time: 64.08,
-      text: "QUE ME DAS BUENA SUERTE",
+      time: 57.20,
+      text: "QUE TÚ PONES BUENA SUERTE EN MI VIERNES 13",
       bg: "bg-paper",
       fx: "sparkles",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
-          <g class="anim-bob">${frogCharacter({ x: 190, y: 285, scale: 1.22, variant: 'lime', prop: 'clover', glow: true })}</g>
+          <g transform="translate(105, 160) rotate(-10)">
+            <rect x="-46" y="-48" width="92" height="100" rx="8" fill="#f6f5ef" stroke="#161714" stroke-width="5"/>
+            <path d="M-46 -18 L46 -18 L46 -40 Q46 -48 38 -48 L-38 -48 Q-46 -48 -46 -40 Z" fill="#d45555" stroke="#161714" stroke-width="5"/>
+            <text x="0" y="28" text-anchor="middle" fill="#161714" font-family="Gloria Hallelujah" font-size="42">13</text>
+          </g>
+          <g class="anim-bob">${frogCharacter({ x: 215, y: 290, scale: 1.18, variant: 'lime', prop: 'clover', glow: true })}</g>
         </svg>
       `
     },
     {
-      time: 69.08,
-      text: "QUE TE LLEVO EN LA PIEL",
+      time: 60.20,
+      text: "QUE TENGO TU NOMBRE TATUADO EN MI PIEL",
       bg: "bg-paper",
       fx: "none",
       pos: "pos-top",
@@ -766,8 +784,8 @@
       `
     },
     {
-      time: 73.50,
-      text: "QUE TE EXTRAÑO MUY FUERTE",
+      time: 62.70,
+      text: "QUE YA TE EXTRAÑO AUNQUE TE HAYA VISTO AYER",
       bg: "bg-rain",
       fx: "rain",
       pos: "pos-top",
@@ -778,79 +796,56 @@
       `
     },
     {
-      time: 77.67,
-      text: "QUE TE QUIERO ABRAZAR",
+      time: 65.20,
+      text: "SOSTENTE FUERTE, YO SIENTO LO MISMO QUE TÚ SIENTES",
       bg: "bg-warm",
       fx: "hearts",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
           <g class="anim-squish">
-            ${frogCharacter({ x: 162, y: 285, scale: 1.08, variant: 'teal', eyes: 'closed', mouth: 'w' })}
-            ${frogCharacter({ x: 238, y: 288, scale: 1.08, variant: 'lime', eyes: 'closed', mouth: 'w' })}
+            ${frogCharacter({ x: 160, y: 285, scale: 1.06, variant: 'teal', eyes: 'closed', mouth: 'w' })}
+            ${frogCharacter({ x: 240, y: 288, scale: 1.06, variant: 'lime', eyes: 'closed', mouth: 'w' })}
           </g>
         </svg>
       `
     },
     {
-      time: 81.81,
-      text: "QUE TE QUIERO BESAR",
-      bg: "bg-warm",
-      fx: "hearts",
-      pos: "pos-top",
-      render: () => `
-        <svg viewBox="0 0 400 500">
-          <g class="anim-bob">${frogCharacter({ x: 200, y: 275, scale: 1.32, variant: 'lime', mouth: 'kiss', eyes: 'closed' })}</g>
-        </svg>
-      `
-    },
-    {
-      time: 85.07,
-      text: "Y NO PARAR DE SONREÍR",
+      time: 68.50,
+      text: "MIRADAS QUE NO MIENTEN, SONRISAS QUE MUESTRAN DIENTES",
       bg: "bg-paper",
       fx: "sparkles",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
-          <g class="anim-jump">${frogCharacter({ x: 200, y: 280, scale: 1.24, variant: 'lime', pose: 'jump', eyes: 'happy', mouth: 'open' })}</g>
+          <g class="anim-jump">${frogCharacter({ x: 200, y: 265, scale: 1.38, variant: 'lime', pose: 'headOnly', eyes: 'stars', mouth: 'open' })}</g>
         </svg>
       `
     },
     {
-      time: 89.37,
-      text: "QUE EL TIEMPO SE PASE",
-      bg: "bg-sky",
-      fx: "none",
-      pos: "pos-bottom",
-      render: () => `
-        <svg viewBox="0 0 400 520">
-          <!-- Nubes gruesas estilo frame 14 del video -->
-          <g class="anim-cloud" stroke="#161714" stroke-width="5.5" stroke-linejoin="round">
-            <path d="M220 120 Q235 80 275 88 Q305 35 365 55 Q410 68 415 120 Z" fill="#a8c7d4"/>
-            <path d="M-15 215 Q35 160 88 188 Q125 182 150 215 Z" fill="#a8c7d4"/>
-            <path d="M210 345 Q235 305 275 315 Q310 250 380 275 Q415 290 420 345 Z" fill="#a8c7d4"/>
-          </g>
-          <g class="anim-float">${frogCharacter({ x: 185, y: 245, scale: 0.95, variant: 'lime', eyes: 'closed', mouth: 'smile' })}</g>
-        </svg>
-      `
-    },
-    {
-      time: 93.81,
-      text: "CONTIGO NOMÁS",
+      time: 71.80,
+      text: "CONTIGO TODO ES MÁS QUE SUFICIENTE",
       bg: "bg-paper",
       fx: "none",
       pos: "pos-top",
       render: () => polaroidsScene()
     },
     {
-      time: 99.13,
-      text: "Y QUE ESTE SENTIMIENTO",
+      time: 74.40,
+      text: "NO OCUPO DE ALGUIEN MÁS, SOLO A TI PRESENTE",
+      bg: "bg-crowd",
+      fx: "none",
+      pos: "pos-center",
+      render: () => crowdScene(true)
+    },
+    {
+      time: 78.50,
+      text: "Y ME LLEVAS LENTAMENTE A IMAGINAR",
       bg: "bg-night",
       fx: "stars",
       pos: "pos-bottom",
       render: () => `
         <svg viewBox="0 0 400 520">
-          <!-- Cabezas flotando en el cielo estrellado estilo frame 10 del video -->
           <g class="anim-float">
             ${frogCharacter({ x: 200, y: 205, scale: 1.32, variant: 'lime', pose: 'headOnly', mouth: 'w' })}
           </g>
@@ -861,58 +856,75 @@
       `
     },
     {
-      time: 103.91,
-      text: "NUNCA SE VAYA A ACABAR",
+      time: 83.80,
+      text: "A UNA VIDA DONDE TÚ PUEDAS ESTAR",
       bg: "bg-night",
       fx: "stars",
       pos: "pos-bottom",
       render: () => `
         <svg viewBox="0 0 400 520">
           <g class="anim-spin" style="transform-origin: 200px 255px;">
-            ${frogCharacter({ x: 145, y: 220, scale: 0.85, variant: 'teal', pose: 'headOnly', mouth: 'smile' })}
+            ${frogCharacter({ x: 145, y: 220, scale: 0.86, variant: 'teal', pose: 'headOnly', mouth: 'smile' })}
             ${frogCharacter({ x: 255, y: 290, scale: 0.92, variant: 'lime', pose: 'headOnly', mouth: 'w' })}
           </g>
         </svg>
       `
     },
     {
-      time: 109.10,
-      text: "Y PROTEGER TUS SUEÑOS",
-      bg: "bg-night",
-      fx: "stars",
+      time: 89.20,
+      text: "ME LLEVAS LENTAMENTE A IMAGINAR",
+      bg: "bg-sky",
+      fx: "none",
       pos: "pos-bottom",
       render: () => `
         <svg viewBox="0 0 400 520">
+          <g class="anim-cloud" stroke="#161714" stroke-width="5.5" stroke-linejoin="round">
+            <path d="M220 120 Q235 80 275 88 Q305 35 365 55 Q410 68 415 120 Z" fill="#a8c7d4"/>
+            <path d="M-15 215 Q35 160 88 188 Q125 182 150 215 Z" fill="#a8c7d4"/>
+            <path d="M210 345 Q235 305 275 315 Q310 250 380 275 Q415 290 420 345 Z" fill="#a8c7d4"/>
+          </g>
+          <g class="anim-float">${frogCharacter({ x: 185, y: 245, scale: 0.95, variant: 'lime', eyes: 'closed', mouth: 'smile' })}</g>
+        </svg>
+      `
+    },
+    {
+      time: 94.50,
+      text: "A UNA VIDA DONDE TE PUEDA CUIDAR",
+      bg: "bg-warm",
+      fx: "hearts",
+      pos: "pos-top",
+      render: () => `
+        <svg viewBox="0 0 400 500">
           <g class="anim-squish">
-            ${frogCharacter({ x: 155, y: 270, scale: 1.0, variant: 'teal', eyes: 'normal', mouth: 'smile' })}
-            ${frogCharacter({ x: 245, y: 280, scale: 1.0, variant: 'lime', eyes: 'closed', mouth: 'smile' })}
+            ${frogCharacter({ x: 155, y: 285, scale: 1.05, variant: 'teal', eyes: 'normal', mouth: 'smile' })}
+            ${frogCharacter({ x: 245, y: 292, scale: 1.02, variant: 'lime', eyes: 'closed', mouth: 'smile' })}
           </g>
         </svg>
       `
     },
     {
-      time: 113.86,
-      text: "NO QUIERO A NADIE MÁS",
+      time: 100.30,
+      text: "PORQUE SI NO ES CONTIGO NO ES CON NADIE MÁS",
       bg: "bg-crowd",
       fx: "none",
       pos: "pos-center",
       render: () => crowdScene(false)
     },
     {
-      time: 118.43,
-      text: "QUE SEAS TÚ",
+      time: 103.50,
+      text: "ES ALGO QUE TÚ NUNCA, NUNCA ENTENDERÁS",
       bg: "bg-paper",
-      fx: "sparkles",
-      pos: "pos-bottom",
+      fx: "none",
+      pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
-          <g class="anim-bob">${frogCharacter({ x: 200, y: 250, scale: 1.45, variant: 'lime', pose: 'headOnly', eyes: 'stars', mouth: 'w' })}</g>
+          <g class="anim-bob">${frogCharacter({ x: 200, y: 285, scale: 1.24, variant: 'lime', prop: 'question', mouth: 'w' })}</g>
         </svg>
       `
     },
     {
-      time: 123.38,
-      text: "Y AUNQUE SEA UN TERCO",
+      time: 106.50,
+      text: "CON ALGUIEN MÁS YO NO ME PUEDO CONFORMAR",
       bg: "bg-paper",
       fx: "none",
       pos: "pos-top",
@@ -923,58 +935,67 @@
       `
     },
     {
-      time: 127.71,
-      text: "SOLO QUIERO QUE SEAS TÚ",
+      time: 109.70,
+      text: "SABIENDO QUE ALGUIEN VA A TOMAR MI LUGAR",
       bg: "bg-warm",
       fx: "hearts",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
-          <g class="anim-bob">
-            ${frogCharacter({ x: 142, y: 290, scale: 0.96, variant: 'teal', eyes: 'happy' })}
-            ${frogCharacter({ x: 258, y: 290, scale: 0.96, variant: 'lime', eyes: 'happy' })}
-            <path class="anim-heart" d="M200 218 C184 198 156 208 156 234 C156 258 184 274 200 288 C216 274 244 258 244 234 C244 208 216 198 200 218 Z" fill="#d65a6b" stroke="#161714" stroke-width="5"/>
-          </g>
+          <g class="anim-bob">${frogCharacter({ x: 200, y: 285, scale: 1.24, variant: 'teal', prop: 'heart', mouth: 'pout' })}</g>
         </svg>
       `
     },
     {
-      time: 133.54,
-      text: "Y TODO LO QUE SOÑÉ",
+      time: 112.90,
+      text: "NADIE TE VERÁ COMO YO TE VOY A VER",
       bg: "bg-night",
       fx: "stars",
       pos: "pos-bottom",
       render: () => `
         <svg viewBox="0 0 400 520">
-          <g class="anim-float">${frogCharacter({ x: 200, y: 255, scale: 1.32, variant: 'lime', pose: 'headOnly', eyes: 'stars' })}</g>
+          <g class="anim-float">${frogCharacter({ x: 200, y: 245, scale: 1.42, variant: 'lime', pose: 'headOnly', eyes: 'stars' })}</g>
         </svg>
       `
     },
     {
-      time: 138.11,
-      text: "ERES TODO LO QUE BUSQUÉ",
+      time: 116.20,
+      text: "QUIERO CUMPLIR LAS COSAS QUE ACORDAMOS EN HACER",
       bg: "bg-paper",
       fx: "sparkles",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
-          <g class="anim-bob">${frogCharacter({ x: 200, y: 285, scale: 1.24, variant: 'lime', prop: 'heart', eyes: 'happy' })}</g>
+          <g transform="translate(268, 165) rotate(6)">
+            <rect x="-54" y="-58" width="108" height="122" rx="8" fill="#f6f5ef" stroke="#161714" stroke-width="5"/>
+            <path d="M-34 -26 L-24 -16 L-10 -34" fill="none" stroke="#5aa846" stroke-width="5" stroke-linecap="round"/>
+            <line x1="-2" y1="-24" x2="34" y2="-24" stroke="#161714" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-34 4 L-24 14 L-10 -4" fill="none" stroke="#5aa846" stroke-width="5" stroke-linecap="round"/>
+            <line x1="-2" y1="6" x2="34" y2="6" stroke="#161714" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-34 34 L-24 44 L-10 26" fill="none" stroke="#d65a6b" stroke-width="5" stroke-linecap="round"/>
+            <line x1="-2" y1="36" x2="34" y2="36" stroke="#161714" stroke-width="4" stroke-linecap="round"/>
+          </g>
+          <g class="anim-bob">${frogCharacter({ x: 145, y: 310, scale: 1.12, variant: 'lime', eyes: 'happy' })}</g>
         </svg>
       `
     },
     {
-      time: 142.34,
-      text: "Y DE TODOS TE ELEGÍ",
-      bg: "bg-crowd",
+      time: 119.50,
+      text: "Y SI LA VIDA ME DA A ESCOGER",
+      bg: "bg-paper",
       fx: "none",
-      pos: "pos-center",
-      render: () => crowdScene(true)
+      pos: "pos-top",
+      render: () => `
+        <svg viewBox="0 0 400 500">
+          <g class="anim-bob">${frogCharacter({ x: 200, y: 285, scale: 1.24, variant: 'lime', prop: 'heart', eyes: 'lookUp' })}</g>
+        </svg>
+      `
     },
     {
-      time: 147.20,
-      text: "QUÉ SUERTE QUE FUERA ASÍ",
-      bg: "bg-paper",
-      fx: "sparkles",
+      time: 122.00,
+      text: "TE ESCOJO A TI OTRA VEZ",
+      bg: "bg-warm",
+      fx: "hearts",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
@@ -983,27 +1004,90 @@
       `
     },
     {
-      time: 152.00,
-      text: "♪ PARA CAMELITA ♥",
+      time: 125.00,
+      text: "♪ (PARA TI, CAMELITA ♥)",
       bg: "bg-warm",
       fx: "hearts",
       pos: "pos-top",
       render: () => `
         <svg viewBox="0 0 400 500">
           <g class="anim-bob">
-            ${frogCharacter({ x: 145, y: 295, scale: 1.0, variant: 'teal', prop: 'guitar', eyes: 'happy' })}
-            ${frogCharacter({ x: 265, y: 300, scale: 0.98, variant: 'lime', eyes: 'closed', mouth: 'w' })}
+            ${frogCharacter({ x: 145, y: 295, scale: 1.0, variant: 'teal', prop: 'sax', eyes: 'happy' })}
+            ${frogCharacter({ x: 260, y: 300, scale: 0.98, variant: 'lime', prop: 'guitar', eyes: 'closed', mouth: 'w' })}
           </g>
         </svg>
       `
     },
     {
-      time: 168.50,
-      text: "FELIZ VIERNES 13, CAMELITA ♥",
+      time: 138.00,
+      text: "♪ CONTIGO SIEMPRE",
       bg: "bg-paper",
-      fx: "hearts",
+      fx: "none",
       pos: "pos-top",
       render: () => polaroidsScene()
+    },
+    {
+      time: 150.50,
+      text: "Y ME LLEVAS LENTAMENTE A IMAGINAR",
+      bg: "bg-night",
+      fx: "stars",
+      pos: "pos-bottom",
+      render: () => `
+        <svg viewBox="0 0 400 520">
+          <g class="anim-float">
+            ${frogCharacter({ x: 200, y: 205, scale: 1.32, variant: 'lime', pose: 'headOnly', mouth: 'w' })}
+          </g>
+          <g class="anim-bob">
+            ${frogCharacter({ x: 200, y: 345, scale: 0.72, variant: 'teal', pose: 'headOnly', mouth: 'smile' })}
+          </g>
+        </svg>
+      `
+    },
+    {
+      time: 156.50,
+      text: "A UNA VIDA DONDE TÚ PUEDAS ESTAR",
+      bg: "bg-night",
+      fx: "stars",
+      pos: "pos-bottom",
+      render: () => `
+        <svg viewBox="0 0 400 520">
+          <g class="anim-spin" style="transform-origin: 200px 255px;">
+            ${frogCharacter({ x: 145, y: 220, scale: 0.86, variant: 'teal', pose: 'headOnly', mouth: 'smile' })}
+            ${frogCharacter({ x: 255, y: 290, scale: 0.92, variant: 'lime', pose: 'headOnly', mouth: 'w' })}
+          </g>
+        </svg>
+      `
+    },
+    {
+      time: 162.50,
+      text: "Y ME LLEVAS LENTAMENTE A IMAGINAR",
+      bg: "bg-sky",
+      fx: "none",
+      pos: "pos-bottom",
+      render: () => `
+        <svg viewBox="0 0 400 520">
+          <g class="anim-cloud" stroke="#161714" stroke-width="5.5" stroke-linejoin="round">
+            <path d="M220 120 Q235 80 275 88 Q305 35 365 55 Q410 68 415 120 Z" fill="#a8c7d4"/>
+            <path d="M-15 215 Q35 160 88 188 Q125 182 150 215 Z" fill="#a8c7d4"/>
+          </g>
+          <g class="anim-float">${frogCharacter({ x: 185, y: 245, scale: 0.95, variant: 'lime', eyes: 'closed', mouth: 'smile' })}</g>
+        </svg>
+      `
+    },
+    {
+      time: 168.50,
+      text: "A UNA VIDA DONDE TE PUEDA CUIDAR ♥ FELIZ VIERNES 13, CAMELITA",
+      bg: "bg-warm",
+      fx: "hearts",
+      pos: "pos-top",
+      render: () => `
+        <svg viewBox="0 0 400 500">
+          <g class="anim-squish">
+            ${frogCharacter({ x: 152, y: 288, scale: 1.05, variant: 'teal', eyes: 'happy', mouth: 'smile' })}
+            ${frogCharacter({ x: 248, y: 292, scale: 1.05, variant: 'lime', eyes: 'closed', mouth: 'w' })}
+          </g>
+        </svg>
+      `
     }
   ];
 
@@ -1058,6 +1142,9 @@
         ctx.arc(p.x * w, p.y * h, p.r * 1.8, 0, Math.PI * 2);
         ctx.fill();
       });
+    }
+    if (!audio.paused) {
+      syncLoop();
     }
     requestAnimationFrame(drawFx);
   }
