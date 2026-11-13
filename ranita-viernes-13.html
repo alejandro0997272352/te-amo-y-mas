@@ -384,6 +384,179 @@
       transform: translate(2px, 2px);
       box-shadow: 2px 2px 0 #161714;
     }
+
+    /* Interactividad: botones superiores en papel */
+    .top-badge {
+      pointer-events: auto;
+    }
+    .top-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .paper-pill {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 250, 0.82);
+      color: #161714;
+      border: 2px solid #161714;
+      border-radius: 999px;
+      padding: 2px 10px;
+      cursor: pointer;
+      box-shadow: 1.5px 2px 0 #161714;
+      transition: transform 0.12s ease;
+    }
+    .paper-pill:active { transform: scale(0.94); }
+
+    /* Rebote al tocar la ranita */
+    @keyframes boopSquish {
+      0% { transform: scale(1, 1); }
+      30% { transform: scale(1.14, 0.86); }
+      65% { transform: scale(0.93, 1.09); }
+      100% { transform: scale(1, 1); }
+    }
+    .boop-active {
+      animation: boopSquish 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Stickers / burbujas flotantes al tocar */
+    @keyframes floatTap {
+      0% { opacity: 0; transform: translate(-50%, -20%) scale(0.5) rotate(-8deg); }
+      20% { opacity: 1; transform: translate(-50%, -60%) scale(1.12) rotate(6deg); }
+      100% { opacity: 0; transform: translate(-50%, -170%) scale(0.95) rotate(-4deg); }
+    }
+    .tap-pop {
+      position: absolute;
+      z-index: 38;
+      pointer-events: none;
+      font-family: 'Gloria Hallelujah', cursive;
+      font-size: 1.15rem;
+      color: #161714;
+      background: rgba(255, 252, 240, 0.92);
+      border: 2px solid #161714;
+      border-radius: 14px;
+      padding: 2px 10px;
+      box-shadow: 2px 2px 0 #161714;
+      animation: floatTap 1.05s ease-out forwards;
+      white-space: nowrap;
+    }
+
+    /* Cajón interactivo de escenas / frases */
+    .scenes-drawer {
+      position: absolute;
+      inset: 52px 14px 64px;
+      z-index: 45;
+      background: rgba(244, 243, 236, 0.96);
+      border: 3px solid #161714;
+      border-radius: 18px;
+      box-shadow: 4px 5px 0 #161714;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    .scenes-drawer.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-family: 'Gloria Hallelujah', cursive;
+      font-size: 1.05rem;
+      color: #161714;
+    }
+    .drawer-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 4px;
+    }
+    .scene-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      background: #fffdf7;
+      border: 2px solid #161714;
+      border-radius: 12px;
+      padding: 7px 10px;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 0.98rem;
+      color: #161714;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .scene-item:hover { background: #eef6d6; }
+    .scene-item.active {
+      background: var(--lime);
+      font-weight: bold;
+    }
+    .scene-time {
+      font-size: 0.82rem;
+      background: #161714;
+      color: #fff;
+      border-radius: 999px;
+      padding: 1px 7px;
+      flex-shrink: 0;
+    }
+
+    /* Nota final / Post-it interactivo */
+    .note-modal {
+      position: absolute;
+      inset: 0;
+      z-index: 48;
+      background: rgba(22, 23, 20, 0.45);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .note-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .note-card {
+      background: #fff9d6;
+      border: 3px solid #161714;
+      border-radius: 16px;
+      padding: 22px 20px;
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 6px 6px 0 #161714;
+      transform: rotate(-1.2deg);
+    }
+    .note-card h3 {
+      font-family: 'Gloria Hallelujah', cursive;
+      font-size: 1.3rem;
+      color: #161714;
+      margin-bottom: 8px;
+    }
+    .note-card p {
+      font-size: 1.08rem;
+      line-height: 1.45;
+      color: #2c2e2a;
+      margin-bottom: 16px;
+    }
+    .note-btns {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
@@ -404,11 +577,37 @@
 
     <div class="top-badge">
       <span>Para Camelita ♥</span>
-      <span>Viernes 13 • 0:50</span>
+      <div class="top-actions">
+        <span class="paper-pill" id="boop-counter" title="Toca la ranita">♥ 0</span>
+        <button class="paper-pill" id="btn-scenes">♪ Escenas</button>
+        <button class="paper-pill" id="btn-note">✉ Nota</button>
+      </div>
     </div>
 
-    <div class="animatic-layer">
+    <div class="animatic-layer" id="animatic-layer">
       <div id="scene-svg-host"></div>
+    </div>
+
+    <!-- Cajón de escenas interactivo -->
+    <div class="scenes-drawer" id="scenes-drawer">
+      <div class="drawer-header">
+        <span>♪ Momentos (0:50 – 2:06)</span>
+        <button class="paper-pill" id="close-drawer">✕</button>
+      </div>
+      <div class="drawer-list" id="drawer-list"></div>
+    </div>
+
+    <!-- Nota final interactiva -->
+    <div class="note-modal" id="note-modal">
+      <div class="note-card">
+        <h3>Para Camelita ♥</h3>
+        <p>Incluso en Viernes 13 eres mi mejor suerte. Toca la ranita las veces que quieras para mandarle caricias, o repite nuestra parte favorita cuando gustes.</p>
+        <div class="note-btns">
+          <button class="paper-pill" id="btn-kiss-shower" style="background:#f7c5cc;">♥ Mandar besito</button>
+          <button class="paper-pill" id="btn-replay" style="background:var(--lime);">↺ Ver otra vez</button>
+          <button class="paper-pill" id="btn-close-note">Cerrar</button>
+        </div>
+      </div>
     </div>
 
     <div class="lyric-overlay pos-top" id="lyric-overlay">
@@ -570,8 +769,8 @@
       eyesSVG = `
         <ellipse cx="-26" cy="${eyeY}" rx="22" ry="25" fill="#e5d2b5" stroke="#161714" stroke-width="5.2"/>
         <ellipse cx="26" cy="${eyeY}" rx="22" ry="25" fill="#e5d2b5" stroke="#161714" stroke-width="5.2"/>
-        <ellipse cx="-23" cy="${eyeY + pupOffsetY}" rx="13" ry="17" fill="#161714"/>
-        <ellipse cx="23" cy="${eyeY + pupOffsetY}" rx="13" ry="17" fill="#161714"/>
+        <ellipse class="frog-pupil" cx="-23" cy="${eyeY + pupOffsetY}" rx="13" ry="17" fill="#161714"/>
+        <ellipse class="frog-pupil" cx="23" cy="${eyeY + pupOffsetY}" rx="13" ry="17" fill="#161714"/>
         ${starSpark}
       `;
     }
@@ -1163,6 +1362,7 @@
   });
 
   restartBtn.addEventListener('click', async () => {
+    endModalShown = false;
     audio.currentTime = START_AT_SECONDS;
     activeIndex = -1;
     syncLoop();
@@ -1176,6 +1376,154 @@
     activeIndex = -1;
     syncLoop();
   });
+
+  // =========================================================================
+  // INTERACTIVIDAD: BOOP A LA RANITA, SEGUIMIENTO DE OJOS, ESCENAS Y NOTA
+  // =========================================================================
+  const animaticLayer = document.getElementById('animatic-layer');
+  const boopCounterEl = document.getElementById('boop-counter');
+  const btnScenes = document.getElementById('btn-scenes');
+  const scenesDrawer = document.getElementById('scenes-drawer');
+  const closeDrawer = document.getElementById('close-drawer');
+  const drawerList = document.getElementById('drawer-list');
+  const btnNote = document.getElementById('btn-note');
+  const noteModal = document.getElementById('note-modal');
+  const btnCloseNote = document.getElementById('btn-close-note');
+  const btnReplay = document.getElementById('btn-replay');
+  const btnKissShower = document.getElementById('btn-kiss-shower');
+
+  let boopCount = 0;
+  let endModalShown = false;
+  let audioCtx = null;
+
+  function playBoopSound() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(340 + Math.random() * 90, now);
+      osc.frequency.exponentialRampToValueAtTime(620, now + 0.09);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } catch {}
+  }
+
+  const POP_WORDS = ['♥', '¡Croac!', '¡Te amo!', '🍀', '¡Muak!', '★', 'Camelita ♥'];
+  function spawnTapPop(clientX, clientY, customText = '') {
+    const rect = stageFrame.getBoundingClientRect();
+    const el = document.createElement('div');
+    el.className = 'tap-pop';
+    el.textContent = customText || POP_WORDS[Math.floor(Math.random() * POP_WORDS.length)];
+    el.style.left = `${clientX - rect.left}px`;
+    el.style.top = `${clientY - rect.top}px`;
+    stageFrame.appendChild(el);
+    setTimeout(() => el.remove(), 1100);
+  }
+
+  animaticLayer.addEventListener('click', (e) => {
+    boopCount++;
+    boopCounterEl.textContent = `♥ ${boopCount}`;
+    sceneHost.classList.remove('boop-active');
+    void sceneHost.offsetWidth;
+    sceneHost.classList.add('boop-active');
+    playBoopSound();
+
+    if (boopCount === 13) {
+      spawnTapPop(e.clientX, e.clientY, '¡13 toques de suerte! 🍀♥');
+    } else if (boopCount === 5) {
+      spawnTapPop(e.clientX, e.clientY, '¡Qué linda eres! ♥');
+    } else {
+      spawnTapPop(e.clientX, e.clientY);
+    }
+  });
+
+  // Seguimiento suave de pupilas al cursor o dedo
+  function updatePupils(clientX, clientY) {
+    const rect = stageFrame.getBoundingClientRect();
+    const nx = ((clientX - rect.left) / rect.width - 0.5) * 2;
+    const ny = ((clientY - rect.top) / rect.height - 0.5) * 2;
+    const dx = Math.max(-4.5, Math.min(4.5, nx * 4.5));
+    const dy = Math.max(-4.5, Math.min(4.5, ny * 4.5));
+    sceneHost.querySelectorAll('.frog-pupil').forEach(p => {
+      p.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+  }
+  stageFrame.addEventListener('mousemove', (e) => updatePupils(e.clientX, e.clientY));
+  stageFrame.addEventListener('touchmove', (e) => {
+    if (e.touches[0]) updatePupils(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+
+  // Construir lista interactiva de escenas
+  ANIMATIC_SCENES.forEach((sc, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'scene-item';
+    btn.innerHTML = `<span class="scene-time">${formatTime(sc.time)}</span><span>${sc.text}</span>`;
+    btn.addEventListener('click', async () => {
+      scenesDrawer.classList.remove('open');
+      audio.currentTime = sc.time;
+      activeIndex = -1;
+      syncLoop();
+      await playFrom50();
+    });
+    drawerList.appendChild(btn);
+  });
+
+  function highlightDrawerItem(idx) {
+    drawerList.querySelectorAll('.scene-item').forEach((el, i) => {
+      el.classList.toggle('active', i === idx);
+    });
+  }
+
+  const origApplyScene = applyScene;
+  applyScene = function(idx) {
+    origApplyScene(idx);
+    highlightDrawerItem(idx);
+  };
+
+  btnScenes.addEventListener('click', () => scenesDrawer.classList.toggle('open'));
+  closeDrawer.addEventListener('click', () => scenesDrawer.classList.remove('open'));
+
+  btnNote.addEventListener('click', () => noteModal.classList.add('open'));
+  btnCloseNote.addEventListener('click', () => noteModal.classList.remove('open'));
+  btnReplay.addEventListener('click', async () => {
+    noteModal.classList.remove('open');
+    endModalShown = false;
+    audio.currentTime = START_AT_SECONDS;
+    activeIndex = -1;
+    syncLoop();
+    await playFrom50();
+  });
+
+  btnKissShower.addEventListener('click', () => {
+    const rect = stageFrame.getBoundingClientRect();
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const rx = rect.left + rect.width * (0.15 + Math.random() * 0.7);
+        const ry = rect.top + rect.height * (0.35 + Math.random() * 0.4);
+        spawnTapPop(rx, ry, i % 2 === 0 ? '♥ ¡Muak!' : 'Te amo ♥');
+        playBoopSound();
+      }, i * 85);
+    }
+  });
+
+  // Abrir nota automáticamente al llegar a 2:06
+  const origSyncLoop = syncLoop;
+  syncLoop = function() {
+    origSyncLoop();
+    if (audio.currentTime >= TRACK_END_SECONDS && !endModalShown) {
+      endModalShown = true;
+      setTimeout(() => noteModal.classList.add('open'), 750);
+    }
+  };
 
   audio.addEventListener('timeupdate', syncLoop);
   audio.addEventListener('ended', () => { playBtn.textContent = '▶'; });
