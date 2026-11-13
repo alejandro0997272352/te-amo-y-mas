@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ranita Animatic • Viernes 13 para Camelita 🐸💓</title>
+  <meta name="description" content="Lyric Animatic interactivo de la ranita sincronizado desde el 0:50 de Viernes 13 (Marcos Menchaca) para Camelita." />
+  <meta name="theme-color" content="#ece8df" />
+
+  <!-- Handwritten Google Fonts: Patrick Hand & Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --paper-base: #ece8df;
+      --ink: #1b191e;
+      --frog-green: #9dc23e;
+      --frog-shade: #83a82c;
+      --partner-blue: #5294ad;
+      --blush-pink: #f472b6;
+      --heart-red: #e11d48;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--paper-base);
+      font-family: 'Patrick Hand', cursive;
+      color: var(--ink);
+    }
+
+    /* ================= ROUGH WATERCOLOR PAPER TEXTURE ================= */
+    .paper-texture-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.42;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    .paper-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 48%, transparent 45%, rgba(120, 108, 92, 0.22) 100%);
+    }
+
+    /* Soft Watercolor Wash Blobs behind the frog */
+    .watercolor-wash {
+      position: fixed;
+      inset: -10%;
+      z-index: 1;
+      pointer-events: none;
+      transition: background 1.1s ease;
+      background:
+        radial-gradient(circle at 28% 58%, rgba(244, 114, 182, 0.24) 0%, transparent 48%),
+        radial-gradient(circle at 74% 46%, rgba(96, 165, 250, 0.22) 0%, transparent 50%),
+        radial-gradient(circle at 50% 82%, rgba(250, 204, 21, 0.18) 0%, transparent 52%);
+    }
+    body.mood-pink .watercolor-wash {
+      background:
+        radial-gradient(circle at 35% 58%, rgba(244, 114, 182, 0.36) 0%, transparent 52%),
+        radial-gradient(circle at 72% 42%, rgba(251, 113, 133, 0.26) 0%, transparent 50%);
+    }
+    body.mood-dream .watercolor-wash {
+      background:
+        radial-gradient(circle at 50% 42%, rgba(129, 140, 248, 0.30) 0%, transparent 55%),
+        radial-gradient(circle at 26% 72%, rgba(56, 189, 248, 0.26) 0%, transparent 50%);
+    }
+    body.mood-gold .watercolor-wash {
+      background:
+        radial-gradient(circle at 50% 46%, rgba(251, 191, 36, 0.32) 0%, transparent 55%),
+        radial-gradient(circle at 30% 68%, rgba(244, 114, 182, 0.24) 0%, transparent 50%);
+    }
+    body.mood-cozy .watercolor-wash {
+      background:
+        radial-gradient(circle at 46% 52%, rgba(163, 230, 53, 0.24) 0%, transparent 55%),
+        radial-gradient(circle at 68% 65%, rgba(56, 189, 248, 0.22) 0%, transparent 50%);
+    }
+
+    /* Ambient floating bubbles/hearts canvas */
+    #doodle-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    /* ================= START OVERLAY ================= */
+    #start-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(236, 232, 223, 0.94);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+      transition: opacity 0.65s ease, visibility 0.65s;
+    }
+    #start-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .start-card {
+      background: #fffdf8;
+      border: 4px solid var(--ink);
+      border-radius: 24px;
+      padding: 1.8rem 1.6rem;
+      max-width: 390px;
+      width: 100%;
+      box-shadow: 6px 8px 0 var(--ink);
+      transform: rotate(-1deg);
+    }
+    .start-badge {
+      display: inline-block;
+      background: #ffe4e6;
+      border: 2.5px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.2rem 0.85rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #be123c;
+      margin-bottom: 0.7rem;
+    }
+    .start-title {
+      font-family: 'Caveat', cursive;
+      font-size: 2.45rem;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .start-sub {
+      font-size: 1.05rem;
+      color: #47424c;
+      line-height: 1.35;
+      margin-bottom: 1.25rem;
+    }
+    .start-btn {
+      background: #9dc23e;
+      color: var(--ink);
+      border: 3.5px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.75rem 1.8rem;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 4px 5px 0 var(--ink);
+      transition: transform 0.18s ease;
+    }
+    .start-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    /* ================= MAIN ANIMATIC STAGE ================= */
+    .animatic-shell {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.85rem 1rem 0.95rem;
+    }
+
+    .top-pill-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .sketch-pill {
+      background: rgba(255, 253, 248, 0.82);
+      border: 2.5px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.22rem 0.8rem;
+      font-size: 0.92rem;
+      box-shadow: 2px 3px 0 var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Handwritten Lyric Display */
+    .lyric-stage-wrap {
+      text-align: center;
+      min-height: 86px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem 0.5rem;
+    }
+    .lyric-handwritten {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(1.45rem, 5.2vw, 2.15rem);
+      line-height: 1.15;
+      color: #27242b;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+      max-width: 96%;
+    }
+    .lyric-handwritten.pop-in {
+      animation: lyricPopIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes lyricPopIn {
+      0% { opacity: 0; transform: translateY(10px) scale(0.94); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Central Frog Animatic Stage */
+    .frog-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 0;
+    }
+    #scene-svg-host {
+      width: min(86vw, 350px);
+      height: min(46vh, 350px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    #scene-svg-host svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Frog Action Animations per Verse */
+    .anim-bounce { animation: frogBounce 1.1s ease-in-out infinite; }
+    .anim-jump { animation: frogJump 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) infinite; }
+    .anim-float { animation: frogFloat 2.8s ease-in-out infinite; }
+    .anim-spin { animation: frogSpin 3.6s ease-in-out infinite; }
+    .anim-rock { animation: frogRock 0.65s ease-in-out infinite alternate; }
+    .anim-tilt { animation: frogTilt 1.8s ease-in-out infinite alternate; }
+    .anim-shake-no { animation: frogShakeNo 0.9s ease-in-out infinite; }
+    .anim-pulse-heart { animation: heartBeat 0.95s ease-in-out infinite; transform-origin: center; }
+
+    @keyframes frogBounce {
+      0%, 100% { transform: translateY(0) scaleY(1); }
+      50% { transform: translateY(-14px) scaleY(1.04); }
+    }
+    @keyframes frogJump {
+      0%, 100% { transform: translateY(4px) scale(1.04, 0.95); }
+      45% { transform: translateY(-34px) scale(0.96, 1.07); }
+    }
+    @keyframes frogFloat {
+      0%, 100% { transform: translateY(-6px) rotate(-2deg); }
+      50% { transform: translateY(10px) rotate(3deg); }
+    }
+    @keyframes frogSpin {
+      0% { transform: rotate(0deg) scale(0.96); }
+      50% { transform: rotate(180deg) scale(1.04); }
+      100% { transform: rotate(360deg) scale(0.96); }
+    }
+    @keyframes frogRock {
+      0% { transform: rotate(-6deg) translateY(0); }
+      100% { transform: rotate(6deg) translateY(-6px); }
+    }
+    @keyframes frogTilt {
+      0% { transform: rotate(-7deg); }
+      100% { transform: rotate(7deg); }
+    }
+    @keyframes frogShakeNo {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px) rotate(-3deg); }
+      75% { transform: translateX(8px) rotate(3deg); }
+    }
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      40% { transform: scale(1.16); }
+    }
+
+    /* Polaroid Pop Animation */
+    .polaroid-enter {
+      animation: polaroidPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes polaroidPop {
+      0% { opacity: 0; transform: scale(0.55) rotate(-14deg) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) rotate(var(--prot, -4deg)) translateY(0); }
+    }
+
+    /* Bottom Sketch Player Dock */
+    .player-dock {
+      background: #fffdf8;
+      border: 3.5px solid var(--ink);
+      border-radius: 22px;
+      padding: 0.65rem 0.95rem;
+      box-shadow: 4px 6px 0 var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .play-sketch-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f472b6;
+      color: #fff;
+      border: 3px solid var(--ink);
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 var(--ink);
+      flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+    .play-sketch-btn:active {
+      transform: scale(0.94);
+    }
+    .timeline-col {
+      flex: 1;
+      min-width: 0;
+    }
+    .timeline-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+      color: #3f3a45;
+    }
+    input[type="range"].sketch-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: #e5e0d5;
+      border: 2px solid var(--ink);
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"].sketch-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #9dc23e;
+      border: 2.5px solid var(--ink);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Watercolor Wash + Paper Grain + Vignette + Canvas -->
+  <div class="watercolor-wash"></div>
+  <div class="paper-texture-overlay"></div>
+  <div class="paper-vignette"></div>
+  <canvas id="doodle-canvas"></canvas>
+
+  <!-- ================= START OVERLAY ================= -->
+  <div id="start-overlay">
+    <div class="start-card">
+      <div class="start-badge">🐸 Viernes 13 • Para Camelita</div>
+      <h1 class="start-title">Nuestra Ranita Animatic</h1>
+      <p class="start-sub">
+        Cada verso de <strong>"Viernes 13"</strong> (desde el minuto 0:50) cobra vida con nuestra ranita en papel acuarela.
+      </p>
+      <button class="start-btn" id="start-animatic-btn">
+        ▶ Iniciar desde 0:50 ♫
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN ANIMATIC STAGE ================= -->
+  <div class="animatic-shell">
+
+    <!-- Top Info Bar -->
+    <header class="top-pill-row">
+      <div class="sketch-pill">
+        <span>🐸</span>
+        <span>Para <strong>Camelita</strong></span>
+      </div>
+      <div class="sketch-pill" id="scene-badge">
+        <span>🎵</span>
+        <span>Viernes 13 (0:50+)</span>
+      </div>
+    </header>
+
+    <!-- Handwritten Subtitles -->
+    <section class="lyric-stage-wrap">
+      <div id="lyric-subtitle" class="lyric-handwritten pop-in">
+        Toca ▶ para empezar en el 0:50
+      </div>
+    </section>
+
+    <!-- Central Illustrated Frog Stage -->
+    <main class="frog-stage">
+      <div id="scene-svg-host" title="Toca la ranita para lanzar corazoncitos"></div>
+    </main>
+
+    <!-- Bottom Sketch Player Dock -->
+    <footer class="player-dock">
+      <button class="play-sketch-btn" id="play-pause-btn" aria-label="Reproducir o Pausar">
+        <span id="play-icon">▶</span>
+      </button>
+      <div class="timeline-col">
+        <div class="timeline-meta">
+          <span><strong>Viernes 13</strong> — Marcos Menchaca</span>
+          <span id="time-readout">0:50 / 2:57</span>
+        </div>
+        <input type="range" id="scrubber" class="sketch-range" min="50" max="177" step="0.1" value="50" aria-label="Progreso de la canción" />
+      </div>
+      <button class="play-sketch-btn" id="restart-50-btn" style="background:#fde047; color:#1b191e; width:38px; height:38px; font-size:1rem;" title="Volver al 0:50">
+        ↺
+      </button>
+    </footer>
+
+  </div>
+
+  <!-- Full Song Track (configured to start exactly at currentTime = 50) -->
+  <audio id="bgMusic" src="./viernes-13-full.mp3?v=1" preload="auto"></audio>
+
+  <script>
+    // ============================================================================
+    // 1. SYNCHRONIZED LYRICS & FROG SCENE ARRAY (FROM 0:50 TO END OF SONG)
+    // ============================================================================
+    const START_AT_SECONDS = 50;
+
+    const ANIMATIC_SCENES = [
+      { time: 50.00, text: "♪ Viernes 13 — Para Camelita ♪", scene: "calendar", mood: "mood-cozy" },
+      { time: 53.27, text: "YO SÉ QUE TE HE DICHO MIL VECES\nQUE NADIE TE VA A QUERER", scene: "counting", mood: "mood-pink" },
+      { time: 56.29, text: "COMO YO LO VOY A HACER", scene: "proudHug", mood: "mood-pink" },
+      { time: 57.60, text: "QUE TÚ PONES BUENA SUERTE\nEN MI VIERNES 13", scene: "goodLuck", mood: "mood-gold" },
+      { time: 60.11, text: "QUE TENGO TU NOMBRE\nTATUADO EN MI PIEL", scene: "tattoo", mood: "mood-pink" },
+      { time: 62.32, text: "QUE YA TE EXTRAÑO\nAUNQUE TE HAYA VISTO AYER", scene: "missYou", mood: "mood-dream" },
+      { time: 64.52, text: "SOSTENTE FUERTE, YO SIENTO\nLO MISMO QUE TÚ SIENTES", scene: "holdTight", mood: "mood-pink" },
+      { time: 67.30, text: "MIRADAS QUE NO MIENTEN\nSONRISAS QUE MUESTRAN DIENTES", scene: "bigSmile", mood: "mood-gold" },
+      { time: 70.30, text: "CONTIGO TODO ES MÁS\nQUE SUFICIENTE", scene: "cloud", mood: "mood-dream" },
+      { time: 73.06, text: "NO OCUPO DE ALGUIEN MÁS\nSÓLO A TI PRESENTE", scene: "onlyYou", mood: "mood-pink" },
+      { time: 77.97, text: "Y ME LLEVAS LENTAMENTE\nA IMAGINAR", scene: "floatDream", mood: "mood-dream" },
+      { time: 83.34, text: "A UNA VIDA DONDE\nTÚ PUEDAS ESTAR", scene: "polaroids", mood: "mood-gold" },
+      { time: 89.11, text: "Y ME LLEVAS LENTAMENTE\nA IMAGINAR", scene: "spinDream", mood: "mood-dream" },
+      { time: 94.67, text: "A UNA VIDA DONDE\nTE PUEDA CUIDAR", scene: "protect", mood: "mood-cozy" },
+      { time: 101.41, text: "PORQUE SI NO ES CONTIGO\nNO ES CON NADIE MÁS", scene: "noOneElse", mood: "mood-pink" },
+      { time: 104.22, text: "ES ALGO QUE TÚ NUNCA\nNUNCA ENTENDERÁS", scene: "tiltHead", mood: "mood-cozy" },
+      { time: 107.14, text: "CON ALGUIEN MÁS YO NO\nME PUEDO CONFORMAR", scene: "stubborn", mood: "mood-dream" },
+      { time: 109.54, text: "SABIENDO QUE ALGUIEN VA\nA TOMAR MI LUGAR", scene: "hugHeart", mood: "mood-pink" },
+      { time: 112.61, text: "NADIE TE VERÁ COMO\nYO TE VOY A VER", scene: "starryEyes", mood: "mood-gold" },
+      { time: 115.35, text: "QUIERO CUMPLIR LAS COSAS\nQUE ACORDAMOS EN HACER", scene: "checklist", mood: "mood-cozy" },
+      { time: 118.38, text: "Y SI LA VIDA ME DA\nA ESCOGER", scene: "choose", mood: "mood-dream" },
+      { time: 120.73, text: "TE ESCOJO A TI\nOTRA VEZ", scene: "jumpJoy", mood: "mood-pink" },
+      { time: 124.75, text: "♪ SOLO DE GUITARRA — VIERNES 13 ♪", scene: "guitarSolo", mood: "mood-gold" },
+      { time: 145.86, text: "Y ME LLEVAS LENTAMENTE\nA IMAGINAR", scene: "floatDream", mood: "mood-dream" },
+      { time: 152.25, text: "A UNA VIDA DONDE\nTÚ PUEDAS ESTAR", scene: "polaroids", mood: "mood-gold" },
+      { time: 158.79, text: "Y ME LLEVAS LENTAMENTE\nA IMAGINAR", scene: "spinDream", mood: "mood-pink" },
+      { time: 164.82, text: "A UNA VIDA DONDE\nTE PUEDA CUIDAR", scene: "protect", mood: "mood-cozy" },
+      { time: 169.29, text: "PARA TI, CAMELITA\nMI BUENA SUERTE 💓", scene: "finale", mood: "mood-pink" }
+    ];
+
+    // ============================================================================
+    // 2. 2D MINIMALIST FROG SVG GENERATOR (Thick strokes, soft colors, dynamic expressions)
+    // ============================================================================
+    function buildFrogSVG(eyesType, mouthType, extraSVG = '', animClass = 'anim-bounce', bodyColor = '#9dc23e') {
+      let eyesHTML = '';
+      if (eyesType === 'happy') {
+        eyesHTML = `
+          <path d="M98 118 L114 110 L98 102" fill="none" stroke="#1b191e" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M182 118 L166 110 L182 102" fill="none" stroke="#1b191e" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="76" y1="88" x2="64" y2="74" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="90" y1="78" x2="86" y2="62" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="204" y1="88" x2="216" y2="74" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="190" y1="78" x2="194" y2="62" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+        `;
+      } else if (eyesType === 'hearts') {
+        eyesHTML = `
+          <path d="M106 119 C106 119 95 111 95 104 C95 100 99 98 103 101 C105 103 106 105 106 105 C106 105 107 103 109 101 C113 98 117 100 117 104 C117 111 106 119 106 119 Z" fill="#e11d48" stroke="#1b191e" stroke-width="3"/>
+          <path d="M174 119 C174 119 163 111 163 104 C163 100 167 98 171 101 C173 103 174 105 174 105 C174 105 175 103 177 101 C181 98 185 100 185 104 C185 111 174 119 174 119 Z" fill="#e11d48" stroke="#1b191e" stroke-width="3"/>
+        `;
+      } else if (eyesType === 'determined') {
+        eyesHTML = `
+          <circle cx="106" cy="110" r="10" fill="#1b191e"/>
+          <circle cx="102" cy="106" r="3.5" fill="#fff"/>
+          <circle cx="174" cy="110" r="10" fill="#1b191e"/>
+          <circle cx="170" cy="106" r="3.5" fill="#fff"/>
+          <line x1="90" y1="93" x2="122" y2="101" stroke="#1b191e" stroke-width="5" stroke-linecap="round"/>
+          <line x1="190" y1="93" x2="158" y2="101" stroke="#1b191e" stroke-width="5" stroke-linecap="round"/>
+        `;
+      } else if (eyesType === 'dreamy') {
+        eyesHTML = `
+          <path d="M94 112 Q106 102 118 112" fill="none" stroke="#1b191e" stroke-width="5" stroke-linecap="round"/>
+          <path d="M162 112 Q174 102 186 112" fill="none" stroke="#1b191e" stroke-width="5" stroke-linecap="round"/>
+        `;
+      } else {
+        eyesHTML = `
+          <circle cx="106" cy="108" r="11.5" fill="#1b191e"/>
+          <circle cx="102" cy="103" r="4" fill="#ffffff"/>
+          <circle cx="174" cy="108" r="11.5" fill="#1b191e"/>
+          <circle cx="170" cy="103" r="4" fill="#ffffff"/>
+        `;
+      }
+
+      let mouthHTML = `<path d="M126 130 Q133 139 140 131 Q147 139 154 130" fill="none" stroke="#1b191e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+      if (mouthType === 'teeth') {
+        mouthHTML = `
+          <path d="M120 128 Q140 152 160 128 Z" fill="#ffffff" stroke="#1b191e" stroke-width="4.5" stroke-linejoin="round"/>
+          <line x1="133" y1="129" x2="133" y2="140" stroke="#1b191e" stroke-width="2.5"/>
+          <line x1="147" y1="129" x2="147" y2="140" stroke="#1b191e" stroke-width="2.5"/>
+        `;
+      } else if (mouthType === 'o') {
+        mouthHTML = `<ellipse cx="140" cy="134" rx="7" ry="8.5" fill="#f43f5e" stroke="#1b191e" stroke-width="4.5"/>`;
+      }
+
+      return `
+        <svg viewBox="0 0 280 280">
+          <!-- Ground Sketch Line & Little Sprouts -->
+          <path d="M22 238 Q140 232 258 238" fill="none" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M44 236 L44 214" stroke="#1b191e" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="44" cy="210" r="5" fill="#f472b6" stroke="#1b191e" stroke-width="3"/>
+          <path d="M234 236 L234 216" stroke="#1b191e" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="234" cy="212" r="5" fill="#60a5fa" stroke="#1b191e" stroke-width="3"/>
+
+          <g class="${animClass}" style="transform-origin: 140px 185px;">
+            <!-- Back Legs -->
+            <path d="M88 182 Q50 176 54 228 L86 232 Q80 208 98 205 Z" fill="${bodyColor}" stroke="#1b191e" stroke-width="5.5" stroke-linejoin="round"/>
+            <path d="M192 182 Q230 176 226 228 L194 232 Q200 208 182 205 Z" fill="${bodyColor}" stroke="#1b191e" stroke-width="5.5" stroke-linejoin="round"/>
+
+            <!-- Main Chubby Body & Head -->
+            <path d="M84 224 C82 178 96 146 108 134 C112 114 168 114 172 134 C184 146 198 178 196 224 Z" fill="${bodyColor}" stroke="#1b191e" stroke-width="5.5" stroke-linejoin="round"/>
+
+            <!-- Bulging Eye Bumps -->
+            <circle cx="106" cy="108" r="24" fill="${bodyColor}" stroke="#1b191e" stroke-width="5.5"/>
+            <circle cx="174" cy="108" r="24" fill="${bodyColor}" stroke="#1b191e" stroke-width="5.5"/>
+            <path d="M124 114 Q140 120 156 114" fill="${bodyColor}" stroke="none"/>
+
+            <!-- Blush Cheeks -->
+            <ellipse cx="86" cy="134" rx="11" ry="6" fill="#f472b6" stroke="#1b191e" stroke-width="3"/>
+            <ellipse cx="194" cy="134" rx="11" ry="6" fill="#f472b6" stroke="#1b191e" stroke-width="3"/>
+
+            <!-- Eyes & Mouth -->
+            ${eyesHTML}
+            ${mouthHTML}
+
+            <!-- Front Little Arms -->
+            <path d="M114 176 L112 222 L126 222" fill="none" stroke="#1b191e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M166 176 L168 222 L154 222" fill="none" stroke="#1b191e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            ${extraSVG}
+          </g>
+        </svg>
+      `;
+    }
+
+    function buildPolaroidsScene() {
+      return `
+        <svg viewBox="0 0 280 280">
+          <!-- Polaroid 1 (Left-Top) -->
+          <g class="polaroid-enter" style="--prot:-7deg; transform-origin:85px 80px;">
+            <rect x="24" y="18" width="112" height="122" rx="4" fill="#fffdf8" stroke="#1b191e" stroke-width="5"/>
+            <rect x="34" y="28" width="92" height="78" fill="#7dd3fc" stroke="#1b191e" stroke-width="4"/>
+            <!-- Blue Partner Frog + Green Frog -->
+            <circle cx="64" cy="84" r="22" fill="#5294ad" stroke="#1b191e" stroke-width="4"/>
+            <circle cx="96" cy="88" r="18" fill="#9dc23e" stroke="#1b191e" stroke-width="4"/>
+            <circle cx="60" cy="76" r="3.5" fill="#1b191e"/>
+            <circle cx="72" cy="76" r="3.5" fill="#1b191e"/>
+            <path d="M90 82 L97 86 L90 90" fill="none" stroke="#1b191e" stroke-width="3" stroke-linecap="round"/>
+          </g>
+
+          <!-- Polaroid 2 (Right-Bottom) -->
+          <g class="polaroid-enter" style="--prot:6deg; animation-delay:0.18s; transform-origin:195px 190px;">
+            <rect x="142" y="128" width="116" height="126" rx="4" fill="#fffdf8" stroke="#1b191e" stroke-width="5"/>
+            <rect x="152" y="138" width="96" height="82" fill="#fb923c" stroke="#1b191e" stroke-width="4"/>
+            <circle cx="182" cy="196" r="22" fill="#5294ad" stroke="#1b191e" stroke-width="4"/>
+            <circle cx="216" cy="200" r="20" fill="#9dc23e" stroke="#1b191e" stroke-width="4"/>
+            <path d="M198 164 C198 164 190 158 190 153 C190 149 194 148 197 151 C198 152 198 153 198 153 C198 153 199 152 200 151 C203 148 207 149 207 153 C207 158 198 164 198 164 Z" fill="#e11d48" stroke="#1b191e" stroke-width="2.5"/>
+          </g>
+        </svg>
+      `;
+    }
+
+    function renderSceneSVG(sceneKey) {
+      const heartProp = `<path class="anim-pulse-heart" d="M140 208 C140 208 110 186 110 166 C110 154 122 148 132 156 C137 160 140 166 140 166 C140 166 143 160 148 156 C158 148 170 154 170 166 C170 186 140 208 140 208 Z" fill="#e11d48" stroke="#1b191e" stroke-width="4.5"/>`;
+      const cloverProp = `
+        <g transform="translate(202, 150) rotate(12)">
+          <line x1="0" y1="0" x2="-8" y2="38" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+          <circle cx="-10" cy="-8" r="11" fill="#4ade80" stroke="#1b191e" stroke-width="4"/>
+          <circle cx="10" cy="-8" r="11" fill="#4ade80" stroke="#1b191e" stroke-width="4"/>
+          <circle cx="-10" cy="10" r="11" fill="#4ade80" stroke="#1b191e" stroke-width="4"/>
+          <circle cx="10" cy="10" r="11" fill="#4ade80" stroke="#1b191e" stroke-width="4"/>
+        </g>`;
+      const calendarProp = `
+        <g transform="translate(190, 165) rotate(8)">
+          <rect x="0" y="0" width="52" height="54" rx="6" fill="#fffdf8" stroke="#1b191e" stroke-width="4"/>
+          <rect x="0" y="0" width="52" height="16" rx="4" fill="#ef4444" stroke="#1b191e" stroke-width="4"/>
+          <text x="26" y="42" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="24" font-weight="bold" fill="#1b191e">13</text>
+        </g>`;
+      const guitarProp = `
+        <g transform="translate(135, 175) rotate(-25)">
+          <rect x="-4" y="-44" width="8" height="44" fill="#78350f" stroke="#1b191e" stroke-width="3.5"/>
+          <ellipse cx="0" cy="12" rx="24" ry="28" fill="#f59e0b" stroke="#1b191e" stroke-width="4.5"/>
+          <circle cx="0" cy="8" r="7" fill="#451a03" stroke="#1b191e" stroke-width="3"/>
+        </g>`;
+      const umbrellaProp = `
+        <g transform="translate(140, 62)">
+          <path d="M-74 28 C-74 -20, 74 -20, 74 28 Z" fill="#f472b6" stroke="#1b191e" stroke-width="5"/>
+          <line x1="0" y1="28" x2="0" y2="128" stroke="#1b191e" stroke-width="4.5" stroke-linecap="round"/>
+        </g>`;
+
+      switch (sceneKey) {
+        case 'calendar':
+          return buildFrogSVG('normal', 'w', calendarProp, 'anim-bounce');
+        case 'counting':
+          return buildFrogSVG('happy', 'w', heartProp, 'anim-bounce');
+        case 'proudHug':
+          return buildFrogSVG('happy', 'w', heartProp, 'anim-jump');
+        case 'goodLuck':
+          return buildFrogSVG('happy', 'teeth', cloverProp, 'anim-jump');
+        case 'tattoo':
+          return buildFrogSVG('happy', 'w', `<circle cx="140" cy="186" r="18" fill="#ffe4e6" stroke="#1b191e" stroke-width="3.5"/><text x="140" y="192" text-anchor="middle" font-family="'Caveat', cursive" font-size="20" font-weight="bold" fill="#e11d48">C ♥</text>`, 'anim-rock');
+        case 'missYou':
+          return buildFrogSVG('dreamy', 'o', `<ellipse cx="215" cy="65" rx="34" ry="24" fill="#fffdf8" stroke="#1b191e" stroke-width="4"/><circle cx="215" cy="67" r="13" fill="#5294ad" stroke="#1b191e" stroke-width="3"/>`, 'anim-float');
+        case 'holdTight':
+          return buildFrogSVG('happy', 'w', heartProp, 'anim-bounce');
+        case 'bigSmile':
+          return buildFrogSVG('normal', 'teeth', '', 'anim-jump');
+        case 'cloud':
+          return buildFrogSVG('dreamy', 'w', `<path d="M60 225 Q80 198 115 206 Q140 188 168 206 Q204 198 220 225 Z" fill="#ffffff" stroke="#1b191e" stroke-width="4.5"/>`, 'anim-float');
+        case 'onlyYou':
+          return buildFrogSVG('hearts', 'w', heartProp, 'anim-rock');
+        case 'floatDream':
+          return buildFrogSVG('dreamy', 'w', '', 'anim-float');
+        case 'polaroids':
+          return buildPolaroidsScene();
+        case 'spinDream':
+          return buildFrogSVG('happy', 'w', heartProp, 'anim-spin');
+        case 'protect':
+          return buildFrogSVG('normal', 'w', umbrellaProp, 'anim-rock');
+        case 'noOneElse':
+          return buildFrogSVG('determined', 'w', '', 'anim-shake-no');
+        case 'tiltHead':
+          return buildFrogSVG('normal', 'o', `<text x="206" y="84" font-size="34" font-weight="bold" fill="#1b191e">?</text>`, 'anim-tilt');
+        case 'stubborn':
+          return buildFrogSVG('determined', 'w', heartProp, 'anim-shake-no');
+        case 'hugHeart':
+          return buildFrogSVG('happy', 'w', heartProp, 'anim-bounce');
+        case 'starryEyes':
+          return buildFrogSVG('hearts', 'teeth', '', 'anim-jump');
+        case 'checklist':
+          return buildFrogSVG('happy', 'w', `<rect x="188" y="148" width="46" height="58" rx="5" fill="#fffdf8" stroke="#1b191e" stroke-width="4"/><text x="211" y="176" text-anchor="middle" font-size="18" fill="#16a34a">✓</text><text x="211" y="196" text-anchor="middle" font-size="18" fill="#e11d48">♥</text>`, 'anim-rock');
+        case 'choose':
+          return buildFrogSVG('hearts', 'w', heartProp, 'anim-tilt');
+        case 'jumpJoy':
+          return buildFrogSVG('happy', 'teeth', heartProp, 'anim-jump');
+        case 'guitarSolo':
+          return buildFrogSVG('happy', 'o', guitarProp, 'anim-rock');
+        case 'finale':
+          return buildFrogSVG('hearts', 'teeth', heartProp, 'anim-jump');
+        default:
+          return buildFrogSVG('happy', 'w', '', 'anim-bounce');
+      }
+    }
+
+    // ============================================================================
+    // 3. AUDIO CONTROLLER (Starts strictly at currentTime = 50 on Play)
+    // ============================================================================
+    const bgMusic = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const scrubber = document.getElementById('scrubber');
+    const timeReadout = document.getElementById('time-readout');
+    const lyricSubtitle = document.getElementById('lyric-subtitle');
+    const sceneHost = document.getElementById('scene-svg-host');
+    const startOverlay = document.getElementById('start-overlay');
+
+    let currentSceneIndex = -1;
+    let hasStartedFrom50 = false;
+
+    function formatTime(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return `${m}:${r < 10 ? '0' : ''}${r}`;
+    }
+
+    function applyScene(index) {
+      if (index === currentSceneIndex) return;
+      currentSceneIndex = index;
+      const item = ANIMATIC_SCENES[index];
+      if (!item) return;
+
+      document.body.className = item.mood || 'mood-cozy';
+
+      lyricSubtitle.classList.remove('pop-in');
+      void lyricSubtitle.offsetWidth;
+      lyricSubtitle.innerHTML = item.text.replace(/\n/g, '<br/>');
+      lyricSubtitle.classList.add('pop-in');
+
+      sceneHost.innerHTML = renderSceneSVG(item.scene);
+      spawnDoodles(window.innerWidth / 2, window.innerHeight * 0.52, 12);
+    }
+
+    function syncAnimatic() {
+      const t = bgMusic.currentTime;
+      const dur = bgMusic.duration || 177;
+      scrubber.max = dur;
+      scrubber.value = t;
+      timeReadout.textContent = `${formatTime(t)} / ${formatTime(dur)}`;
+
+      let matched = 0;
+      for (let i = 0; i < ANIMATIC_SCENES.length; i++) {
+        if (t >= ANIMATIC_SCENES[i].time) {
+          matched = i;
+        }
+      }
+      applyScene(matched);
+    }
+
+    function playFrom50() {
+      if (!hasStartedFrom50 || bgMusic.currentTime < START_AT_SECONDS) {
+        bgMusic.currentTime = START_AT_SECONDS;
+        hasStartedFrom50 = true;
+      }
+      bgMusic.play().then(() => {
+        playIcon.textContent = '⏸';
+      }).catch(() => {});
+    }
+
+    document.getElementById('start-animatic-btn').addEventListener('click', () => {
+      startOverlay.classList.add('hidden');
+      bgMusic.currentTime = START_AT_SECONDS;
+      hasStartedFrom50 = true;
+      playFrom50();
+      syncAnimatic();
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        playFrom50();
+      } else {
+        bgMusic.pause();
+        playIcon.textContent = '▶';
+      }
+    });
+
+    document.getElementById('restart-50-btn').addEventListener('click', () => {
+      bgMusic.currentTime = START_AT_SECONDS;
+      hasStartedFrom50 = true;
+      currentSceneIndex = -1;
+      syncAnimatic();
+      if (bgMusic.paused) playFrom50();
+    });
+
+    scrubber.addEventListener('input', () => {
+      bgMusic.currentTime = parseFloat(scrubber.value);
+      syncAnimatic();
+    });
+
+    bgMusic.addEventListener('timeupdate', syncAnimatic);
+    bgMusic.addEventListener('ended', () => {
+      playIcon.textContent = '▶';
+      applyScene(ANIMATIC_SCENES.length - 1);
+    });
+
+    function animaticLoop() {
+      if (!bgMusic.paused) {
+        syncAnimatic();
+      }
+      requestAnimationFrame(animaticLoop);
+    }
+    requestAnimationFrame(animaticLoop);
+
+    sceneHost.addEventListener('click', (e) => {
+      spawnDoodles(e.clientX, e.clientY, 22);
+    });
+
+    // ============================================================================
+    // 4. FLOATING WATERCOLOR BUBBLES & HEARTS CANVAS
+    // ============================================================================
+    const canvas = document.getElementById('doodle-canvas');
+    const ctx = canvas.getContext('2d');
+    let W = (canvas.width = window.innerWidth);
+    let H = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    });
+
+    const doodles = Array.from({ length: 16 }, () => createDoodle());
+
+    function createDoodle(x, y, burst = false) {
+      const colors = ['#f472b6', '#60a5fa', '#fbbf24', '#fb7185', '#a3e635'];
+      return {
+        x: x !== undefined ? x : Math.random() * W,
+        y: y !== undefined ? y : Math.random() * H,
+        r: Math.random() * 10 + 5,
+        vx: burst ? (Math.random() - 0.5) * 6 : (Math.random() - 0.5) * 0.4,
+        vy: burst ? (Math.random() - 0.8) * 6 : -(Math.random() * 0.45 + 0.2),
+        alpha: burst ? 0.9 : Math.random() * 0.35 + 0.15,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        isHeart: burst || Math.random() > 0.55,
+        burst
+      };
+    }
+
+    function spawnDoodles(x, y, count = 14) {
+      for (let i = 0; i < count; i++) {
+        doodles.push(createDoodle(x, y, true));
+      }
+      if (doodles.length > 120) {
+        doodles.splice(0, doodles.length - 120);
+      }
+    }
+
+    function animateDoodles() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = doodles.length - 1; i >= 0; i--) {
+        const d = doodles[i];
+        d.x += d.vx;
+        d.y += d.vy;
+        if (d.burst) {
+          d.vy += 0.09;
+          d.alpha -= 0.015;
+          if (d.alpha <= 0) {
+            doodles.splice(i, 1);
+            continue;
+          }
+        } else if (d.y < -25) {
+          d.y = H + 20;
+          d.x = Math.random() * W;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, d.alpha);
+        ctx.strokeStyle = d.color;
+        ctx.lineWidth = 2.6;
+        if (d.isHeart) {
+          ctx.fillStyle = d.color;
+          ctx.beginPath();
+          const s = d.r * 0.55;
+          ctx.translate(d.x, d.y);
+          ctx.moveTo(0, s * 0.3);
+          ctx.bezierCurveTo(0, -s * 0.4, -s, -s * 0.4, -s, s * 0.2);
+          ctx.bezierCurveTo(-s, s * 0.7, 0, s * 1.1, 0, s * 1.4);
+          ctx.bezierCurveTo(0, s * 1.1, s, s * 0.7, s, s * 0.2);
+          ctx.bezierCurveTo(s, -s * 0.4, 0, -s * 0.4, 0, s * 0.3);
+          ctx.fill();
+        } else {
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+      requestAnimationFrame(animateDoodles);
+    }
+
+    applyScene(0);
+    animateDoodles();
+  </script>
+</body>
+</html>
