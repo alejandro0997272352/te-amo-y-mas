@@ -24,33 +24,36 @@
       --accent-gold: #fbbf24;
     }
 
-    /* Night Starry Mode ("Luz de Noche") */
-    body.night-mode {
-      --bg-slate-top: #0f172a;
-      --bg-slate-mid: #1e1b4b;
-      --bg-slate-bot: #020617;
+    /* Smooth Cross-Fading Atmospheric Background Layers (60fps GPU Opacity) */
+    .bg-atmo-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1.35s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: opacity;
+    }
+    .bg-atmo-night {
       background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
     }
-
-    /* Bright Golden Sunrise Mode ("Luz de Día") */
-    body.daylight-mode {
-      --bg-slate-top: #38bdf8;
-      --bg-slate-mid: #f59e0b;
-      --bg-slate-bot: #fb7185;
+    .bg-atmo-daylight {
       background: linear-gradient(180deg, #38bdf8 0%, #fbbf24 52%, #fb7185 100%);
     }
-
-    /* Time-Freeze Dreamy Mode ("Frenar el mundo por un segundo") */
-    body.freeze-mode {
+    .bg-atmo-freeze {
       background: linear-gradient(180deg, #312e81 0%, #4c1d95 50%, #1e1b4b 100%);
     }
-    body.freeze-mode .notebook-3d {
-      filter: drop-shadow(0 0 28px rgba(125, 211, 252, 0.55));
+    .bg-atmo-emotional {
+      background: linear-gradient(180deg, #4c0519 0%, #2e1065 55%, #09020e 100%);
     }
 
-    /* Deep Emotional Chorus Mode ("Porque sin tu amor...") */
-    body.emotional-mode {
-      background: linear-gradient(180deg, #4c0519 0%, #2e1065 55%, #09020e 100%);
+    body.night-mode .bg-atmo-night { opacity: 1; }
+    body.daylight-mode .bg-atmo-daylight { opacity: 1; }
+    body.freeze-mode .bg-atmo-freeze { opacity: 1; }
+    body.emotional-mode .bg-atmo-emotional { opacity: 1; }
+
+    body.freeze-mode .notebook-3d {
+      filter: drop-shadow(0 0 28px rgba(125, 211, 252, 0.55));
     }
 
     /* Sunbeam Aura in Daylight Mode */
@@ -58,20 +61,21 @@
       position: fixed;
       top: 12%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.85);
       width: 520px;
       height: 520px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(254, 240, 138, 0.75) 0%, rgba(251, 191, 36, 0.38) 45%, transparent 72%);
-      filter: blur(40px);
+      background: radial-gradient(circle, rgba(254, 240, 138, 0.8) 0%, rgba(251, 191, 36, 0.4) 45%, transparent 72%);
+      filter: blur(42px);
       pointer-events: none;
       z-index: 1;
       opacity: 0;
-      transition: opacity 0.65s ease, transform 0.65s ease;
+      transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1), transform 1.3s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
     }
     body.daylight-mode .daylight-sun-aura {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(1.12);
+      transform: translate(-50%, -50%) scale(1.15);
     }
 
     * {
@@ -912,51 +916,81 @@
     .turning-leaf {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, #ece7dc 0%, #fbf9f3 20%, #fbf9f3 100%);
+      background: linear-gradient(90deg, #dfd9cc 0%, #f6f3ea 14%, #fffdf8 50%, #f4efe4 100%);
       border-radius: 12px;
       transform-origin: left center;
       transform-style: preserve-3d;
       z-index: 35;
       pointer-events: none;
       opacity: 0;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+    .turning-leaf::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.16) 0%, transparent 25%, rgba(255,255,255,0.4) 55%, rgba(0,0,0,0.08) 100%);
     }
     .turning-leaf.flip-next {
-      animation: flipPageForward 0.54s cubic-bezier(0.32, 0.08, 0.24, 1) forwards;
+      animation: flipPageForward 0.68s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
     .turning-leaf.flip-prev {
-      animation: flipPageBackward 0.54s cubic-bezier(0.32, 0.08, 0.24, 1) forwards;
+      animation: flipPageBackward 0.68s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     @keyframes flipPageForward {
       0% {
-        opacity: 1;
-        transform: perspective(1800px) rotateY(0deg);
-        box-shadow: -4px 0 18px rgba(0, 0, 0, 0.15);
+        opacity: 0.98;
+        transform: perspective(2000px) rotateY(0deg) skewY(0deg);
+        box-shadow: -4px 0 18px rgba(0, 0, 0, 0.14);
       }
-      50% {
+      42% {
         opacity: 1;
-        box-shadow: -30px 12px 48px rgba(0, 0, 0, 0.45);
+        transform: perspective(2000px) rotateY(-82deg) skewY(-2deg);
+        box-shadow: -34px 14px 52px rgba(0, 0, 0, 0.42);
       }
       100% {
         opacity: 0;
-        transform: perspective(1800px) rotateY(-158deg);
-        box-shadow: -10px 0 25px rgba(0, 0, 0, 0.1);
+        transform: perspective(2000px) rotateY(-166deg) skewY(0deg);
+        box-shadow: -8px 0 22px rgba(0, 0, 0, 0.08);
       }
     }
 
     @keyframes flipPageBackward {
       0% {
-        opacity: 1;
-        transform: perspective(1800px) rotateY(-150deg);
+        opacity: 0.98;
+        transform: perspective(2000px) rotateY(-158deg) skewY(0deg);
       }
-      50% {
+      45% {
         opacity: 1;
-        box-shadow: 24px 10px 40px rgba(0, 0, 0, 0.38);
+        transform: perspective(2000px) rotateY(-76deg) skewY(2deg);
+        box-shadow: 28px 12px 44px rgba(0, 0, 0, 0.36);
       }
       100% {
         opacity: 0;
-        transform: perspective(1800px) rotateY(0deg);
+        transform: perspective(2000px) rotateY(0deg) skewY(0deg);
       }
+    }
+
+    /* Smooth Page Content Reveal */
+    #sheet-content {
+      will-change: transform, opacity;
+    }
+    #sheet-content.reveal-next {
+      animation: contentRevealNext 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    #sheet-content.reveal-prev {
+      animation: contentRevealPrev 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes contentRevealNext {
+      0% { opacity: 0.25; transform: translateX(18px) scale(0.975); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes contentRevealPrev {
+      0% { opacity: 0.25; transform: translateX(-18px) scale(0.975); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
     }
 
     /* ================= SCRAPBOOK COLLAGE PAGE CANVAS ================= */
@@ -1412,6 +1446,12 @@
   </style>
 </head>
 <body>
+
+  <!-- Smooth Cross-Fading Atmospheric Layers -->
+  <div class="bg-atmo-layer bg-atmo-night"></div>
+  <div class="bg-atmo-layer bg-atmo-daylight"></div>
+  <div class="bg-atmo-layer bg-atmo-freeze"></div>
+  <div class="bg-atmo-layer bg-atmo-emotional"></div>
 
   <!-- Night Candlelight & Daylight Sun Auras -->
   <div class="night-candle-aura"></div>
@@ -2247,6 +2287,11 @@
         turningLeaf.className = 'turning-leaf';
         void turningLeaf.offsetWidth;
         turningLeaf.classList.add(direction === 'next' ? 'flip-next' : 'flip-prev');
+
+        sheetContent.className = '';
+        void sheetContent.offsetWidth;
+        sheetContent.classList.add(direction === 'next' ? 'reveal-next' : 'reveal-prev');
+
         playPaperFlipSound();
       }
 
@@ -2839,11 +2884,15 @@
       ctx.restore();
     }
 
+    let freezeEase = 1;
     function animateAmbient() {
+      const targetEase = timeFrozen ? 0.02 : 1;
+      freezeEase += (targetEase - freezeEase) * 0.08;
+
       ctx.clearRect(0, 0, W, H);
       for (let i = hearts.length - 1; i >= 0; i--) {
         const h = hearts[i];
-        const speedFactor = (timeFrozen && !h.burst) ? 0.03 : 1;
+        const speedFactor = h.burst ? 1 : freezeEase;
         h.x += h.vx * speedFactor;
         h.y += h.vy * speedFactor;
         if (h.burst) {
