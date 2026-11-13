@@ -26,9 +26,52 @@
 
     /* Night Starry Mode ("Luz de Noche") */
     body.night-mode {
-      --bg-slate-top: #170e2e;
-      --bg-slate-mid: #0d071c;
-      --bg-slate-bot: #04020a;
+      --bg-slate-top: #0f172a;
+      --bg-slate-mid: #1e1b4b;
+      --bg-slate-bot: #020617;
+      background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
+    }
+
+    /* Bright Golden Sunrise Mode ("Luz de Día") */
+    body.daylight-mode {
+      --bg-slate-top: #38bdf8;
+      --bg-slate-mid: #f59e0b;
+      --bg-slate-bot: #fb7185;
+      background: linear-gradient(180deg, #38bdf8 0%, #fbbf24 52%, #fb7185 100%);
+    }
+
+    /* Time-Freeze Dreamy Mode ("Frenar el mundo por un segundo") */
+    body.freeze-mode {
+      background: linear-gradient(180deg, #312e81 0%, #4c1d95 50%, #1e1b4b 100%);
+    }
+    body.freeze-mode .notebook-3d {
+      filter: drop-shadow(0 0 28px rgba(125, 211, 252, 0.55));
+    }
+
+    /* Deep Emotional Chorus Mode ("Porque sin tu amor...") */
+    body.emotional-mode {
+      background: linear-gradient(180deg, #4c0519 0%, #2e1065 55%, #09020e 100%);
+    }
+
+    /* Sunbeam Aura in Daylight Mode */
+    .daylight-sun-aura {
+      position: fixed;
+      top: 12%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(254, 240, 138, 0.75) 0%, rgba(251, 191, 36, 0.38) 45%, transparent 72%);
+      filter: blur(40px);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    body.daylight-mode .daylight-sun-aura {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.12);
     }
 
     * {
@@ -1370,8 +1413,9 @@
 </head>
 <body>
 
-  <!-- Night Candlelight Aura -->
+  <!-- Night Candlelight & Daylight Sun Auras -->
   <div class="night-candle-aura"></div>
+  <div class="daylight-sun-aura"></div>
 
   <!-- Floating Ambient Bokeh, Petals & Fireworks Canvas -->
   <canvas id="ambient-canvas"></canvas>
@@ -2164,10 +2208,40 @@
 
     let currentPage = 0;
     let autoSyncEnabled = true;
+    let timeFrozen = false;
+
+    function applyLyricAtmosphere(pageIdx, dir) {
+      document.body.classList.remove('night-mode', 'daylight-mode', 'freeze-mode', 'emotional-mode');
+      timeFrozen = false;
+
+      if (pageIdx === 2 || pageIdx === 12) {
+        // "SER LUZ DE NOCHE" / "OTRA VEZ..." -> Starry Night + Moonlight Aura
+        document.body.classList.add('night-mode');
+        if (themeModeBtn) themeModeBtn.textContent = '🌙';
+      } else if (pageIdx === 3 || pageIdx === 20) {
+        // "SER LUZ DE DÍA" / Final Inspirational Letter -> Bright Golden Sunrise!
+        document.body.classList.add('daylight-mode');
+        if (themeModeBtn) themeModeBtn.textContent = '☀️';
+        if (dir !== 'none') spawnHeartBurst(W * 0.5, H * 0.18, 22);
+      } else if (pageIdx === 4 || pageIdx === 5) {
+        // "FRENAR EL MUNDO" / "POR UN SEGUNDO" -> Freeze floating particles!
+        document.body.classList.add('freeze-mode');
+        timeFrozen = true;
+      } else if (pageIdx >= 13 && pageIdx <= 19) {
+        // "PORQUE SIN TU AMOR YO ME VOY A MORIR DE PENAS" -> Deep Emotional Candlelight
+        document.body.classList.add('emotional-mode', 'night-mode');
+        if (themeModeBtn) themeModeBtn.textContent = '🌙';
+      } else if (pageIdx >= 9 && pageIdx <= 11) {
+        // "UNA VEZ MÁS" / "Y OTRA VEZ MÁS" -> Joyful Sparkle Burst
+        if (dir !== 'none') spawnHeartBurst(W * 0.5, H * 0.45, 16);
+      }
+    }
 
     function renderPage(pageIndex, direction = 'none') {
       const clamped = Math.max(0, Math.min(pagesData.length - 1, pageIndex));
       const data = pagesData[clamped];
+
+      applyLyricAtmosphere(clamped, direction);
 
       if (direction !== 'none' && clamped !== currentPage) {
         turningLeaf.className = 'turning-leaf';
@@ -2769,8 +2843,9 @@
       ctx.clearRect(0, 0, W, H);
       for (let i = hearts.length - 1; i >= 0; i--) {
         const h = hearts[i];
-        h.x += h.vx;
-        h.y += h.vy;
+        const speedFactor = (timeFrozen && !h.burst) ? 0.03 : 1;
+        h.x += h.vx * speedFactor;
+        h.y += h.vy * speedFactor;
         if (h.burst) {
           h.vy += 0.11;
           h.alpha -= 0.013;
